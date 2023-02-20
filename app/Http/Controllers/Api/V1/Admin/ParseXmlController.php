@@ -15,10 +15,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class ParseXmlController extends Controller
 {
 
-    protected function mb_trim($string) {
-        return mb_ereg_replace("^[\s　]+|[\s　]+$", "", $string);
-    }
-
     protected $enableLogoScrapper = true;
 
     protected $colors = [
@@ -30,7 +26,7 @@ class ParseXmlController extends Controller
         "серый" => '#808080',
         "коричневый" => '#654321',
         "синий" => '#0000FF',
-        "зеленый" => '#00FF00'
+        "зеленый" => '#00FF00',
     ];
 
     protected $gearboxes = [
@@ -56,7 +52,7 @@ class ParseXmlController extends Controller
 
         $settings = Settings::find(1);
 
-        $link = 'https:://google.com/?link='.$link.'&utm_source='.$settings->utm_source.'&utm_medium='.$settings->utm_medium.'&utm_content='.$settings->utm_content.'&utm_term='.$settings->utm_term.'&utm_campaign;='.$settings->utm_campaign;
+        $link = 'https:://google.com/?link='.$link.'&utm_source='.$settings->utm_source.'&utm_medium='.$settings->utm_medium.'&utm_content='.$settings->utm_content.'&utm_term='.$settings->utm_term.'&utm_campaign='.$settings->utm_campaign;
 
         // format('png')->
         $qr = QrCode::size(500)->generate($link);
@@ -212,9 +208,6 @@ class ParseXmlController extends Controller
             
 
         }
-
-        Log::info($meta);
-    
 
         return response()->json(['data' => $data, 'meta'=> $meta]);
 
