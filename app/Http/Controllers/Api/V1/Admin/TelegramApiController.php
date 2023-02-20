@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api\V1\Admin;
  
 use Illuminate\Http\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
-use Telegram\Bot\Api;
+// use Telegram\Bot\Api;
+use Telegram;
  
 class TelegramApiController extends Controller
 {
@@ -15,14 +16,14 @@ class TelegramApiController extends Controller
         //     'email' => 'required|email',
         //     'message' => 'required'
         // ]);
-        $key = env('TELEGRAM_TOKEN', 'мой токен');
+        // $key = env('TELEGRAM_TOKEN', 'мой токен');
 
-        $telegram = new Api($key);
+        // $telegram = new Api($key);
 
  
-        $text = "Просто сообщение \n тест"
+        $text = "Просто сообщение \n тест";
  
-        $telegram->sendMessage([
+        Telegram::sendMessage([
             'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
             'parse_mode' => 'HTML',
             'text' => $text
