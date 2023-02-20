@@ -18,6 +18,15 @@
             </div>
             <div class="card-body">
               <bootstrap-alert />
+
+              <div class="border p-3 mb-3 rounded">
+                <h5>Быстрая замена, доступные сниппеты: </h5>
+                <p><code>[BRAND]</code> - будет заменено на бренд автомобиля</p>
+                <p><code>[MODEL]</code> - будет заменено на модель автомобиля</p>
+                <p><code>[VIN]</code> - будет заменено на послеие 4 цифры VIN автомобиля</p>
+                <p><code>[YEAR]</code> - будет заменено на год автомобиля</p>
+
+              </div>
               <div class="row">
                 <div class="col-md-12">
                   <div

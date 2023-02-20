@@ -324,8 +324,10 @@ export default {
             let data = {
                 'link': this.currentCar.link,
                 'vin': this.currentCar.vin_full,
-                'name': this.currentCar.brand + ' ' + this.currentCar.model,
-                'info': this.currentCar.year + ', ' + this.currentCar.run,
+                'brand': this.currentCar.brand,
+                'model': this.currentCar.model,
+                'year': this.currentCar.year,
+                'run': this.currentCar.run_original,
                 'type': this.pdfType,
             };
             let params = objectToFormData(data, {
