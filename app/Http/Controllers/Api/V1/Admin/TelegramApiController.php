@@ -1,11 +1,11 @@
 <?php
  
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1\Admin;
  
 use Illuminate\Http\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
  
-class TelegramBotController extends Controller
+class TelegramApiController extends Controller
 {
  
     public function sendMessage(Request $request)
