@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Settings extends Model
 {
     use HasAdvancedFilter;
-    use SoftDeletes;
+    // use SoftDeletes;
     use HasFactory;
 
     public $table = 'settings';
@@ -30,7 +30,6 @@ class Settings extends Model
     ];
 
     protected $fillable = [
-        'utm_source',
         'utm_source',
         'utm_medium',
         'utm_term',

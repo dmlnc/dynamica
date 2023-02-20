@@ -1,13 +1,12 @@
 <template>
   <div
     class="sidebar"
-    :data-background-color="backgroundColor"
-    :data-image="backgroundImage"
     :data-color="itemColor"
   >
     <div class="logo">
+
       <a href="/" class="simple-text logo-normal">
-        {{ $t(title) }}
+        <img src="https://dynamica-trade.ru/uploads/media/default/0001/01/4b7d3e795ee87604377087e95abff7a150d7ec7d.png" class="img-fluid" alt="" style="max-width: 180px;">
       </a>
     </div>
     <div class="sidebar-wrapper">
@@ -36,7 +35,7 @@
         </li>
       </ul>
     </div>
-    <div class="sidebar-background" :style="sidebarStyle"></div>
+    <!-- <div class="sidebar-background" :style="sidebarStyle"></div> -->
   </div>
 </template>
 

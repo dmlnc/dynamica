@@ -65,4 +65,20 @@ return [
             'deleted_at_helper' => ' ',
         ],
     ],
+    'settings' => [
+        'title'          => 'Настройки',
+        'title_singular' => 'Настройки',
+        'fields'         => [
+            'utm_source'                 => 'utm_source',
+            'utm_source_helper'          => ' ',
+            'utm_medium'              => 'utm_medium',
+            'utm_medium_helper'       => ' ',
+            'utm_term'        => 'utm_term',
+            'utm_term_helper' => ' ',
+            'utm_content'        => 'utm_content',
+            'utm_content_helper' => ' ',
+            'utm_campaign'        => 'utm_campaign',
+            'utm_campaign_helper' => ' ',
+        ],
+    ],
 ];

@@ -18,6 +18,12 @@ const routes = [
         meta: { title: 'global.dashboard' }
       },
       {
+        path: 'settings',
+        name: 'settings',
+        component: () => import('@cruds/Settings/Index.vue'),
+        meta: { title: 'global.settings' }
+      },
+      {
         path: 'user-management',
         name: 'user_management',
         component: View,

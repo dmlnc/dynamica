@@ -15,6 +15,7 @@ import vSelect from 'vue-select'
 
 const GlobalComponents = {
   install(Vue) {
+
     Vue.use(abilitiesPlugin, ability)
     Vue.use(SideBar)
     Vue.use(LanguagesPlugin)

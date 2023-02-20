@@ -34,6 +34,12 @@ export default {
           path: { name: 'dashboard' }
         },
         {
+          title: 'global.settings',
+          icon: 'dashboard',
+          path: { name: 'settings' },
+          gate: 'settings_access',
+        },
+        {
           title: 'cruds.userManagement.title',
           icon: 'person',
           path: { name: 'user_management' },

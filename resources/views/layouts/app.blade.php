@@ -14,7 +14,8 @@
     <meta name="app-locale" content="{{ App::getLocale() }}">
 
     {{-- Fonts and icons --}}
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700,800|Roboto+Slab:400,700|Material+Icons" />
+    <!-- <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ url('/md/css/material-dashboard.css') }}">
     <link rel="stylesheet" href="{{ url('/css/custom.css') }}">

@@ -4,7 +4,7 @@
   >
     <div class="container-fluid">
       <div class="navbar-wrapper">
-        <div class="navbar-brand">
+        <div class="navbar-brand font-weight-extrabold">
           {{ $t($route.meta.title) }}
         </div>
       </div>
@@ -24,11 +24,11 @@
         <span class="navbar-toggler-icon icon-bar"></span>
       </button>
       <!-- Collapsable -->
-      <div class="collapse navbar-collapse justify-content-end">
+      <!-- <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav">
           <top-navbar-languages />
         </ul>
-      </div>
+      </div> -->
     </div>
   </nav>
 </template>

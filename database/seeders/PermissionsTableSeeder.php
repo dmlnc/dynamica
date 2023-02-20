@@ -76,15 +76,15 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 17,
-                'title' => 'settigs_access',
+                'title' => 'settings_access',
             ],
             [
                 'id'    => 18,
-                'title' => 'settigs_edit',
+                'title' => 'settings_edit',
             ],
             [
                 'id'    => 19,
-                'title' => 'settigs_show',
+                'title' => 'settings_show',
             ],
         ];
 

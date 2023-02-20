@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'settings'                       => 'Настройки',
     'actions'                        => 'Действия',
     'add'                            => 'Добавить',
     'allRightsReserved'              => 'Все права защищены.',

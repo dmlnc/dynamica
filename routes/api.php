@@ -4,6 +4,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Abilities
     Route::apiResource('abilities', 'AbilitiesController', ['only' => ['index']]);
 
+    Route::apiResource('cars', 'ParseXmlController', ['only' => ['index']]);
+
+
+    Route::apiResource('settings', 'SettingsApiController', ['only' => ['index', 'store']]);
+    Route::post('getPdf', 'ParseXmlController@getPdf');
+
+
     // Locales
     Route::get('locales/languages', 'LocalesController@languages')->name('locales.languages');
     Route::get('locales/messages', 'LocalesController@messages')->name('locales.messages');

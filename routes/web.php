@@ -5,6 +5,10 @@ Route::redirect('/dashboard', '/admin/dashboard');
 
 Auth::routes(['register' => false]);
 
+// Route::get('/preview', 'Api\V1\Admin\ParseXmlController@getPdf')->name('pdf.preview');
+
+// Route::get('test', 'Api\V1\Admin\ParseXmlController@getPdf');
+
 Route::group([
     'prefix'     => 'admin',
     'as'         => 'admin.',

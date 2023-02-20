@@ -15,6 +15,7 @@ class CreateSiteSettingsTable extends Migration
             $table->string('utm_term')->nullable()->default(null);
             $table->string('utm_content')->nullable()->default(null);
             $table->string('utm_campaign')->nullable()->default(null);
+            $table->timestamps();
         });
     }
 }

@@ -1,4 +1,5 @@
-$brand-primary: #9c27b0;
+$brand-primary: #4ba82e;
+$brand-primary-400: #65da41;
 $bootstrap-blue: #2196f3;
 
 // Custom colors
@@ -13,6 +14,24 @@ $color-rose: #e91e63;
 @import "vue-select";
 @import "datetimepicker";
 @import "dropzone";
+
+
+body{
+    background: #f2f2f2;
+    
+}
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+.font-weight-extrabold{
+    font-weight: 800!important;
+}
+.card{
+    box-shadow: none!important;
+    border: 1px solid #d4d3d3;
+
+}
 
 .has-items .bmd-label-floating {
     top: -1rem;
@@ -84,6 +103,16 @@ div[name="Datatable"] > div[name="SimpleTable"] {
 }
 
 // Sidebar
+.sidebar{
+    box-shadow: none!important;
+    background: #fff;
+    border-right: 1px solid #d4d3d3;
+}
+
+.sidebar::before{
+    background: #fff;
+}
+
 .sidebar .nav {
     margin-top: 15px;
     display: block;
@@ -109,6 +138,10 @@ div[name="Datatable"] > div[name="SimpleTable"] {
     margin-top: 13px;
     position: absolute;
     right: 6px;
+}
+
+.sidebar .nav-link{
+    color: #000;
 }
 
 // Text and link colors
@@ -193,6 +226,10 @@ a.text-rose:hover {
     padding: 7px 0 !important;
 }
 
+.btn{
+    box-shadow: none!important;
+    border-radius: 30px;
+}
 // Dropzone
 @mixin bmd-raised-button-color() {
   .btn-azure {
