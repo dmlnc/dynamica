@@ -9,6 +9,8 @@ Auth::routes(['register' => false]);
 
 // Route::get('test', 'Api\V1\Admin\ParseXmlController@getPdf');
 
+Route::get('sendMessage', 'TelegramBotController@sendMessage');
+
 Route::group([
     'prefix'     => 'admin',
     'as'         => 'admin.',

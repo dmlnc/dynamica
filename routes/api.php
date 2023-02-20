@@ -24,3 +24,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Users
     Route::resource('users', 'UsersApiController');
 });
+
+Route::post('api/v1/sendMessage', 'TelegramBotController@sendMessage');
+
