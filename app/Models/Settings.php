@@ -30,6 +30,7 @@ class Settings extends Model
     ];
 
     protected $fillable = [
+        'emails',
         'utm_source',
         'utm_medium',
         'utm_term',

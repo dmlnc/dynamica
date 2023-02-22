@@ -44,7 +44,8 @@ class ParseXmlController extends Controller
         $vin = $request->input('vin');
         $vin4 = substr((string)$vin, -4);
 
-        $vin = '...'.substr((string)$vin, -6);
+        $vin6 = '...'.substr((string)$vin, -6);
+
         $brand = $request->input('brand');
         $model = $request->input('model');
 
@@ -82,11 +83,13 @@ class ParseXmlController extends Controller
 
             $queryString.='&'.$key.'='.$value;
         }
+        // $encodedName = urlencode($name);
+        // $encodedInfo = urlencode($info);
 
 
 
-        $link = 'https://google.com/?link='.$link.$queryString;
 
+        $link = 'https://asp.dynamica-trade.su/?link='.$link.$queryString;
         // format('png')->
         $qr = QrCode::size(500)->generate($link);
         $qr = 'data:image/svg+xml;base64,' . base64_encode($qr);
@@ -97,10 +100,10 @@ class ParseXmlController extends Controller
 
         $pdf = null;
         if($type == 1){
-            $pdf = PDF::loadView('pdf.vertical', ['qr' => $qr, 'name' => $name, 'vin'=>$vin, 'info'=>$info]);
+            $pdf = PDF::loadView('pdf.vertical', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info]);
             $pdf->setPaper('A4');
         } else {
-            $pdf = PDF::loadView('pdf.horizontal', ['qr' => $qr, 'name' => $name, 'vin'=>$vin, 'info'=>$info]);
+            $pdf = PDF::loadView('pdf.horizontal', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info]);
             $pdf->setPaper('A4', 'landscape');
         }
         

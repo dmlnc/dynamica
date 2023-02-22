@@ -28,6 +28,24 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
+
+                  <div
+                    class="form-group bmd-form-group"
+                    :class="{
+                      'has-items': entry.emails,
+                      'is-focused': activeField == 'emails'
+                    }"
+                  >
+                    <label class="bmd-label-floating ">Почта для заявок(через запятую если много)</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="entry.emails"
+                      @focus="focusField('emails')"
+                      @blur="clearFocus"
+                    />
+                  </div>
+
                   <div
                     class="form-group bmd-form-group"
                     :class="{

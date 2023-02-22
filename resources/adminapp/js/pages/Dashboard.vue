@@ -117,12 +117,12 @@
                         <span class="badge badge-pill badge-primary">Всего: {{filteredCars.length}}</span>
                         <span v-if="filter.brand != ''" class="badge badge-pill badge-outline-secondary">{{filter.brand}} <span class="cursor-pointer pill-close" @click="filter.brand = ''; filter.model = '';">+</span></span>
                         <span v-if="filter.model != ''" class="badge badge-pill badge-outline-secondary">{{filter.model}} <span class="cursor-pointer pill-close" @click="filter.model = '';">+</span></span>
-                        <span v-if="filter.price[0] != initialFilter.price[0]" class="badge badge-pill badge-outline-secondary">от <b>{{$n(filter.price[0])}}</b> ₽ <span class="cursor-pointer pill-close" @click="filter.price[0] = initialFilter.price[0]">+</span></span>
-                        <span v-if="filter.price[1] != initialFilter.price[1]" class="badge badge-pill badge-outline-secondary">до <b>{{$n(filter.price[1])}}</b> ₽ <span class="cursor-pointer pill-close" @click="filter.price[1] = initialFilter.price[1]">+</span></span>
-                        <span v-if="filter.run[0] != initialFilter.run[0]" class="badge badge-pill badge-outline-secondary">от <b>{{$n(filter.run[0])}}</b> км. <span class="cursor-pointer pill-close" @click="filter.run[0] = initialFilter.run[0]">+</span></span>
-                        <span v-if="filter.run[1] != initialFilter.run[1]" class="badge badge-pill badge-outline-secondary">до <b>{{$n(filter.run[1])}}</b> км. <span class="cursor-pointer pill-close" @click="filter.run[1] = initialFilter.run[1]">+</span></span>
-                        <span v-if="filter.year[0] != initialFilter.year[0]" class="badge badge-pill badge-outline-secondary">от <b>{{$n(filter.year[0])}}</b> г. <span class="cursor-pointer pill-close" @click="filter.year[0] = initialFilter.year[0]">+</span></span>
-                        <span v-if="filter.year[1] != initialFilter.year[1]" class="badge badge-pill badge-outline-secondary">до <b>{{filter.year[1]}}</b> г. <span class="cursor-pointer pill-close" @click="filter.year[1] = initialFilter.year[1]">+</span></span>
+                        <span v-if="filter.price[0] != initialFilter.price[0]" class="badge badge-pill badge-outline-secondary">от <b>{{$n(filter.price[0])}}</b> ₽</span>
+                        <span v-if="filter.price[1] != initialFilter.price[1]" class="badge badge-pill badge-outline-secondary">до <b>{{$n(filter.price[1])}}</b> ₽</span>
+                        <span v-if="filter.run[0] != initialFilter.run[0]" class="badge badge-pill badge-outline-secondary">от <b>{{$n(filter.run[0])}}</b> км.</span>
+                        <span v-if="filter.run[1] != initialFilter.run[1]" class="badge badge-pill badge-outline-secondary">до <b>{{$n(filter.run[1])}}</b> км.</span>
+                        <span v-if="filter.year[0] != initialFilter.year[0]" class="badge badge-pill badge-outline-secondary">от <b>{{$n(filter.year[0])}}</b> г.</span>
+                        <span v-if="filter.year[1] != initialFilter.year[1]" class="badge badge-pill badge-outline-secondary">до <b>{{filter.year[1]}}</b> г.</span>
                     </div>
                     <table class="table table-hover">
                         <thead>

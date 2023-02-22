@@ -2,6 +2,7 @@ function initialState() {
   return {
     entry: {
       id: null,
+      emails: '',
 
       utm_source: '',
       utm_medium: '',
