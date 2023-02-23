@@ -76,20 +76,17 @@ class ParseXmlController extends Controller
 
         foreach ($query as $key => $value) {
             $value = trim($value);
-            $value = str_replace('[VIN]', (int)$vin4, $value);
+            $value = str_replace('[VIN]', (string)$vin4, $value);
             $value = str_replace('[BRAND]', $this->prepareToUtm($brand), $value);
             $value = str_replace('[MODEL]', $this->prepareToUtm($model), $value);
-            $value = str_replace('[YEAR]', (int)$year, $value);
+            $value = str_replace('[YEAR]', (string)$year, $value);
 
             $queryString.='&'.$key.'='.$value;
         }
-        // $encodedName = urlencode($name);
-        // $encodedInfo = urlencode($info);
-
-
 
 
         $link = 'https://asp.dynamica-trade.su/?link='.$link.$queryString;
+
         // format('png')->
         $qr = QrCode::size(500)->generate($link);
         $qr = 'data:image/svg+xml;base64,' . base64_encode($qr);
@@ -108,7 +105,7 @@ class ParseXmlController extends Controller
         }
         
 
-        return $pdf->download('pdf'.$vin.'.pdf');
+        return $pdf->download('pdf-'.$vin.'.pdf');
     }
 
     public function index()
@@ -258,7 +255,7 @@ class ParseXmlController extends Controller
           'limit' => null,
           'lowercase' => true,
           'replacements' => array(),
-          'transliterate' => false,
+          'transliterate' => true,
         );
         
         // Merge options

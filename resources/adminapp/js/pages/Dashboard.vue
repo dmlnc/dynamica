@@ -352,20 +352,32 @@ export default {
                 responseType: 'blob',
             }).then((response) => {
                 // Create a blob object from the file data
+                // const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
                 const blob = new Blob([response.data], { type: response.headers['content-type'] });
 
-                // Create a download link with the file data
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = 'my-file.pdf';
+                // Create a URL for the blob object
+                const url = window.URL.createObjectURL(blob);
+            
+                // Open the PDF file in a new browser tab or window
+                window.open(url, '_blank');
 
-                // Append the link to the DOM and click it to start the download
-                document.body.appendChild(link);
-                link.click();
+                window.URL.revokeObjectURL(url);
 
-                // Cleanup
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(link.href);
+
+                // // Create a download link with the file data
+                // const link = document.createElement('a');
+                // link.href = window.URL.createObjectURL(blob);
+                // link.download = 'my-file.pdf';
+
+                // // Append the link to the DOM and click it to start the download
+                // document.body.appendChild(link);
+                // link.click();
+
+                // // Cleanup
+                // document.body.removeChild(link);
+                // window.URL.revokeObjectURL(link.href);
+
             }).catch((error) => {
                 console.error('Failed to download PDF:', error);
             });
