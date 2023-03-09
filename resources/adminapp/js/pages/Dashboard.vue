@@ -48,7 +48,7 @@
                 <div class=" px-3 py-2 border rounded mb-4" v-if="this.meta">
                     <h5 class="mt-2 mb-3">Фильтр</h5>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-6 mb-3">
+                        <div class="col-lg-3 col-md-4 col-6 mb-3">
                             <div class="form-group">
                                 <label class="">Сортировка</label>
                                 <select class="form-control" v-model="sortBy">
@@ -62,7 +62,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-6 mb-3">
+                        <div class="col-lg-3 col-md-4 col-6 mb-3">
                             <div class="form-group">
                                 <label class="">Бренд</label>
                                 <select class="form-control" v-model="filter.brand" @change="changeBrand">
@@ -71,13 +71,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-6 mb-3">
+                        <div class="col-lg-3 col-md-4 col-6 mb-3">
                             <div class="form-group">
                                 <label class="">Модель</label>
                                 <select :disabled="filter.brand == ''" class="form-control" v-model="filter.model">
                                     <option value="">Не выбрано</option>
                                     <option v-for="(model, index) in meta.brands[filter.brand]" :key="index" :value="model">{{model}}</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-6 mb-3">
+                            <div class="form-group">
+                                <label class="">VIN</label>
+                                <input style="height: 41px" v-model="filter.vin" type="text" class="form-control">
+                            
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-6 mb-3">
@@ -115,6 +122,7 @@
                 <div class="table-responsive" v-if="data.length">
                     <div class="mb-3">
                         <span class="badge badge-pill badge-primary">Всего: {{filteredCars.length}}</span>
+                        <span v-if="filter.vin != ''" class="badge badge-pill badge-outline-secondary">VIN: <b>{{filter.vin}}</b> <span class="cursor-pointer pill-close" @click="filter.vin = '';">+</span></span>
                         <span v-if="filter.brand != ''" class="badge badge-pill badge-outline-secondary">{{filter.brand}} <span class="cursor-pointer pill-close" @click="filter.brand = ''; filter.model = '';">+</span></span>
                         <span v-if="filter.model != ''" class="badge badge-pill badge-outline-secondary">{{filter.model}} <span class="cursor-pointer pill-close" @click="filter.model = '';">+</span></span>
                         <span v-if="filter.price[0] != initialFilter.price[0]" class="badge badge-pill badge-outline-secondary">от <b>{{$n(filter.price[0])}}</b> ₽</span>
@@ -230,6 +238,7 @@ export default {
                 year: [],
                 run: [],
                 price: [],
+                vin: '',
             },
             pdfType: 1,
             filter: {},
@@ -244,6 +253,7 @@ export default {
                 .filter(car => {
                     return (
                         car.brand.toLowerCase().includes(this.filter.brand.toString().toLowerCase()) &&
+                        car.vin_full.includes(this.filter.vin) &&
                         car.model.toLowerCase().includes(this.filter.model.toString().toLowerCase()) &&
                         (this.filter.year[0] == null || car.year >= this.filter.year[0]) &&
                         (this.filter.year[1] == null || car.year <= this.filter.year[1]) &&
@@ -326,10 +336,12 @@ export default {
                 'vin': this.currentCar.vin_full,
                 'brand': this.currentCar.brand,
                 'model': this.currentCar.model,
+                'price': this.currentCar.price*1,
                 'year': this.currentCar.year,
                 'run': this.currentCar.run_original,
                 'type': this.pdfType,
             };
+
             let params = objectToFormData(data, {
                 indices: true,
                 booleansAsIntegers: true

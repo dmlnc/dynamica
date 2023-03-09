@@ -25,9 +25,52 @@
                 <p><code>[MODEL]</code> - будет заменено на модель автомобиля</p>
                 <p><code>[VIN]</code> - будет заменено на последние 4 цифры VIN автомобиля</p>
                 <p><code>[YEAR]</code> - будет заменено на год автомобиля</p>
+                <p><code>[SEGMENT]</code> - будет заменено на ценовой сегмент автомобиля</p>
+
               </div>
-              <div class="row">
-                <div class="col-md-12">
+              <!-- <div class="row"> -->
+                <!-- <div class="col-md-12"> -->
+
+                  <div class="border p-3 mb-3 rounded">
+                  <h5 class="mb-4 font-weight-bold">Настройки сегментов: </h5>
+
+                  <div
+                    class="form-group bmd-form-group mb-4"
+                    :class="{
+                      'has-items': entry.min_price,
+                      'is-focused': activeField == 'min_price'
+                    }"
+                  >
+                    <label class="bmd-label-floating ">Минимальная цена среднего сегмента</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      v-model="entry.min_price"
+                      @focus="focusField('min_price')"
+                      @blur="clearFocus"
+                    />
+                  </div>
+
+                  <div
+                    class="form-group bmd-form-group"
+                    :class="{
+                      'has-items': entry.max_price,
+                      'is-focused': activeField == 'max_price'
+                    }"
+                  >
+                    <label class="bmd-label-floating ">Максимальная цена среднего сегмента</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      v-model="entry.max_price"
+                      @focus="focusField('max_price')"
+                      @blur="clearFocus"
+                    />
+                  </div>
+                </div>
+
+                <div class="border p-3 mb-3 rounded">
+                  <h5 class="mb-4 font-weight-bold">Настройка отправки лидов: </h5>
 
                   <div
                     class="form-group bmd-form-group"
@@ -45,9 +88,13 @@
                       @blur="clearFocus"
                     />
                   </div>
+                </div>
+
+                <div class="border p-3 mb-3 rounded">
+                  <h5 class="mb-4 font-weight-bold">Настройка UTM: </h5>
 
                   <div
-                    class="form-group bmd-form-group"
+                    class="form-group bmd-form-group mb-4"
                     :class="{
                       'has-items': entry.utm_source,
                       'is-focused': activeField == 'utm_source'
@@ -65,7 +112,7 @@
                     />
                   </div>
                   <div
-                    class="form-group bmd-form-group"
+                    class="form-group bmd-form-group mb-4"
                     :class="{
                       'has-items': entry.utm_medium,
                       'is-focused': activeField == 'utm_medium'
@@ -83,7 +130,7 @@
                     />
                   </div>
                   <div
-                    class="form-group bmd-form-group"
+                    class="form-group bmd-form-group mb-4"
                     :class="{
                       'has-items': entry.utm_term,
                       'is-focused': activeField == 'utm_term'
@@ -101,7 +148,7 @@
                     />
                   </div>
                   <div
-                    class="form-group bmd-form-group"
+                    class="form-group bmd-form-group mb-4"
                     :class="{
                       'has-items': entry.utm_term,
                       'is-focused': activeField == 'utm_content'
@@ -136,10 +183,11 @@
                       @blur="clearFocus"
                     />
                   </div>
-                  
-                  
                 </div>
-              </div>
+                  
+                  
+                <!-- </div> -->
+              <!-- </div> -->
             </div>
             <div class="card-footer">
               <vue-button-spinner

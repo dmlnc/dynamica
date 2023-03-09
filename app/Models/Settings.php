@@ -30,6 +30,8 @@ class Settings extends Model
     ];
 
     protected $fillable = [
+        'min_price',
+        'max_price',
         'emails',
         'utm_source',
         'utm_medium',

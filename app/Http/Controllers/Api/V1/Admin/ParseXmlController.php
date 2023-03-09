@@ -52,6 +52,8 @@ class ParseXmlController extends Controller
         $year = $request->input('year');
         $run = $request->input('run');
 
+        $price = $request->input('price');
+
 
         $info = $request->input('info');
         $link = trim($request->input('link'));
@@ -74,12 +76,34 @@ class ParseXmlController extends Controller
         ];
         $queryString = '';
 
+        $segment = 'low_cost';
+
+        $min_price = $settings->min_price;
+        if($min_price == null){
+            $min_price = 1;
+        }
+        $max_price = $settings->max_price;
+        if($max_price == null){
+            $max_price = 1;
+        }
+
+        if((int)$price > $min_price){
+            $segment = 'middle_cost';
+        }
+
+        if((int)$price > $max_price){
+            $segment = 'hight_cost';
+        }
+
+
         foreach ($query as $key => $value) {
             $value = trim($value);
             $value = str_replace('[VIN]', (string)$vin4, $value);
             $value = str_replace('[BRAND]', $this->prepareToUtm($brand), $value);
             $value = str_replace('[MODEL]', $this->prepareToUtm($model), $value);
             $value = str_replace('[YEAR]', (string)$year, $value);
+            $value = str_replace('[SEGMENT]', $segment, $value);
+
 
             $queryString.='&'.$key.'='.$value;
         }
@@ -87,7 +111,8 @@ class ParseXmlController extends Controller
 
         $link = 'https://asp.dynamica-trade.su/?link='.$link.$queryString;
 
-        // format('png')->
+
+
         $qr = QrCode::size(500)->generate($link);
         $qr = 'data:image/svg+xml;base64,' . base64_encode($qr);
 
@@ -248,7 +273,7 @@ class ParseXmlController extends Controller
 
     protected function prepareToUtm($str, $options = array()) {
         // Make sure string is in UTF-8 and strip invalid UTF-8 characters
-        $str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
+        // $str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
         
         $defaults = array(
           'delimiter' => '-',
