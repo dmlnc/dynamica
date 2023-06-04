@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
+use Gate;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Company;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\Admin\UserResource;
-use App\Models\Role;
-use App\Models\User;
-use Gate;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UsersApiController extends Controller
 {
@@ -18,7 +19,11 @@ class UsersApiController extends Controller
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new UserResource(User::with(['roles'])->advancedFilter());
+        $userQuery = User::with(['roles', 'company']);
+        if(!auth()->user()->IsSuperAdmin){
+            $userQuery = $userQuery->where('company_id', auth()->user()->company_id);
+        }
+        return new UserResource($userQuery->advancedFilter());
     }
 
     public function store(StoreUserRequest $request)
@@ -34,10 +39,16 @@ class UsersApiController extends Controller
     public function create()
     {
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        if(auth()->user()->IsSuperAdmin){
+            $companies = Company::select(['id'])->selectRaw('name as title')->get();
+        }
+        else{
+            $companies = Company::where('id', auth()->user()->company_id)->select(['id'])->selectRaw('name as title')->get();
+        }
         return response([
             'meta' => [
                 'roles' => Role::get(['id', 'title']),
+                'companies' => $companies
             ],
         ]);
     }
@@ -46,7 +57,7 @@ class UsersApiController extends Controller
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new UserResource($user->load(['roles']));
+        return new UserResource($user->load(['roles', 'company']));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -63,10 +74,18 @@ class UsersApiController extends Controller
     {
         abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        if(auth()->user()->IsSuperAdmin){
+            $companies = Company::select(['id'])->selectRaw('name as title')->get();
+        }
+        else{
+            $companies = Company::where('id', auth()->user()->company_id)->select(['id'])->selectRaw('name as title')->get();
+        }
+
         return response([
             'data' => new UserResource($user->load(['roles'])),
             'meta' => [
                 'roles' => Role::get(['id', 'title']),
+                'companies' => $companies
             ],
         ]);
     }

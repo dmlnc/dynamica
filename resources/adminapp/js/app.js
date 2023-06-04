@@ -44,8 +44,10 @@ const app = new Vue({
   i18n,
   created() {
     this.fetchLanguages()
+    this.fetchListData()
   },
   methods: {
-    ...mapActions('I18NStore', ['fetchLanguages'])
+    ...mapActions('I18NStore', ['fetchLanguages']),
+    ...mapActions('CompaniesList', ['fetchListData'])
   }
 })

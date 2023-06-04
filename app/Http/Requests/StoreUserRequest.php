@@ -36,6 +36,10 @@ class StoreUserRequest extends FormRequest
                 'integer',
                 'exists:roles,id',
             ],
+            'company_id' => [
+                'required',
+                'exists:companies,id',
+            ],
         ];
     }
 }

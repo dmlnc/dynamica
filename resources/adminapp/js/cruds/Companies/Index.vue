@@ -9,7 +9,7 @@
             </div>
             <h4 class="card-title">
               {{ $t('global.table') }}
-              <strong>{{ $t('cruds.user.title') }}</strong>
+              <strong>{{ $t('cruds.company.title') }}</strong>
             </h4>
           </div>
           <div class="card-body">
@@ -85,34 +85,22 @@ export default {
     return {
       columns: [
         {
-          title: 'cruds.user.fields.id',
+          title: 'cruds.company.fields.id',
           field: 'id',
           thComp: TranslatedHeader,
           sortable: true,
           colStyle: 'width: 100px;'
         },
         {
-          title: 'cruds.user.fields.name',
+          title: 'cruds.company.fields.name',
           field: 'name',
           thComp: TranslatedHeader,
           sortable: true
         },
+        
         {
-          title: 'cruds.user.fields.email',
-          field: 'email',
-          thComp: TranslatedHeader,
-          sortable: true
-        },
-        {
-          title: 'cruds.user.fields.company',
-          field: 'company.name',
-          tdComp: DatatableSingle,
-          thComp: TranslatedHeader,
-          // sortable: true
-        },
-        {
-          title: 'cruds.user.fields.roles',
-          field: 'roles.title',
+          title: 'cruds.company.fields.abilities',
+          field: 'abilities.title',
           thComp: TranslatedHeader,
           tdComp: DatatableList
         },
@@ -128,9 +116,9 @@ export default {
       ],
       query: { sort: 'id', order: 'desc', limit: 100, s: '' },
       xprops: {
-        module: 'UsersIndex',
-        route: 'users',
-        permission_prefix: 'user_'
+        module: 'CompaniesIndex',
+        route: 'companies',
+        permission_prefix: 'company_'
       }
     }
   },
@@ -138,7 +126,7 @@ export default {
     this.resetState()
   },
   computed: {
-    ...mapGetters('UsersIndex', ['data', 'total', 'loading'])
+    ...mapGetters('CompaniesIndex', ['data', 'total', 'loading'])
   },
   watch: {
     query: {
@@ -150,7 +138,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('UsersIndex', ['fetchIndexData', 'setQuery', 'resetState'])
+    ...mapActions('CompaniesIndex', ['fetchIndexData', 'setQuery', 'resetState'])
   }
 }
 </script>

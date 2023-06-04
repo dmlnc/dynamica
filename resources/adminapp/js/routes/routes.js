@@ -18,6 +18,12 @@ const routes = [
         meta: { title: 'global.dashboard' }
       },
       {
+        path: 'car-list',
+        name: 'car_list',
+        component: () => import('@pages/CarList.vue'),
+        meta: { title: 'global.carList' }
+      },
+      {
         path: 'settings',
         name: 'settings',
         component: () => import('@cruds/Settings/Index.vue'),
@@ -100,6 +106,30 @@ const routes = [
             name: 'users.edit',
             component: () => import('@cruds/Users/Edit.vue'),
             meta: { title: 'cruds.user.title' }
+          },
+          {
+            path: 'companies',
+            name: 'companies.index',
+            component: () => import('@cruds/Companies/Index.vue'),
+            meta: { title: 'cruds.company.title' }
+          },
+          {
+            path: 'companies/create',
+            name: 'companies.create',
+            component: () => import('@cruds/Companies/Create.vue'),
+            meta: { title: 'cruds.company.title' }
+          },
+          {
+            path: 'companies/:id',
+            name: 'companies.show',
+            component: () => import('@cruds/Companies/Show.vue'),
+            meta: { title: 'cruds.company.title' }
+          },
+          {
+            path: 'companies/:id/edit',
+            name: 'companies.edit',
+            component: () => import('@cruds/Companies/Edit.vue'),
+            meta: { title: 'cruds.company.title' }
           }
         ]
       }

@@ -9,7 +9,7 @@
             </div>
             <h4 class="card-title">
               {{ $t('global.view') }}
-              <strong>{{ $t('cruds.user.title_singular') }}</strong>
+              <strong>{{ $t('cruds.company.title_singular') }}</strong>
             </h4>
           </div>
           <div class="card-body">
@@ -23,7 +23,7 @@
                     <tbody>
                       <tr>
                         <td class="text-primary">
-                          {{ $t('cruds.user.fields.id') }}
+                          {{ $t('cruds.company.fields.id') }}
                         </td>
                         <td>
                           {{ entry.id }}
@@ -31,7 +31,7 @@
                       </tr>
                       <tr>
                         <td class="text-primary">
-                          {{ $t('cruds.user.fields.name') }}
+                          {{ $t('cruds.company.fields.name') }}
                         </td>
                         <td>
                           {{ entry.name }}
@@ -39,26 +39,10 @@
                       </tr>
                       <tr>
                         <td class="text-primary">
-                          {{ $t('cruds.user.fields.email') }}
+                          {{ $t('cruds.company.fields.abilities') }}
                         </td>
                         <td>
-                          {{ entry.email }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-primary">
-                          {{ $t('cruds.user.fields.company') }}
-                        </td>
-                        <td>
-                          {{ entry.company.name }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-primary">
-                          {{ $t('cruds.user.fields.roles') }}
-                        </td>
-                        <td>
-                          <datatable-list :row="entry" field="roles.title">
+                          <datatable-list :row="entry" field="abilities.title">
                           </datatable-list>
                         </td>
                       </tr>
@@ -89,7 +73,7 @@ export default {
     this.resetState()
   },
   computed: {
-    ...mapGetters('UsersSingle', ['entry'])
+    ...mapGetters('CompaniesSingle', ['entry'])
   },
   watch: {
     '$route.params.id': {
@@ -101,7 +85,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('UsersSingle', ['fetchShowData', 'resetState'])
+    ...mapActions('CompaniesSingle', ['fetchShowData', 'resetState'])
   }
 }
 </script>

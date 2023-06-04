@@ -1,6 +1,6 @@
 <template>
   <ul class="nav nav-mobile-menu">
-    <top-navbar-languages />
+    <!-- <top-navbar-languages /> -->
   </ul>
 </template>
 

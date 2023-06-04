@@ -12,6 +12,8 @@ class SettingsTableSeeder extends Seeder
         $data = [
             [
                 'id'    => 1,
+                'min_price' => 0,
+                'max_price' => 1,
             ],
         ];
 

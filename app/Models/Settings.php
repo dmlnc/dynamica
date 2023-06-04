@@ -30,6 +30,10 @@ class Settings extends Model
     ];
 
     protected $fillable = [
+        'company_id',
+        'asp_link',
+        'export_link',
+        'telegram_id',
         'min_price',
         'max_price',
         'emails',
@@ -43,5 +47,10 @@ class Settings extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 }

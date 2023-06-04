@@ -43,6 +43,7 @@ return [
         'title'          => 'Пользователи',
         'title_singular' => 'Пользователь',
         'fields'         => [
+            'company'                  => 'Компания',
             'id'                       => 'ID',
             'id_helper'                => ' ',
             'name'                     => 'Имя',
@@ -65,6 +66,27 @@ return [
             'deleted_at_helper' => ' ',
         ],
     ],
+
+    'company' => [
+        'title'          => 'Компании',
+        'title_singular' => 'Компания',
+        'fields'         => [
+            'id'                       => 'ID',
+            'id_helper'                => ' ',
+            'name'                     => 'Название',
+            'name_helper'              => ' ',
+            'abilities'                => 'Возможности',
+            'abilities_helper'         => ' ',
+            'created_at'        => 'Создано',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Обновлено',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Удалено',
+            'deleted_at_helper' => ' ',
+        ],
+    ],
+
+
     'settings' => [
         'title'          => 'Настройки',
         'title_singular' => 'Настройки',

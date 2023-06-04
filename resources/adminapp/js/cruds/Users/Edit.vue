@@ -102,6 +102,31 @@
                       @search.blur="clearFocus"
                     />
                   </div>
+
+                  <div
+                    class="form-group bmd-form-group"
+                    :class="{
+                      'has-items': entry.company_id,
+                      'is-focused': activeField == 'roles'
+                    }"
+                  >
+                    <label class="bmd-label-floating required">{{
+                      $t('cruds.user.fields.company')
+                    }}</label>
+                    <v-select
+                      name="roles"
+                      label="title"
+                      :reduce="item => item.id"
+                      :key="'roles-field'"
+                      :value="entry.company_id"
+                      :options="lists.companies"
+                      :closeOnSelect="true"
+                      @input="updateCompanyId"
+                      @search.focus="focusField('roles')"
+                      @search.blur="clearFocus"
+                    />
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -155,7 +180,8 @@ export default {
       'setName',
       'setEmail',
       'setPassword',
-      'setRoles'
+      'setRoles',
+      'setCompanyId'
     ]),
     updateName(e) {
       this.setName(e.target.value)
@@ -168,6 +194,9 @@ export default {
     },
     updateRoles(value) {
       this.setRoles(value)
+    },
+    updateCompanyId(value){
+      this.setCompanyId(value)
     },
     submitForm() {
       this.updateData()

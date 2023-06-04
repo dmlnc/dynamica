@@ -15,13 +15,15 @@ class TelegramApiController extends Controller
     public function sendMessage(Request $request)
     { 
         $text = $request->input('msg');
+        
 
-        $settings = Settings::find(1);
+        $settings = Settings::where('company_id', $request->input('company_id'))->first();
     
-        if($text){
+        if($text && $settings->telegram_id != null && trim($settings->telegram_id) != ''){
             try {
+                // '-1001888296830'
                 Telegram::sendMessage([
-                    'chat_id' => env('TELEGRAM_CHANNEL_ID', '-1001888296830'),
+                    'chat_id' => env('TELEGRAM_CHANNEL_ID', $settings->telegram_id),
                     'parse_mode' => 'HTML',
                     'text' => $text
                 ]);

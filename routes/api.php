@@ -23,6 +23,12 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Users
     Route::resource('users', 'UsersApiController');
+
+    // Companies
+    Route::get('companies/list', 'CompaniesApiController@list')->name('companies.list');
+    Route::resource('companies', 'CompaniesApiController');
+    
+
 });
 
 Route::post('api/v1/sendMessage', 'Api\V1\Admin\TelegramApiController@sendMessage');

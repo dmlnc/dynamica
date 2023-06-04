@@ -4,6 +4,7 @@ function initialState() {
       id: null,
       name: '',
       email: null,
+      company_id: null,
       email_verified_at: '',
       password: null,
       roles: [],
@@ -106,6 +107,9 @@ const actions = {
   setRoles({ commit }, value) {
     commit('setRoles', value)
   },
+  setCompanyId({ commit }, value) {
+    commit('setCompanyId', value)
+  },
   setRememberToken({ commit }, value) {
     commit('setRememberToken', value)
   },
@@ -158,6 +162,10 @@ const mutations = {
   setRoles(state, value) {
     state.entry.roles = value
   },
+  setCompanyId(state, value) {
+    state.entry.company_id = value
+  },
+  
   setRememberToken(state, value) {
     state.entry.remember_token = value
   },

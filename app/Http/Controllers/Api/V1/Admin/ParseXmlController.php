@@ -64,8 +64,9 @@ class ParseXmlController extends Controller
                 // 'name': this.currentCar.brand + ' ' + this.currentCar.model,
                 // 'info': this.currentCar.year + ', ' + this.currentCar.run,
         
-
-        $settings = Settings::find(1);
+        $settings = Settings::where('company_id', $this->getCompanyId($request))->firstOrFail();
+        
+        // $settings = Settings::find(1);
 
         $query = [
             'utm_source' => $settings->utm_source,
@@ -108,9 +109,12 @@ class ParseXmlController extends Controller
             $queryString.='&'.$key.'='.$value;
         }
 
-
-        $link = 'https://asp.dynamica-trade.su/?link='.$link.$queryString;
-
+        if(trim($settings->asp_link)!== '' && $settings->asp_link!= null){
+            $link = trim($settings->asp_link).'?link='.$link.$queryString;
+        }
+        else{
+            $link = 'https://dynamica-trade.ru/'.$link.'?'.$queryString;
+        }
 
 
         $qr = QrCode::size(500)->generate($link);
@@ -133,12 +137,16 @@ class ParseXmlController extends Controller
         return $pdf->download('pdf-'.$vin.'.pdf');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+
+        $settings = Settings::where('company_id', $this->getCompanyId($request))->firstOrFail();
 
         set_time_limit(0);
 
-        $url = 'https://media.cm.expert/stock/export/cmexpert/dealer.site/all/1a6f30ed5c29e6b5d2fdd1d87740b925.xml';
+        $url = trim($settings->export_link);
+        
+        // 'https://media.cm.expert/stock/export/cmexpert/dealer.site/all/1a6f30ed5c29e6b5d2fdd1d87740b925.xml';
 
         $xml = file_get_contents($url);
 
@@ -366,5 +374,19 @@ class ParseXmlController extends Controller
         $str = trim($str, $options['delimiter']);
         
         return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
-        }        
+    } 
+    
+    public function getCompanyId(Request $request){
+        $companyId = null;
+
+        if ($request->header('X-Company-Id') && $request->header('X-Company-Id') != 'undefined' && auth()->user()->isAdmin) {
+            $companyId = $request->header('X-Company-Id');
+        }
+        else{
+            $companyId = auth()->user()->company_id;
+        }
+
+        return $companyId;
+    }
+
 }

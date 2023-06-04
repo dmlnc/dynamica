@@ -10,6 +10,9 @@ import RolesIndex from './cruds/Roles'
 import RolesSingle from './cruds/Roles/single'
 import UsersIndex from './cruds/Users'
 import UsersSingle from './cruds/Users/single'
+import CompaniesIndex from './cruds/Companies'
+import CompaniesList from './cruds/Companies/list'
+import CompaniesSingle from './cruds/Companies/single'
 import Settings from './cruds/Settings'
 
 Vue.use(Vuex)
@@ -26,6 +29,9 @@ export default new Vuex.Store({
     RolesSingle,
     UsersIndex,
     UsersSingle,
+    CompaniesIndex,
+    CompaniesSingle,
+    CompaniesList,
     Settings
   },
   strict: debug

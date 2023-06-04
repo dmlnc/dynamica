@@ -58,8 +58,6 @@ const actions = {
     })
   },
 
-
-
   setUtmSource({ commit }, value) {
     commit('setUtmSource', value)
   },
@@ -89,7 +87,7 @@ const actions = {
   fetchEditData({ commit, dispatch }) {
     return axios.get(`${route}`).then(response => {
       // commit('setEntry', response.data)
-      console.log(response.data)
+      // console.log(response.data)
       return response.data;
     })
   },
@@ -103,7 +101,6 @@ const actions = {
 const mutations = {
   setEntry(state, entry) {
     state.entry = entry
-    console.log(entry)
   },
   setUtmSource(state, value) {
     state.entry.utm_source = value

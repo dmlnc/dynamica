@@ -30,11 +30,11 @@ class User extends Authenticatable
         'id',
         'name',
         'email',
-        'email_verified_at',
+        // 'email_verified_at',
     ];
 
     protected $dates = [
-        'email_verified_at',
+        // 'email_verified_at',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -44,7 +44,7 @@ class User extends Authenticatable
         'id',
         'name',
         'email',
-        'email_verified_at',
+        // 'email_verified_at',
         'roles.title',
     ];
 
@@ -52,6 +52,7 @@ class User extends Authenticatable
         'name',
         'email',
         'email_verified_at',
+        'company_id',
         'password',
         'remember_token',
         'created_at',
@@ -59,9 +60,14 @@ class User extends Authenticatable
         'deleted_at',
     ];
 
+    public function getIsSuperAdminAttribute()
+    {
+        return $this->roles()->where('id', 1)->exists();
+    }
+    
     public function getIsAdminAttribute()
     {
-        return $this->roles()->where('title', 'Admin')->exists();
+        return $this->roles()->whereIn('id', [1,2])->exists();
     }
 
     public function getEmailVerifiedAtAttribute($value)
@@ -84,6 +90,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     protected function serializeDate(DateTimeInterface $date)

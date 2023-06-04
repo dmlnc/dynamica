@@ -3,6 +3,9 @@
 </template>
 
 <script>
+
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -22,6 +25,7 @@ export default {
     this.$eventHub.$on('delete-success', this.itemDeleted)
   },
   methods: {
+    ...mapActions('CompaniesList', ['setCompany']),
     itemCreated() {
       this.$jquery.notify(
         {
@@ -55,8 +59,14 @@ export default {
       handler() {
         axios.get('abilities').then(response => {
           this.$ability.update([
-            { subject: 'all', actions: response.data.data }
+            { subject: 'all', actions: response.data.data },
+            { subject: 'company', actions: response.data.meta.company.abilities }
           ])
+          let companyData = {
+            id: response.data.meta.company.id,
+            name: response.data.meta.company.name,
+          };
+          this.setCompany(companyData);
         })
       },
       immediate: true

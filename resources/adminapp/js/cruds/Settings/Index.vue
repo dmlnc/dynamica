@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="border p-3 mb-3 rounded">
-                  <h5 class="mb-4 font-weight-bold">Настройка отправки лидов: </h5>
+                  <h5 class="mb-4 font-weight-bold">Общие настройки: </h5>
 
                   <div
                     class="form-group bmd-form-group"
@@ -88,6 +88,59 @@
                       @blur="clearFocus"
                     />
                   </div>
+
+                  <div
+                    class="form-group bmd-form-group"
+                    :class="{
+                      'has-items': entry.asp_link,
+                      'is-focused': activeField == 'asp_link'
+                    }"
+                  >
+                    <label class="bmd-label-floating ">Ссылка на asp</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="entry.asp_link"
+                      @focus="focusField('asp_link')"
+                      @blur="clearFocus"
+                    />
+                  </div>
+
+                  <div
+                    class="form-group bmd-form-group"
+                    :class="{
+                      'has-items': entry.export_link,
+                      'is-focused': activeField == 'export_link'
+                    }"
+                  >
+                    <label class="bmd-label-floating ">Ссылка на XML-экспорт</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="entry.export_link"
+                      @focus="focusField('export_link')"
+                      @blur="clearFocus"
+                    />
+                  </div>
+
+                  <div
+                    class="form-group bmd-form-group"
+                    :class="{
+                      'has-items': entry.telegram_id,
+                      'is-focused': activeField == 'telegram_id'
+                    }"
+                  >
+                    <label class="bmd-label-floating ">ID Telegram для уведомлений</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="entry.telegram_id"
+                      @focus="focusField('telegram_id')"
+                      @blur="clearFocus"
+                    />
+                  </div>
+
+
                 </div>
 
                 <div class="border p-3 mb-3 rounded">
@@ -223,14 +276,6 @@ export default {
   beforeDestroy() {
     this.resetState()
   },
-  // watch: {
-  //   '$route.params.id': {
-  //     immediate: true,
-  //     handler() {
-  //       this.resetState()
-  //     }
-  //   }
-  // },
 
   async mounted(){
     console.log('mounted')
@@ -245,9 +290,6 @@ export default {
       'updateData',
       'resetState',
       'setEntry',
-      // 'setEmail',
-      // 'setPassword',
-      // 'setRoles'
     ]),
    
     submitForm() {
