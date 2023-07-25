@@ -3,7 +3,7 @@
         <div class="v-modal" v-if="showModal">
             <div class="v-modal-close" @click.prevent="closeModal">+</div>
             <div class="v-modal-body">
-                <h3><b>Скачать QR-код</b></h3>
+                <h3><b>Распечатать QR-код</b></h3>
                 <p>Выберите нужный формат листовки</p>
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" @click.prevent="getPdf" class="btn btn-primary w-100">Скачать</a>
+                <a href="#" @click.prevent="getPdf" class="btn btn-primary w-100">Открыть</a>
             </div>
         </div>
         <div class="v-modal-bg" v-if="showModal" @click.prevent="closeModal"></div>
@@ -42,7 +42,7 @@
                 <div class="table-overlay" v-show="loading" style="margin-top: -0.9375rem">
                     <div class="table-overlay-container">
                         <material-spinner></material-spinner>
-                        <span>Loading...</span>
+                        <span>Загрузка...</span>
                     </div>
                 </div>
                 <div class=" px-3 py-2 border rounded mb-4" v-if="this.meta">

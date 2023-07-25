@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
-use App\Http\Controllers\Controller;
+use Log;
+use PDF;
+use App\Models\Brand;
+use SimpleXMLElement;
 use App\Models\Settings;
 use Illuminate\Http\Request;
-use SimpleXMLElement;
-use Log;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+use App\Models\CarModel;
+use App\Models\Color;
 use Illuminate\Support\Facades\Http;
-use PDF;
+use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ParseXmlController extends Controller
@@ -190,13 +193,15 @@ class ParseXmlController extends Controller
             }
             $brand = (string)$car->mark_id;
 
+
+            
+
             $carData = [
                 'brand' => $brand,
                 'model' => $model,
                 'year' => (int)$car->year,
                 'run' => number_format((string)$car->run, 0, '.', ' ').'  км',
                 'run_original' => (int)$car->run,
-
                 'color' => $colorName,
                 'color_hex' => $colorCode,
                 'vin' => '...'.substr((string)$car->vin, -4),
@@ -209,6 +214,8 @@ class ParseXmlController extends Controller
                 'image' => null,
                 'link' => str_replace('https://dynamica-trade.ru/', '', (string)$car->url)
             ];
+
+            
 
             if ($carData['price'] < $meta['min_price']) {
                 $meta['min_price'] = $carData['price'];
@@ -235,15 +242,33 @@ class ParseXmlController extends Controller
             if(!in_array($model, $meta['brands'][$brand])){
                 $meta['brands'][$brand][] = $model;
             }
-
+            
 
 
 
             // Logo scrapper
 
-            $image = $brand;
-            $image = trim(strtolower(str_replace('(ВАЗ)', '', $image)));
-            $image = str_replace(' ', '-', $image);
+            $slug = $brand;
+            $slug = trim(strtolower(str_replace('(ВАЗ)', '', $slug)));
+            $slug = str_replace(' ', '-', $slug);
+
+            if(!empty(trim($brand)) && !empty(trim($model))){
+                $this->storeCarData(
+                    [
+                        'name' => $brand,
+                        'slug' => $slug,
+                    ], 
+                    $model,
+                    [
+                        'name' => $colorName,
+                        'hex' => $colorCode,
+                    ]
+            
+                );
+            }
+
+
+            $image = $slug;
 
             if(array_search($image, $brands) === false){
                 $brands[] = $image;
@@ -255,17 +280,17 @@ class ParseXmlController extends Controller
                         $response = Http::get($imageUrl);
                         if ($response->ok()) {
                             Storage::disk('local')->put('public/brands/'.$filename, $response->body());
-                            $carData['image'] = Storage::url('/brands/'.$image.'.png');
+                            $carData['image'] = Storage::url('brands/'.$image.'.png');
                         }
                     }
                 }
                 else{
-                    $carData['image'] = Storage::url('/brands/'.$image.'.png');
+                    $carData['image'] = Storage::url('brands/'.$image.'.png');
                 }
             }
             else{
                 if(Storage::disk('local')->exists('public/brands/'.$image.'.png')){
-                    $carData['image'] = Storage::url('/brands/'.$image.'.png');
+                    $carData['image'] = Storage::url('brands/'.$image.'.png');
                 }
             }
 
@@ -278,6 +303,20 @@ class ParseXmlController extends Controller
         return response()->json(['data' => $data, 'meta'=> $meta]);
 
     }
+
+    function storeCarData($brand, $model, $color) {
+        // Get or create brand
+        $brand = Brand::firstOrCreate(['name' => $brand['name'], 'slug'=>$brand['slug']]);
+    
+        // Get or create model associated with the brand
+        $model = CarModel::firstOrCreate(['name' => $model, 'brand_id' => $brand->id]);
+
+        $color = Color::firstOrCreate(['name' => $color['name'], 'hex' => $color['hex']]);
+
+    
+        return [$brand->id, $model->id];
+    }
+    
 
     protected function prepareToUtm($str, $options = array()) {
         // Make sure string is in UTF-8 and strip invalid UTF-8 characters

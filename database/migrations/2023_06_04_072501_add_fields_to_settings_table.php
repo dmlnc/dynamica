@@ -13,8 +13,8 @@ class AddFieldsToSettingsTable extends Migration
             $table->string('asp_link')->nullable()->default(null);
             $table->string('export_link')->nullable()->default(null);
             $table->string('telegram_id')->nullable()->default(null);
-            $table->integer('min_price')->nullable()->default(null);
-            $table->integer('max_price')->nullable()->default(null);
+            $table->integer('min_price')->default(0);
+            $table->integer('max_price')->default(1);
         });
     }
 

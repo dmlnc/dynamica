@@ -120,23 +120,39 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 28,
-                'title' => 'service_edit',
+                'title' => 'service_create',
             ],
             [
                 'id'    => 29,
-                'title' => 'service_print',
+                'title' => 'service_edit',
             ],
             [
                 'id'    => 30,
-                'title' => 'service_edit_basic',
+                'title' => 'service_print_full',
             ],
             [
                 'id'    => 31,
+                'title' => 'service_print_client',
+            ],
+            [
+                'id'    => 32,
+                'title' => 'service_edit_basic',
+            ],
+            [
+                'id'    => 33,
                 'title' => 'service_edit_diagnostic',
+            ],
+            [
+                'id'    => 34,
+                'title' => 'service_edit_published',
+            ],
+            [
+                'id'    => 35,
+                'title' => 'service_delete',
             ],
         ];
 
-
+        
         Permission::insert($permissions);
     }
 }

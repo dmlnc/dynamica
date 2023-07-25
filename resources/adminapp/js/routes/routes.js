@@ -30,6 +30,31 @@ const routes = [
         meta: { title: 'global.settings' }
       },
       {
+        path: 'service',
+        name: 'service.index',
+        component: () => import('@cruds/Service/Index.vue'),
+        meta: { title: 'cruds.service.title' }
+      },
+      {
+        path: 'service/create',
+        name: 'service.create',
+        component: () => import('@cruds/Service/Single.vue'),
+        meta: { title: 'cruds.service.title' }
+      },
+      {
+        path: 'service/:id',
+        name: 'service.show',
+        component: () => import('@cruds/Service/Single.vue'),
+        meta: { title: 'cruds.service.title' }
+      },
+      {
+        path: 'service/:id/edit',
+        name: 'service.edit',
+        component: () => import('@cruds/Service/Single.vue'),
+        meta: { title: 'cruds.service.title' }
+      },
+      
+      {
         path: 'user-management',
         name: 'user_management',
         component: View,
@@ -130,7 +155,7 @@ const routes = [
             name: 'companies.edit',
             component: () => import('@cruds/Companies/Edit.vue'),
             meta: { title: 'cruds.company.title' }
-          }
+          },
         ]
       }
     ]

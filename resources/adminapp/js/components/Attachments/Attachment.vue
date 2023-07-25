@@ -142,23 +142,24 @@
               </g>
             </svg>
           </figure>
-          <span class="font-weight-bold">Drop files here to upload</span>
-          <p class="separator"><span> or </span></p>
-          <button type="button" class="btn btn-azure">
-            Browse
+          <!-- <span class="font-weight-bold">Drop files here to upload</span> -->
+          <!-- <p class="separator"><span> or </span></p> -->
+          <button type="button" class="btn btn-azure" v-if="!disabled">
+            Выбрать фото
           </button>
         </div>
       </div>
 
       <div class="file-preview-container" v-show="hasFiles">
-        <button type="button" class="btn btn-azure">
-          Browse
+        <button type="button" class="btn btn-azure" v-if="!disabled">
+          Выбрать фото
         </button>
         <component
           :is="previewComponent"
           :key="childKey"
           :tmp-attachments="tmpAttachments"
           :attachments="media"
+          :disabled="disabled"
           @tmp-file-removed="handleTmpFileRemoved"
           @file-removed="fileRemoved"
         ></component>
@@ -182,6 +183,10 @@ export default {
     accept: {
       type: String,
       default: null
+    },
+    disabled:{
+      type: Boolean,
+      default: false
     },
     component: {
       type: String,
@@ -251,6 +256,9 @@ export default {
       return `attachment-${this.component}`
     }
   },
+  mounted(){
+    this.mediaHandler();
+  },
   watch: {
     tmpAttachments: {
       handler: function () {
@@ -260,13 +268,7 @@ export default {
     },
     media: {
       handler: function () {
-        this.hasFiles = this.media.length + this.tmpAttachments.length
-        if (this.maxFiles === null) {
-          return
-        }
-        let dz = this.$refs[this.uid]
-        let fo = this.media.filter(item => item.wasRecentlyCreated !== true)
-        dz.dropzone.options.maxFiles = this.maxFiles - fo.length
+        // this.mediaHandler();
       },
       deep: true
     }
@@ -305,7 +307,7 @@ export default {
       })
     },
     handleTmpFileRemoved(file) {
-      console.log(file)
+      // console.log(file)
       if (_.includes(['canceled', 'error'], file.o.status)) {
         this.removeTmpFile(file)
         return
@@ -356,7 +358,23 @@ export default {
       this.$emit('file-removed', file)
     },
     fileUploaded(file) {
-      this.$emit('file-uploaded', file)
+      this.tmpAttachments = this.tmpAttachments.filter(item => item.progress !== "100");
+      this.$emit('file-uploaded', file.data)
+    },
+    mediaHandler(){
+      this.hasFiles = this.media.length + this.tmpAttachments.length
+      if(this.disabled){
+        let dz = this.$refs[this.uid]
+        dz.dropzone.options.maxFiles = this.hasFiles;
+
+        this.options.maxFiles = this.hasFiles;
+      }
+      if (this.maxFiles === null) {
+        return
+      }
+      let dz = this.$refs[this.uid]
+      let fo = this.media.filter(item => item.wasRecentlyCreated !== true)
+      dz.dropzone.options.maxFiles = this.maxFiles - fo.length
     }
   }
 }
@@ -396,6 +414,6 @@ export default {
 }
 
 .dropzone-container {
-  margin: 2em 0;
+  margin: 0;
 }
 </style>

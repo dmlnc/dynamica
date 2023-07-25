@@ -30,8 +30,29 @@ class AbilitiesController extends Controller
             return $ability->title;
         }, $currentCompany->abilities);
 
+        $abilities_user = array_map(function($ability) {
+            return 'company.' . $ability;
+        }, $abilities);
+
+        if (!in_array('Service access', $abilities)) {
+            $permissions = array_filter($permissions, function($permission) {
+                return strpos($permission, 'service_') !== 0;
+            });
+        }
+        if (!in_array('Export access', $abilities)) {
+            $permissions = array_filter($permissions, function($permission) {
+                return strpos($permission, 'export_') !== 0;
+            });
+        }
+        if($companyId != auth()->user()->company_id && !auth()->user()->isSuperAdmin){
+            $permissions = array_filter($permissions, function($permission) {
+                return strpos($permission, 'settings_') !== 0 && strpos($permission, 'user_') !== 0;
+            });
+        }
+        $permissions = array_values($permissions);
+        $permissions = array_merge($permissions, $abilities_user);
         return response([
-            'data' => new AbilityResource($permissions),
+            'data' => $permissions,
             'meta' => [
                 'company' => [
                     'id' => $currentCompany->id,

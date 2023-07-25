@@ -8,22 +8,21 @@
         <div class="pic-image">
           <a :href="file.url" target="_blank">
             <img
-              :src="file.preview_thumbnail"
-              :alt="file.file_name"
-              :title="file.file_name"
+              :src="file.url"
             />
           </a>
         </div>
         <div class="pic-details">
-          <input
-            class="form-control file-name"
-            type="text"
-            :value="file.file_name"
-            disabled
-          />
-          <div class="d-flex justify-content-between">
-            <span class="file-size">{{ filesize(file.size) }}</span>
+          
+          <div class="d-flex justify-content-between align-items-center">
+            <input
+              class="form-control file-name"
+              type="text"
+              :value="file.name"
+              disabled
+            />
             <button
+              v-if="!disabled"
               type="button"
               class="btn btn-round btn-link text-rose"
               @click="$emit('file-removed', file)"
@@ -50,7 +49,7 @@
         <div class="file-status mt-1">
           <div
             class="progress"
-            v-show="checkProgress(file) && !isCanceledOrError(file.o)"
+            v-show="checkProgress(file) && !isCanceledOrError(file.o) && file.progress != 100"
           >
             <div
               class="progress-bar progress-bar-striped"
@@ -75,33 +74,27 @@
             {{ file.errorMsg }}
           </div>
         </div>
-        <input
-          class="form-control file-name"
-          type="text"
-          :value="file.file_name"
-          disabled
-        />
-        <div class="d-flex justify-content-between">
-          <span class="file-size">{{ filesize(file.size) }}</span>
+        
+        <div class="d-flex justify-content-between align-items-center">
+          <input
+            class="form-control file-name"
+            type="text"
+            :value="file.file_name"
+            disabled
+          />
           <button
+            v-if="!disabled"
             type="button"
             class="btn btn-round btn-link text-rose"
             @click="removeTmpFile(file)"
           >
             <i
-              v-show="isUploading(file.o)"
               class="material-icons"
               title="Remove"
             >
               delete
             </i>
-            <i
-              v-show="!isUploading(file.o)"
-              class="material-icons"
-              title="Cancel"
-            >
-              close
-            </i>
+            
           </button>
         </div>
       </div>
@@ -121,6 +114,10 @@ export default {
     },
     attachments: {
       type: Array
+    },
+    disabled:{
+      type: Boolean,
+      default: false
     },
     modelId: {
       type: Number,
@@ -145,17 +142,17 @@ export default {
     removeTmpFile(file) {
       this.$emit('tmp-file-removed', file)
     },
-    filesize(bytes, decimals = 1) {
-      if (bytes === 0) return '0 Bytes'
+    // filesize(bytes, decimals = 1) {
+    //   if (bytes === 0) return '0 Bytes'
 
-      const k = 1000
-      const dm = decimals < 0 ? 0 : decimals
-      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+    //   const k = 1000
+    //   const dm = decimals < 0 ? 0 : decimals
+    //   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 
-      const i = Math.floor(Math.log(bytes) / Math.log(k))
+    //   const i = Math.floor(Math.log(bytes) / Math.log(k))
 
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
-    }
+    //   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+    // }
   }
 }
 </script>
@@ -230,5 +227,8 @@ button .material-icons {
 .progress {
   height: 4px;
   border-radius: 0;
+}
+.pic-details{
+  margin-top: -4px;
 }
 </style>

@@ -9,8 +9,9 @@ window.objectToFormData = require('object-to-formdata').objectToFormData
 
 window.axios = require('axios')
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-window.axios.defaults.headers.common['X-Company-Id'] = JSON.parse(localStorage.company).id;
-
+if(localStorage.company){
+  window.axios.defaults.headers.common['X-Company-Id'] = JSON.parse(localStorage.company).id;
+} 
 window.axios.defaults.baseURL = '/api/v1/'
 window.axios.interceptors.response.use(
   function (response) {

@@ -103,4 +103,9 @@ return [
             'utm_campaign_helper' => ' ',
         ],
     ],
+
+    'service' => [
+        'title' => 'Сервис',
+        'title_singular' => 'Сервис',
+    ]
 ];

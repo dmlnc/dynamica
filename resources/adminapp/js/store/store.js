@@ -14,7 +14,8 @@ import CompaniesIndex from './cruds/Companies'
 import CompaniesList from './cruds/Companies/list'
 import CompaniesSingle from './cruds/Companies/single'
 import Settings from './cruds/Settings'
-
+import ServiceIndex from './cruds/Service'
+import ServiceSingle from './cruds/Service/single'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -32,6 +33,8 @@ export default new Vuex.Store({
     CompaniesIndex,
     CompaniesSingle,
     CompaniesList,
+    ServiceIndex,
+    ServiceSingle,
     Settings
   },
   strict: debug

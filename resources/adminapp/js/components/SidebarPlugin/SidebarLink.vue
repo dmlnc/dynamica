@@ -1,6 +1,6 @@
 <template>
   <router-link
-    v-if="item.gate === undefined || $can(item.gate)"
+    v-if="item.gate === undefined || item.gate.every(permission => $can(permission))"
     :to="item.path"
     v-slot="{ href, route, navigate, isActive, isExactActive }"
   >

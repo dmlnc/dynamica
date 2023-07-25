@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'service'                        => 'Сервис',
     'carList'                        => 'Список авто',
     'settings'                       => 'Настройки',
     'actions'                        => 'Действия',

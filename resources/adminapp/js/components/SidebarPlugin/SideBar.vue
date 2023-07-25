@@ -24,7 +24,7 @@
         <slot>
           <template v-for="(item, i) in sidebarLinks">
             <sidebar-item-group
-              v-if="item.children && $can(item.gate)"
+              v-if="item.children && item.gate.every(permission => $can(permission))"
               :key="`group-${i}`"
               :item="item"
             >
