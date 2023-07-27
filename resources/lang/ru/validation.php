@@ -1,6 +1,7 @@
 <?php
 
 return [
+    
     'accepted'         => 'Поле :attribute должно быть эквивалентно значениям \"yes\", \"on\", \"1\", или \"true\"',
     'active_url'       => 'Поле :attribute не является действительным URL',
     'after'            => 'Поле :attribute должно соответствовать дате идущей после даты :date.',
@@ -117,5 +118,10 @@ return [
     'dont_allow_first_letter_number' => 'Первый символ поля \":input\" не может быть цифрой',
     'exceeds_maximum_number'         => 'Значение поля :attribute превышает максимальное число символов',
     'db_column'                      => ':attribute может содержать только основные буквы латинского алфавита ISO, цифры, тире и не может начинаться с цифры..',
-    'attributes'                     => [],
+    'attributes'                     => [
+        'brand' => 'Модель',
+        'car_model' => 'Марка',
+        'color' => 'Цвет',
+        'vin' => 'VIN',
+    ],
 ];

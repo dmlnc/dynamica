@@ -21,11 +21,20 @@
             <div class="card-body">
               <bootstrap-alert />
               <div class="steps">
-                <div class="steps-header mb-4 d-flex align-items-center justify-content-between" style="max-width: 700px; margin: 0 auto;" v-if="type != 'show'">
-                  <a href="#" class="btn btn-sm btn-circle" v-for="i in steps" :class="{
+                <div class="steps-header mb-4 d-flex align-items-center justify-content-center justify-content-md-between flex-wrap" style="max-width: 700px; margin: 0 auto;" v-if="type != 'show'">
+                  <a href="#" class="btn btn-sm btn-circle mr-2  mb-2 mb-md-0 mr-md-0" v-for="i in steps" :class="{
                     'btn-primary': step == i,
                     'btn-outline-primary' : step != i,
-                  }" @click.prevent="()=>{step = i; changeStep()}">{{ i }}</a>
+                  }" @click.prevent="()=>{step = i; changeStep()}">
+                    <span v-if="i==1">Общее</span>
+                    <span v-if="i==2">Салон <span v-if="fieldsEmpty['3.1'] == true" class="badge badge-danger badge-pill">!</span></span>
+                    <span v-if="i==3">Подкапотное <span v-if="fieldsEmpty['3.2'] == true" class="badge badge-danger badge-pill">!</span></span>
+                    <span v-if="i==4">Средняя <span v-if="fieldsEmpty['3.3'] == true" class="badge badge-danger badge-pill">!</span></span>
+                    <span v-if="i==5">Снизу <span v-if="fieldsEmpty['3.4'] == true" class="badge badge-danger badge-pill">!</span></span>
+                    <span v-if="i==6">ЛКП</span>
+
+
+                  </a>
                 </div>
                 <div class="steps-step py-4" id="step-1" v-if="step == 1 || type == 'show'" style="max-width: 850px; margin: 0 auto;">
                   <div class="mb-5" v-if="entry.status == 'published' || entry.status == 'diagnostic'">
@@ -166,17 +175,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="steps-step py-4" id="step-2" v-if="step == 2 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
-                  <div class="steps-step-header">
-                    <h4 class="mt-0 mb-5">Визуальный осмотр (2/{{ steps }})</h4>
-                  </div>
-                  <div class="text-center mb-4">
-                    <button class="btn btn-outline-primary" type="button">Запросить данные ЛКП</button>  
-                  </div>
-                </div>
-                <div class="steps-step py-4" id="step-3" v-if="step == 3 || type == 'show'" style="max-width: 850px; margin: 0 auto;">
+                <div class="steps-step py-4" id="step-2" v-if="step == 2 || type == 'show'" style="max-width: 850px; margin: 0 auto;">
                   <div class="steps-step-header mb-5">
-                    <h4 class="mt-0 mb-1">Техническая диагностика (3/{{ steps }})</h4>
+                    <h4 class="mt-0 mb-1">Техническая диагностика (2/{{ steps }})</h4>
                     <h6 class="mt-0 font-weight-bold text-primary">Осмотр из салона автомобиля</h6>
 
                   </div>
@@ -209,10 +210,20 @@
                         :disabled="disabledDiagnostic"></Field>
                     </div>
                   </div>
+                  <div>
+                    <div class="steps-step-header mb-5">
+                      <h4 class="mt-0">Дополнительные комментарии по автомобилю</h4>
+                      <!-- <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6> -->
+                      <div class="form-group">
+                          <label for="comment-for-entry">Комментарий</label>
+                          <textarea :disabled="disabledDiagnostic" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="steps-step py-4" id="step-4" v-if="step == 4 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
+                <div class="steps-step py-4" id="step-3" v-if="step == 3 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
                   <div class="steps-step-header mb-5">
-                    <h4 class="mt-0 mb-1">Техническая диагностика (4/{{ steps }})</h4>
+                    <h4 class="mt-0 mb-1">Техническая диагностика (3/{{ steps }})</h4>
                     <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху</h6>
 
                   </div>
@@ -245,10 +256,20 @@
                         :disabled="disabledDiagnostic"></Field>
                     </div>
                   </div>
+                  <div>
+                    <div class="steps-step-header mb-5">
+                      <h4 class="mt-0">Дополнительные комментарии по автомобилю</h4>
+                      <!-- <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6> -->
+                      <div class="form-group">
+                          <label for="comment-for-entry">Комментарий</label>
+                          <textarea :disabled="disabledDiagnostic" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="steps-step py-4" id="step-5" v-if="step == 5 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
+                <div class="steps-step py-4" id="step-4" v-if="step == 4 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
                   <div class="steps-step-header mb-5">
-                    <h4 class="mt-0 mb-1">Техническая диагностика (5/{{ steps }})</h4>
+                    <h4 class="mt-0 mb-1">Техническая диагностика (4/{{ steps }})</h4>
                     <h6 class="mt-0 font-weight-bold text-primary">Осмотр автомобиля, поднятого на среднюю высоту</h6>
 
                   </div>
@@ -281,10 +302,20 @@
                         :disabled="disabledDiagnostic"></Field>
                     </div>
                   </div>
+                  <div>
+                    <div class="steps-step-header mb-5">
+                      <h4 class="mt-0">Дополнительные комментарии по автомобилю</h4>
+                      <!-- <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6> -->
+                      <div class="form-group">
+                          <label for="comment-for-entry">Комментарий</label>
+                          <textarea :disabled="disabledDiagnostic" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="steps-step py-4" id="step-6" v-if="step == 6 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
+                <div class="steps-step py-4" id="step-5" v-if="step == 5 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
                   <div class="steps-step-header mb-5">
-                    <h4 class="mt-0 mb-1">Техническая диагностика 6/{{ steps }})</h4>
+                    <h4 class="mt-0 mb-1">Техническая диагностика 5/{{ steps }})</h4>
                     <h6 class="mt-0 font-weight-bold text-primary">Осмотр снизу автомобиля со снятой защитой двигателя</h6>
 
                   </div>
@@ -317,44 +348,6 @@
                         :disabled="disabledDiagnostic"></Field>
                     </div>
                   </div>
-                </div>
-                <div class="steps-step py-4" id="step-7" v-if="step == 7 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
-                  <div v-if="showExtraSection">
-                    <div class="steps-step-header mb-5">
-                      <h4 class="mt-0 mb-1">Техническая диагностика (7/{{ steps }})</h4>
-                      <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6>
-
-                    </div>
-                    <div v-for="(field, index) in fields" v-if="field.section == 3.5">
-                      <div class="d-flex">
-                        <div 
-                          class="d-flex align-items-center justify-content-center text-center "
-                          :style="{
-                            background: field.value == null ? 'red' : '#4ba82e',
-                            color: '#fff',
-                            // border: '2px solid white',
-                            borderRadius: '50%',
-                            width: '30px',
-                            height: '30px',
-                            flex: '0 0 30px',
-                            marginTop: '10px',
-                            marginRight: '10px'
-                          }"
-                        >
-                          {{ index+1 }}
-                        </div>
-                        <Field 
-                          @uploadMedia="uploadCustomFieldMedia" 
-                          @removeMedia="removeCustomFieldMedia" 
-                          @updateField="updateCustomField" 
-                          @updateComment="updateCustomFieldComment" 
-                          class="mb-4 w-100" 
-                          :field="field" 
-                          :entry="entry"
-                          :disabled="disabledDiagnostic"></Field>
-                      </div>
-                    </div>
-                  </div>
                   <div>
                     <div class="steps-step-header mb-5">
                       <h4 class="mt-0">Дополнительные комментарии по автомобилю</h4>
@@ -366,10 +359,19 @@
                     </div>
                   </div>
                 </div>
+                <div class="steps-step py-4" id="step-6" v-if="step == 6 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
+                  <div class="steps-step-header">
+                    <h4 class="mt-0 mb-5">Визуальный осмотр (6/{{ steps }})</h4>
+                  </div>
+                  <div class="text-center mb-4">
+                    <button class="btn btn-outline-primary" type="button">Запросить данные ЛКП</button>  
+                  </div>
+                </div>
+                
               </div>
             </div>
             
-            <div class="card-footer" v-if="type != 'show'">
+            <div class="card-footer flex-column flex-md-row" v-if="type != 'show'">
               <button type="button" class="btn btn-outline-secondary" @click="previousStep" :disabled="step == 1">
                 <i class="material-icons">arrow_back</i>
                 Предыдущий шаг
@@ -404,7 +406,7 @@ export default {
   data() {
     return {
       step: 1,
-      steps: 7,
+      steps: 6,
       status: '',
       activeField: '',
       type: null
@@ -422,7 +424,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('ServiceSingle', ['entry', 'loading', 'lists', 'fields']),
+    ...mapGetters('ServiceSingle', ['entry', 'loading', 'lists', 'fields', 'fieldsEmpty']),
     models(){
       if(this.entry.brand == null){
         return [];
@@ -432,7 +434,6 @@ export default {
     showExtraSection() {
       let field69 = this.fields.find(field => field.id === 69);
       let field70 = this.fields.find(field => field.id === 70);
-
       return ((field69 && field69.value && field69.value.id === 1) || (field70 && field70.value && field70.value.id === 1));
     },
     showSaveButton(){
@@ -569,5 +570,10 @@ export default {
 .vs--disabled .vs__selected{
   color: #000;
 
+}
+.btn .badge {
+position: absolute;
+top: -10px;
+z-index: 99;
 }
 </style>

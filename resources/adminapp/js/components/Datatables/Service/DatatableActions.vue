@@ -4,7 +4,7 @@
         :href="`/service-forms/client/${row.id}`"
         target="_blank"
         class="btn btn-just-icon btn-round btn-link text-green"
-        v-if="$can(xprops.permission_prefix + 'print_client')"
+        v-if="$can(xprops.permission_prefix + 'print_client') "
         type="button"
       >
         <i class="material-icons">print</i>
@@ -61,7 +61,27 @@
             const canEditBasic = this.$can('service_edit') && this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic';
             const canEditPublished = this.$can('service_edit_published');
             return (canEditBasic || canEditPublished);
-        }
+        },
+
+        canPrintClient(){
+          if(this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic'){
+            return this.$can('service_print_client_draft');
+          }
+          return this.$can('service_print_client');
+        },
+        canPrintService(){
+          if(this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic'){
+            return this.$can('service_print_full_draft');
+          }
+          return this.$can('service_print_full');
+        },
+        canView(){
+          if(this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic'){
+            return this.$can('service_show_draft');
+          }
+          return this.$can('service_show');
+        },
+
     },
     created() {
       // Code...

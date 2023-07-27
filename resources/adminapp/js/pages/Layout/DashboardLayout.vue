@@ -40,16 +40,16 @@ export default {
           gate: ['export_access', 'company.Export access'],
         },
         {
-          title: 'global.settings',
-          icon: 'settings',
-          path: { name: 'settings' },
-          gate: ['settings_access'],
-        },
-        {
           title: 'global.service',
           icon: 'description',
           path: { name: 'service.index' },
           gate: ['service_access', 'company.Service access'],
+        },
+        {
+          title: 'global.settings',
+          icon: 'settings',
+          path: { name: 'settings' },
+          gate: ['settings_access'],
         },
         {
           title: 'cruds.userManagement.title',

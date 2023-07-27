@@ -150,6 +150,7 @@
                   </div>
                 </div>
                 <datatable
+                  class="service-datatable"
                   :columns="columns"
                   :data="data"
                   :total="total"
@@ -309,6 +310,24 @@ export default {
 }
 </script>
 <style>
+
+@media (max-width: 450px){
+  .service-datatable tr{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);;
+  }
+  .service-datatable th{
+    display: none;
+  }
+  .service-datatable tr td{
+    border-top: none;
+    padding: 3px 8px!important;
+  }
+}
 
 .cursor-pointer {
     cursor: pointer;

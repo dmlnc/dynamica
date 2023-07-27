@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Resources\Admin\CompanyResource;
+use App\Models\Settings;
+use App\Models\User;
 
 class CompaniesApiController extends Controller
 {
@@ -97,7 +99,8 @@ class CompaniesApiController extends Controller
     public function destroy(Company $company)
     {
         abort_if(Gate::denies('company_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        Settings::where('company_id', $company->id)->delete();
+        User::where('company_id', $company->id)->delete();
         $company->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);

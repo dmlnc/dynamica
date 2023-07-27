@@ -1,5 +1,36 @@
 import Vue from 'vue'
 
+function areAllRequiredFieldsFilled(fields) {
+  let result = {};
+  // console.log('call');
+  fields.forEach(field => {
+      // Если поле не обязательно, пропускаем его
+      if(result[field.section] && result[field.section] == true){
+        // console.log('skip')
+      }
+      else{
+        if (field.required == 1) {
+          if (field.value == null) {
+            result[field.section] = true;
+            // console.log('valuee ull', field);
+          }
+          else{
+            if(field.value.showSubfields == true){
+              if (field.subfields ) {
+                result[field.section] = areAllRequiredFieldsFilled(field.subfields)[field.section];
+              }
+            }
+            else{
+              result[field.section] = false;
+            }
+          }
+        }
+      }
+  });
+  return result;
+}
+
+
 function searchField(fields, fieldId) {
   for (let field of fields) {
     if (field.id === fieldId) {
@@ -51,6 +82,7 @@ function initialState() {
         brands: [],
         models: [], 
       },
+      fieldsEmpty: {},
       loading: false
     }
   }
@@ -61,8 +93,10 @@ function initialState() {
     entry: state => state.entry,
     lists: state => state.lists,
     loading: state => state.loading,
-    fields: state => state.fields
+    fields: state => state.fields,
+    fieldsEmpty: state=> state.fieldsEmpty,
   }
+  
   
   const actions = {
     storeData({ commit, state, dispatch }, status = 'draft') {
@@ -160,14 +194,17 @@ function initialState() {
     },
     setField(state, {field, value}){
         state.entry[field] = value
+        state.fieldsEmpty = areAllRequiredFieldsFilled(state.fields);
     },
     setCustomField(state, {fieldId, value}){
-      console.log(fieldId)
+      // console.log(fieldId)
 
       let field = searchField(state.fields, fieldId);
       if(field!=false){
         field.value = value;
       }
+      state.fieldsEmpty = areAllRequiredFieldsFilled(state.fields);
+
     },
     setCustomFieldComment(state, {fieldId, value}){
       let field = searchField(state.fields, fieldId);
@@ -199,6 +236,7 @@ function initialState() {
     },
     setFields(state, fields){
       state.fields = fields
+      state.fieldsEmpty = areAllRequiredFieldsFilled(state.fields);
     },
     setLoading(state, loading) {
       state.loading = loading

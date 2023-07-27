@@ -22,32 +22,34 @@
             >
                 <template #option="props">
                     <div style="display: flex; align-items: center;">
-                    <div 
-                        :style="{
-                        background: props.color,
-                        border: '2px solid white',
-                        borderRadius: '50%',
-                        width: '20px',
-                        height: '20px',
-                        marginRight: '10px'
-                        }"
-                    ></div>
-                    <div>{{ props.value }}</div>
+                        <div 
+                            :style="{
+                            background: props.color,
+                            border: '2px solid white',
+                            borderRadius: '50%',
+                            width: '20px',
+                            height: '20px',
+                            marginRight: '10px',
+                            flex: '0 0 20px'
+                            }"
+                        ></div>
+                        <div>{{ props.value }}</div>
                     </div>
                 </template>
                 <template #selected-option="props">
                     <div style="display: flex; align-items: center;">
-                    <div 
-                        :style="{
-                        background: props.color,
-                        border: '2px solid white',
-                        borderRadius: '50%',
-                        width: '20px',
-                        height: '20px',
-                        marginRight: '10px'
-                        }"
-                    ></div>
-                    <div>{{ props.value }}</div>
+                        <div 
+                            :style="{
+                            background: props.color,
+                            border: '2px solid white',
+                            borderRadius: '50%',
+                            width: '20px',
+                            height: '20px',
+                            marginRight: '10px',
+                            flex: '0 0 20px'
+                            }"
+                        ></div>
+                        <div>{{ props.value }}</div>
                     </div>
                 </template>
             </v-select>
