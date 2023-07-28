@@ -21,9 +21,8 @@ class TelegramApiController extends Controller
     
         if($text && $settings->telegram_id != null && trim($settings->telegram_id) != ''){
             try {
-                // '-1001888296830'
                 Telegram::sendMessage([
-                    'chat_id' => env('TELEGRAM_CHANNEL_ID', $settings->telegram_id),
+                    'chat_id' => $settings->telegram_id,
                     'parse_mode' => 'HTML',
                     'text' => $text
                 ]);

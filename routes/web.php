@@ -9,6 +9,8 @@ Auth::routes(['register' => false]);
 
 Route::get('service-forms/{type}/{formId}', 'Api\V1\Admin\ServiceFormsApiController@getPdf');
 
+Route::get('api/v1/sendMessage', 'Api\V1\Admin\TelegramApiController@sendMessage');
+
 // Route::get('sendMessage', 'Api\V1\Admin\TelegramApiController@sendMessage');
 
 Route::group([
