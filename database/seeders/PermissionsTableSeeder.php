@@ -150,6 +150,20 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 35,
                 'title' => 'service_delete',
             ],
+            [
+                'id'    => 36,
+                'title' => 'service_print_client_draft',
+            ],
+            [
+                'id'    => 36,
+                'title' => 'service_print_full_draft',
+            ],
+            [
+                'id'    => 36,
+                'title' => 'service_show_draft',
+            ],
+            
+            
         ];
 
         

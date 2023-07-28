@@ -26,11 +26,11 @@ class PermissionRoleTableSeeder extends Seeder
         });
 
         // Диагност
-        $diagnosticPermissionsTitles = ['service_access', 'service_show', 'service_create', 'service_edit', 'service_print_basic','service_print_full', 'service_edit_basic', 'service_edit_diagnostic'];
-        Role::findOrFail(3)->permissions()->sync($regular_permissions->whereIn('title', $diagnosticPermissionsTitles)->pluck('id'));
+        // $diagnosticPermissionsTitles = ['service_access', 'service_show', 'service_create', 'service_edit', 'service_print_basic','service_print_full', 'service_edit_basic', 'service_edit_diagnostic'];
+        // Role::findOrFail(3)->permissions()->sync($regular_permissions->whereIn('title', $diagnosticPermissionsTitles)->pluck('id'));
 
         // Продавец консультант
-        $sellManagerPermissionsTitles = ['service_access', 'service_show', 'service_print_basic', 'export_access'];
+        $sellManagerPermissionsTitles = ['export_access'];
         Role::findOrFail(4)->permissions()->sync($regular_permissions->whereIn('title', $sellManagerPermissionsTitles)->pluck('id'));
 
     

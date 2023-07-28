@@ -18,10 +18,10 @@ class RolesTableSeeder extends Seeder
                 'id'    => 2,
                 'title' => 'Руководитель',
             ],
-            [
-                'id'    => 3,
-                'title' => 'Диагност',
-            ],
+            // [
+            //     'id'    => 3,
+            //     'title' => 'Диагност',
+            // ],
             [
                 'id'    => 4,
                 'title' => 'Продавец консультант',
