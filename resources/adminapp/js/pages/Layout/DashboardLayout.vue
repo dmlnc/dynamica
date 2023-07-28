@@ -39,12 +39,12 @@ export default {
           path: { name: 'car_list' },
           gate: ['export_access', 'company.Export access'],
         },
-        {
-          title: 'global.service',
-          icon: 'description',
-          path: { name: 'service.index' },
-          gate: ['service_access', 'company.Service access'],
-        },
+        // {
+        //   title: 'global.service',
+        //   icon: 'description',
+        //   path: { name: 'service.index' },
+        //   gate: ['service_access', 'company.Service access'],
+        // },
         {
           title: 'global.settings',
           icon: 'settings',
@@ -75,12 +75,12 @@ export default {
               path: { name: 'users.index' },
               gate: ['user_access']
             },
-            {
-              title: 'cruds.company.title',
-              icon: 'person',
-              path: { name: 'companies.index' },
-              gate: ['company_access']
-            }
+            // {
+            //   title: 'cruds.company.title',
+            //   icon: 'person',
+            //   path: { name: 'companies.index' },
+            //   gate: ['company_access']
+            // }
           ]
         }
       ]

@@ -8,15 +8,12 @@
       <a href="/" class="simple-text logo-normal">
         <img src="https://dynamica-trade.ru/uploads/media/default/0001/01/4b7d3e795ee87604377087e95abff7a150d7ec7d.png" class="img-fluid" alt="" style="max-width: 180px;">
       </a>
-      <div class="form-group px-3 pb-0 text-center">
+      <!-- <div class="form-group px-3 pb-0 text-center">
           <select class="form-control text-center" v-if="company?.id" v-model="company_id" @change="onChange($event)">
               <option v-for="item in list" :value="item.id"  :selected="item.id === company.id">{{ item.name }}</option>
           </select>
-      </div>
+      </div> -->
 
-      <!-- {{ list }} -->
-
-      <!-- {{ company.id }} -->
     </div>
     <div class="sidebar-wrapper">
       <slot name="content"></slot>

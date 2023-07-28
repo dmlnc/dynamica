@@ -29,30 +29,30 @@ const routes = [
         component: () => import('@cruds/Settings/Index.vue'),
         meta: { title: 'global.settings' }
       },
-      {
-        path: 'service',
-        name: 'service.index',
-        component: () => import('@cruds/Service/Index.vue'),
-        meta: { title: 'cruds.service.title' }
-      },
-      {
-        path: 'service/create',
-        name: 'service.create',
-        component: () => import('@cruds/Service/Single.vue'),
-        meta: { title: 'cruds.service.title' }
-      },
-      {
-        path: 'service/:id',
-        name: 'service.show',
-        component: () => import('@cruds/Service/Single.vue'),
-        meta: { title: 'cruds.service.title' }
-      },
-      {
-        path: 'service/:id/edit',
-        name: 'service.edit',
-        component: () => import('@cruds/Service/Single.vue'),
-        meta: { title: 'cruds.service.title' }
-      },
+      // {
+      //   path: 'service',
+      //   name: 'service.index',
+      //   component: () => import('@cruds/Service/Index.vue'),
+      //   meta: { title: 'cruds.service.title' }
+      // },
+      // {
+      //   path: 'service/create',
+      //   name: 'service.create',
+      //   component: () => import('@cruds/Service/Single.vue'),
+      //   meta: { title: 'cruds.service.title' }
+      // },
+      // {
+      //   path: 'service/:id',
+      //   name: 'service.show',
+      //   component: () => import('@cruds/Service/Single.vue'),
+      //   meta: { title: 'cruds.service.title' }
+      // },
+      // {
+      //   path: 'service/:id/edit',
+      //   name: 'service.edit',
+      //   component: () => import('@cruds/Service/Single.vue'),
+      //   meta: { title: 'cruds.service.title' }
+      // },
       
       {
         path: 'user-management',
@@ -132,30 +132,30 @@ const routes = [
             component: () => import('@cruds/Users/Edit.vue'),
             meta: { title: 'cruds.user.title' }
           },
-          {
-            path: 'companies',
-            name: 'companies.index',
-            component: () => import('@cruds/Companies/Index.vue'),
-            meta: { title: 'cruds.company.title' }
-          },
-          {
-            path: 'companies/create',
-            name: 'companies.create',
-            component: () => import('@cruds/Companies/Create.vue'),
-            meta: { title: 'cruds.company.title' }
-          },
-          {
-            path: 'companies/:id',
-            name: 'companies.show',
-            component: () => import('@cruds/Companies/Show.vue'),
-            meta: { title: 'cruds.company.title' }
-          },
-          {
-            path: 'companies/:id/edit',
-            name: 'companies.edit',
-            component: () => import('@cruds/Companies/Edit.vue'),
-            meta: { title: 'cruds.company.title' }
-          },
+          // {
+          //   path: 'companies',
+          //   name: 'companies.index',
+          //   component: () => import('@cruds/Companies/Index.vue'),
+          //   meta: { title: 'cruds.company.title' }
+          // },
+          // {
+          //   path: 'companies/create',
+          //   name: 'companies.create',
+          //   component: () => import('@cruds/Companies/Create.vue'),
+          //   meta: { title: 'cruds.company.title' }
+          // },
+          // {
+          //   path: 'companies/:id',
+          //   name: 'companies.show',
+          //   component: () => import('@cruds/Companies/Show.vue'),
+          //   meta: { title: 'cruds.company.title' }
+          // },
+          // {
+          //   path: 'companies/:id/edit',
+          //   name: 'companies.edit',
+          //   component: () => import('@cruds/Companies/Edit.vue'),
+          //   meta: { title: 'cruds.company.title' }
+          // },
         ]
       }
     ]
