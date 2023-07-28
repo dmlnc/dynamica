@@ -327,6 +327,9 @@ export default {
     border-top: none;
     padding: 3px 8px!important;
   }
+  .service-datatable colgroup{
+    display: block;
+  }
 }
 
 .cursor-pointer {

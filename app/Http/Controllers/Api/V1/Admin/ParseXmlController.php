@@ -66,8 +66,8 @@ class ParseXmlController extends Controller
         $info = $year.', '.number_format((string)$run, 0, '.', ' ').'  км';
                 // 'name': this.currentCar.brand + ' ' + this.currentCar.model,
                 // 'info': this.currentCar.year + ', ' + this.currentCar.run,
-        
-        $settings = Settings::where('company_id', $this->getCompanyId($request))->firstOrFail();
+        $company_id = $this->getCompanyId($request);
+        $settings = Settings::where('company_id', $company_id)->firstOrFail();
         
         // $settings = Settings::find(1);
 
@@ -77,6 +77,7 @@ class ParseXmlController extends Controller
             'utm_content' => $settings->utm_content,
             'utm_term' => $settings->utm_term,
             'utm_campaign' => $settings->utm_campaign,
+            'company_id' => $company_id,
         ];
         $queryString = '';
 

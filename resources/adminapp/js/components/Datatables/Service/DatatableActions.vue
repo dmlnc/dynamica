@@ -4,7 +4,7 @@
         :href="`/service-forms/client/${row.id}`"
         target="_blank"
         class="btn btn-just-icon btn-round btn-link text-green"
-        v-if="$can(xprops.permission_prefix + 'print_client') "
+        v-if="canPrintClient"
         type="button"
       >
         <i class="material-icons">print</i>
@@ -13,13 +13,13 @@
         :href="`/service-forms/service/${row.id}`"
         target="_blank"
         class="btn btn-just-icon btn-round btn-link text-yellow"
-        v-if="$can(xprops.permission_prefix + 'print_full')"
+        v-if="canPrintService"
         type="button"
       >
         <i class="material-icons">assignment</i>
       </a>
       <router-link
-        v-if="$can(xprops.permission_prefix + 'show')"
+        v-if="canView"
         :to="{ name: xprops.route + '.show', params: { id: row.id } }"
         class="btn btn-just-icon btn-round btn-link text-azure"
       >

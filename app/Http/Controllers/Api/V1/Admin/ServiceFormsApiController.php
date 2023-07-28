@@ -313,7 +313,7 @@ class ServiceFormsApiController extends Controller
 
     public function edit(Request $request, ServiceForm $serviceForm)
     {
-        abort_if(Gate::denies('service_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('service_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $fields = ServiceField::whereNull('parent_id')->with(['subfields', 'value', 'comments'])->get();
         foreach ($fields as $field) {
