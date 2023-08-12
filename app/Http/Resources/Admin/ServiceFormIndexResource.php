@@ -18,7 +18,7 @@ class ServiceFormIndexResource extends JsonResource
                 'status' => $this->status,
                 'diagnost' => $this->diagnost
             ],
-            'vin' => '...'.substr((string)$this->vin, -4),
+            'vin' => '...'.substr((string)$this->vin, -5),
             'color' => [
                 'name' => $this->color->name,
                 'hex' => $this->color->hex,

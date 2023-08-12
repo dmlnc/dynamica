@@ -71,8 +71,8 @@ class ServiceFormsApiController extends Controller
 
     public function getFilter(){
         return response([
-            'brands' => Brand::select(['id', 'name'])->get(),
-            'car_models' => CarModel::select(['id', 'name', 'brand_id'])->get(),
+            'brands' => Brand::select(['id', 'name'])->orderBy('name', 'asc')->get(),
+            'car_models' => CarModel::select(['id', 'name', 'brand_id'])->orderBy('name', 'asc')->get(),
             'diagnosts' => User::whereHas('roles', function ($query) {
                 $query->where('id', 3);
             })->get(),
@@ -184,8 +184,8 @@ class ServiceFormsApiController extends Controller
 
         return response([
             'meta' => [
-                'brands' => Brand::select(['id', 'name'])->get(),
-                'car_models' => CarModel::select(['id', 'name', 'brand_id'])->get(),
+                'brands' => Brand::select(['id', 'name'])->orderBy('name', 'asc')->get(),
+                'car_models' => CarModel::select(['id', 'name', 'brand_id'])->orderBy('name', 'asc')->get(),
                 'colors' => Color::select(['id', 'name', 'hex'])->get(),
             ],
             'fields' =>  ServiceFieldEmptyResource::collection(ServiceField::whereNull('parent_id')->with('subfields')->get())

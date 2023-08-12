@@ -10,6 +10,7 @@ import RolesIndex from './cruds/Roles'
 import RolesSingle from './cruds/Roles/single'
 import UsersIndex from './cruds/Users'
 import UsersSingle from './cruds/Users/single'
+import UsersProfile from './cruds/Users/profile'
 import CompaniesIndex from './cruds/Companies'
 import CompaniesList from './cruds/Companies/list'
 import CompaniesSingle from './cruds/Companies/single'
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     RolesSingle,
     UsersIndex,
     UsersSingle,
+    UsersProfile,
     CompaniesIndex,
     CompaniesSingle,
     CompaniesList,

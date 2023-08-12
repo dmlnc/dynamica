@@ -107,7 +107,7 @@
                     class="form-group bmd-form-group"
                     :class="{
                       'has-items': entry.company_id,
-                      'is-focused': activeField == 'roles'
+                      'is-focused': activeField == 'company'
                     }"
                   >
                     <label class="bmd-label-floating required">{{
@@ -122,7 +122,7 @@
                       :options="lists.companies"
                       :closeOnSelect="true"
                       @input="updateCompanyId"
-                      @search.focus="focusField('roles')"
+                      @search.focus="focusField('company')"
                       @search.blur="clearFocus"
                     />
                   </div>

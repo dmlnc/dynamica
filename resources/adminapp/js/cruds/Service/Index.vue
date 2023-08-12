@@ -191,6 +191,12 @@ export default {
     return {
       columns: [
         {
+          title: 'Дата',
+          field: 'date',
+          tdComp: DatatableDate,
+          sortable: false
+        },
+        {
           title: 'Авто',
           field: 'brand',
           tdComp: DatatableBrand,
@@ -206,12 +212,6 @@ export default {
           title: 'Vin',
           field: 'vin',
           // thComp: TranslatedHeader,
-          sortable: false
-        },
-        {
-          title: 'Дата',
-          field: 'date',
-          tdComp: DatatableDate,
           sortable: false
         },
         {

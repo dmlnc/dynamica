@@ -46,6 +46,11 @@ export default {
           gate: ['service_access', 'company.Service access'],
         },
         {
+          title: 'global.profile',
+          icon: 'person',
+          path: { name: 'profile.edit' },
+        },
+        {
           title: 'global.settings',
           icon: 'settings',
           path: { name: 'settings' },

@@ -53,6 +53,13 @@ const routes = [
         component: () => import('@cruds/Service/Single.vue'),
         meta: { title: 'cruds.service.title' }
       },
+
+      {
+        path: 'profile/',
+        name: 'profile.edit',
+        component: () => import('@cruds/Users/Profile.vue'),
+        meta: { title: 'cruds.user.title' }
+      },
       
       {
         path: 'user-management',

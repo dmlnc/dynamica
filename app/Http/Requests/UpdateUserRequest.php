@@ -11,7 +11,13 @@ class UpdateUserRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('user_edit');
+        $user = $this->route('user'); // Assuming the user is passed in the route
+
+        if ($user->id != auth()->id()) {
+            return Gate::allows('user_edit');
+        }
+
+        return true;
     }
 
     public function rules()

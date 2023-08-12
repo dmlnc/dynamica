@@ -205,7 +205,7 @@ export default {
     },
     maxFileSize: {
       type: Number,
-      default: 2
+      default: 15
     },
     collectionName: {
       type: String,

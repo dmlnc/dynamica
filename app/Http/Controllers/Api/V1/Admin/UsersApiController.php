@@ -70,14 +70,26 @@ class UsersApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
+    public function profile(Request $request)
+    {
+        $user = User::findOrFail(auth()->user()->id);
+
+        return response([
+            'data' => new UserResource($user->load(['roles'])),
+            'meta' => [
+                // 'roles' => Role::get(['id', 'title']),
+                // 'companies' => $companies
+            ],
+        ]);
+    }
+
     public function edit(User $user)
     {
         abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if(auth()->user()->IsSuperAdmin){
             $companies = Company::select(['id'])->selectRaw('name as title')->get();
-        }
-        else{
+        } else{
             $companies = Company::where('id', auth()->user()->company_id)->select(['id'])->selectRaw('name as title')->get();
         }
 
