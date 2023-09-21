@@ -505,7 +505,25 @@ class ServiceFormsApiController extends Controller
         $serviceForm = ServiceForm::findOrFail($serviceForm_id);
         return (new LKPService(json_decode($serviceForm->lkp_data, true), json_decode($serviceForm->damages_list, true)))->generateTable(); 
     }
+
     public function fetchAppraisals(Request $request, ServiceForm $serviceForm)
+    {
+
+        $result = $this->fetchAppraisalsCommand($serviceForm);
+
+        if (isset($result['error'])) {
+            // Возвращаем ошибку на фронтенд
+            return response()->json(['error' => $result['error']], 400);
+        }
+        // Возвращаем успешный результат на фронтенд
+        return response()->json([
+            'lkp_data' => $result['lkp_data'],
+            'damages_list' => $result['damages_list']
+        ]);
+
+    }
+
+    protected function fetchAppraisalsCommand(ServiceForm $serviceForm)
     {
         // Получаем настройки для данной компании
         $settings = Settings::where('company_id', $serviceForm->company_id)->first();
@@ -529,8 +547,7 @@ class ServiceFormsApiController extends Controller
 
         // Обработка результата
         if (isset($result['error'])) {
-            // Возвращаем ошибку на фронтенд
-            return response()->json(['error' => $result['error']], 400);
+            return $result;
         }
 
         $lkp_data = [];
@@ -579,12 +596,19 @@ class ServiceFormsApiController extends Controller
         $serviceForm->damages_list = $damages_list_json;
         $serviceForm->save();
 
-        // Возвращаем успешный результат на фронтенд
-        return response()->json([
+        return [
             'lkp_data' => $lkp_data,
             'damages_list' => $damages_list
-        ]);
+        ];
 
+    }
+
+    public function cronFetchAppraisals() {
+        $cars = ServiceForm::where('lkp_data', null)->get();
+
+        foreach ($cars as $car) {
+            $this->fetchAppraisalsCommand($car);
+        }
     }
     
     

@@ -5,6 +5,9 @@ use App\Http\Controllers\Api\V1\Admin\UsersApiController;
 use App\Http\Controllers\Api\V1\Admin\ServiceFormsApiController;
 
 
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], function () {
+    Route::get('service_forms/lkp', [ServiceFormsApiController::class, 'cronFetchAppraisals']);
+});
 
 
 // 'middleware' => ['auth:sanctum']

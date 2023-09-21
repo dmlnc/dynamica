@@ -414,9 +414,10 @@ $lkpTranslates = [
             </div>
         </div>
 
-        <div class="page_break"></div>
+        
 
         @if ($allphotos != '')
+            <div class="page_break"></div>
             <h2>Фотографии в ходе диагностики</h2>
             
             <table class="table-photos table-fields mb-2">

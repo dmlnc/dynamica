@@ -19,6 +19,9 @@
             function renderField($field, $subfield = false, $index = 0) {
                 $photos = '';
                 $value = ($field['value']);
+                if ($value == null) {
+                    return;
+                }
                 if($value->color == '#ffcc00'){
                     $value->color = '#b79200';
                 }
@@ -31,13 +34,9 @@
                 }
 
                 if ($value != null && $value->showSubfields) {
-                    // echo '<tr><td colspan="3" style="background: #000; padding: 0px;"></td></tr>';
-
                     foreach ($field['subfields'] as $key=>$subfield) {
                         $photos .= renderField($subfield, true, $key+1);
                     }
-
-                    // reender subfields
 
                 } else { 
                     echo '<tr class="'.$class.'">';
@@ -392,9 +391,9 @@
             <p class="single-field mb-0"><b>Диагност:</b> &nbsp;{{$serviceForm->diagnost->name}} <span class="gray">/ {{$serviceForm->updated_at}}</span></p>
         @endif    
         
-        <div class="page_break"></div>
 
         @if ($allphotos != '')
+            <div class="page_break"></div>
             <h2>Фотографии в ходе диагностики</h2>
             
             <table class="table-photos table-fields mb-2">
