@@ -33,6 +33,7 @@ class Settings extends Model
         'company_id',
         'asp_link',
         'export_link',
+        'cm_company_id',
         'telegram_id',
         'min_price',
         'max_price',

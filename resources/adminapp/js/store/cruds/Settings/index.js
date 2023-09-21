@@ -3,6 +3,10 @@ function initialState() {
     entry: {
       id: null,
       emails: '',
+      cm_company_id:  '',
+      telegram_id: '',
+      export_link: '',
+      asp_link: '',
 
       utm_source: '',
       utm_medium: '',

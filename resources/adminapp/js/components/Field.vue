@@ -68,6 +68,21 @@
             
         </div>
         <div class="field-more mt-4" v-if="value.showSubfields || value.showComments || value.showPhoto">
+            <div class="form-group" v-if="value.showComments">
+                <label :for="`comment-for-${field.id}`">Комментарий</label>
+                <textarea :disabled="disabled" @input="e => updateComment(field.id, e.target.value)" class="form-control" :id="`comment-for-${field.id}`" rows="3">{{ field.comment }}</textarea>
+            </div>
+            <Attachment 
+                v-if="value.showPhoto"
+                @file-uploaded="(e)=>{uploadMedia(field.id, e)}" 
+                @file-removed="(e)=>{removeMedia(field.id, e)}" 
+                component="pictures" 
+                route="/api/v1/service_forms/media" 
+                collectionName="fieldPhoto" 
+                :media="field.media"
+                :disabled="disabled"
+            />
+            
             <div  v-if="value.showSubfields" >
                 <div v-for="(subfield, index) in field.subfields" :key="subfield.id">
                     <div class="d-flex">
@@ -98,20 +113,7 @@
                         </div>
                 </div>
             </div>
-            <div class="form-group" v-if="value.showComments">
-                <label :for="`comment-for-${field.id}`">Комментарий</label>
-                <textarea :disabled="disabled" @input="e => updateComment(field.id, e.target.value)" class="form-control" :id="`comment-for-${field.id}`" rows="3">{{ field.comment }}</textarea>
-            </div>
-            <Attachment 
-                v-if="value.showPhoto"
-                @file-uploaded="(e)=>{uploadMedia(field.id, e)}" 
-                @file-removed="(e)=>{removeMedia(field.id, e)}" 
-                component="pictures" 
-                route="/api/v1/service_forms/media" 
-                collectionName="fieldPhoto" 
-                :media="field.media"
-                :disabled="disabled"
-            />
+            
         </div>
              
      </div>

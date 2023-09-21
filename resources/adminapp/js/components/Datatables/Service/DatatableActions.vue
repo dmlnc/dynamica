@@ -60,7 +60,8 @@
         allowEdit() {
             const canEditBasic = this.$can('service_edit') && this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic';
             const canEditPublished = this.$can('service_edit_published');
-            return (canEditBasic || canEditPublished);
+            const canEditServiceManager = this.row.brand.status == 'published' && this.$can('service_edit_manager');
+            return (canEditBasic || canEditPublished || canEditServiceManager);
         },
 
         canPrintClient(){

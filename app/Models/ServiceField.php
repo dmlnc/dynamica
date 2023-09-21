@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceField extends Model
 {
-    protected $fillable = ['name', 'section', 'type', 'input', 'values', 'parent_id', 'required'];
+    protected $fillable = ['name', 'section', 'type', 'input', 'values', 'parent_id', 'required', 'order'];
 
     /**
      * Get the subfields for the service field.

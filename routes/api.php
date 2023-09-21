@@ -4,6 +4,10 @@ use App\Http\Controllers\Api\V1\Admin\MediaController;
 use App\Http\Controllers\Api\V1\Admin\UsersApiController;
 use App\Http\Controllers\Api\V1\Admin\ServiceFormsApiController;
 
+
+
+
+// 'middleware' => ['auth:sanctum']
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Abilities
     Route::apiResource('abilities', 'AbilitiesController', ['only' => ['index']]);
@@ -35,6 +39,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::resource('companies', 'CompaniesApiController');
 
     Route::get('service_forms/filter', [ServiceFormsApiController::class, 'getFilter']);
+    Route::get('service_forms/{serviceForm}/lkp', [ServiceFormsApiController::class, 'fetchAppraisals']);
+    Route::get('service_forms/{id}/lkp/svg', [ServiceFormsApiController::class, 'generateLKPSvg']);
+    Route::get('service_forms/{id}/lkp/table', [ServiceFormsApiController::class, 'generateLKPTableData']);
+
+
+
+    
     Route::post('service_forms/media', [ServiceFormsApiController::class, 'storeMedia']);
     Route::resource('service_forms', 'ServiceFormsApiController');
 

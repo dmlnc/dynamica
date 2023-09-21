@@ -22,6 +22,7 @@ class StoreServiceFormRequest extends FormRequest
             'car_model'=>['required'],
             'vin' => ['required'],
             'color' => ['required'],
+            'run' => ['required'],
             'status' => ['required'],
             'comment' => [],
         ];

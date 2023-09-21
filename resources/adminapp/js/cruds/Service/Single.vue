@@ -21,7 +21,7 @@
             <div class="card-body">
               <bootstrap-alert />
               <div class="steps">
-                <div class="steps-header mb-4 d-flex align-items-center justify-content-center justify-content-md-between flex-wrap" style="max-width: 700px; margin: 0 auto;" v-if="type != 'show'">
+                <div class="steps-header mb-4 d-flex align-items-center justify-content-center justify-content-md-between flex-wrap" style="max-width: 800px; margin: 0 auto;" v-if="type != 'show'">
                   <a href="#" class="btn btn-sm btn-circle mr-2  mb-2 mb-md-0 mr-md-0" v-for="i in steps" :class="{
                     'btn-primary': step == i,
                     'btn-outline-primary' : step != i,
@@ -32,6 +32,8 @@
                     <span v-if="i==4">Средняя <span v-if="fieldsEmpty['3.3'] == true" class="badge badge-danger badge-pill">!</span></span>
                     <span v-if="i==5">Снизу <span v-if="fieldsEmpty['3.4'] == true" class="badge badge-danger badge-pill">!</span></span>
                     <span v-if="i==6">ЛКП</span>
+                    <span v-if="i==7">Рекомендовано</span>
+                    
 
 
                   </a>
@@ -101,55 +103,21 @@
                       <div
                         class="form-group bmd-form-group mt-3"
                         :class="{
-                          'has-items': entry.color !== null,
+                          'has-items': entry.color,
                           'is-focused': activeField == 'color'
                         }"
                       >
                         <label class="bmd-label-floating required">Цвет</label>
-                        <v-select
-                          name="color"
-                          label="name"
-                          :key="'color-field'"
+                        <input
+                          class="form-control"
+                          type="text"
                           :value="entry.color"
-                          :options="lists.colors"
-                          :closeOnSelect="true"
-                          :clearable="false"
-                          @input="(e)=>{updateEntryField('color',e); }"
-                          :searchable="false"
+                          @input="(e)=>{updateEntryField('color',e.target.value)}"
+                          @focus="focusField('color')"
+                          @blur="clearFocus"
                           required
-                          :disabled="disabledBasic"
-                        >
-                          <template #option="props">
-                            <div style="display: flex; align-items: center;">
-                              <div 
-                                :style="{
-                                  background: props.hex,
-                                  border: '2px solid white',
-                                  borderRadius: '50%',
-                                  width: '20px',
-                                  height: '20px',
-                                  marginRight: '10px'
-                                }"
-                              ></div>
-                              <div>{{ props.name }}</div>
-                            </div>
-                          </template>
-                          <template #selected-option="props">
-                            <div style="display: flex; align-items: center;">
-                              <div 
-                                :style="{
-                                  background: props.hex,
-                                  border: '2px solid white',
-                                  borderRadius: '50%',
-                                  width: '20px',
-                                  height: '20px',
-                                  marginRight: '10px'
-                                }"
-                              ></div>
-                              <div>{{ props.name }}</div>
-                            </div>
-                          </template>
-                        </v-select>
+                          :readonly="disabledBasic"
+                        />
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -167,6 +135,27 @@
                           :value="entry.vin"
                           @input="(e)=>{updateEntryField('vin',e.target.value)}"
                           @focus="focusField('vin')"
+                          @blur="clearFocus"
+                          required
+                          :readonly="disabledBasic"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div
+                        class="form-group bmd-form-group mt-3"
+                        :class="{
+                          'has-items': entry.run,
+                          'is-focused': activeField == 'run'
+                        }"
+                      >
+                        <label class="bmd-label-floating required">Пробег</label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          :value="entry.run"
+                          @input="(e)=>{updateEntryField('run',e.target.value)}"
+                          @focus="focusField('run')"
                           @blur="clearFocus"
                           required
                           :readonly="disabledBasic"
@@ -364,8 +353,25 @@
                     <h4 class="mt-0 mb-5">Визуальный осмотр (6/{{ steps }})</h4>
                   </div>
                   <div class="text-center mb-4">
-                    <button class="btn btn-outline-primary" type="button">Запросить данные ЛКП</button>  
+                    <button class="btn btn-outline-primary" v-if="lkpImage == null" @click="loadLkp" type="button">Запросить ЛКП</button>  
+                    <div class="text-center my-2" v-if="lkpImage != null">
+                      <img :src="'data:image/svg+xml;base64,'+lkpImage" class="img-fluid" style="max-width: 600px;;">
+                    </div>
+                    <button v-if="lkpImage != null" class="btn btn-outline-primary" @click="loadLkp" type="button">Обновить ЛКП</button>  
+
                   </div>
+                </div>
+
+                <div class="steps-step py-4" id="step-7" v-if="step == 7 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
+                  <div class="steps-step-header">
+                    <h4 class="mt-0 mb-5">Рекомендации (7/{{ steps }})</h4>
+                  </div>
+                
+                  <div class="form-group">
+                          <label for="comment-for-entry">Рекомендации</label>
+                          <textarea :disabled="disabledRecommendation" @input="e => updateEntryField('recommendation', e.target.value)" class="form-control" id="recommendation-for-entry" rows="10">{{ entry.recommendation }}</textarea>
+                  </div>
+                 
                 </div>
                 
               </div>
@@ -382,7 +388,7 @@
               </button>
              
               <vue-button-spinner
-                v-if="showSaveButton && $can('service_edit')"
+                v-if="showSaveButton "
                 class="btn-primary"
                 :status="status"
                 :isLoading="loading"
@@ -406,10 +412,9 @@ export default {
   data() {
     return {
       step: 1,
-      steps: 6,
       status: '',
       activeField: '',
-      type: null
+      type: null,
     }
   },
   components:{
@@ -424,29 +429,35 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('ServiceSingle', ['entry', 'loading', 'lists', 'fields', 'fieldsEmpty']),
+    ...mapGetters('ServiceSingle', ['entry', 'loading', 'lists', 'fields', 'fieldsEmpty', 'lkpImage']),
     models(){
       if(this.entry.brand == null){
         return [];
       }
       return this.lists.car_models.filter(car_model => car_model.brand_id === this.entry.brand.id);
     },
-    showExtraSection() {
-      let field69 = this.fields.find(field => field.id === 69);
-      let field70 = this.fields.find(field => field.id === 70);
-      return ((field69 && field69.value && field69.value.id === 1) || (field70 && field70.value && field70.value.id === 1));
+    steps(){
+      if(this.entry.status == 'published'){
+        return 7;
+      }
+      return 6;
     },
+    // showExtraSection() {
+    //   let field69 = this.fields.find(field => field.id === 69);
+    //   let field70 = this.fields.find(field => field.id === 70);
+    //   return ((field69 && field69.value && field69.value.id === 1) || (field70 && field70.value && field70.value.id === 1));
+    // },
     showSaveButton(){
       if(this.entry.status == 'published' ||  this.entry.status == 'diagnostic'){
         if (this.step == this.steps){
-          return this.$can('service_edit_published'); 
+          return (this.$can('service_edit_published') || this.$can('service_edit_manager')); 
         }
         return false
       }
       if(!this.$can('service_edit_diagnostic')){
         return true;
       } else if (this.step == this.steps){
-        return true;
+        return true && this.$can('service_edit');
       }
       return false;
     },
@@ -468,6 +479,15 @@ export default {
 
       return !(canEditDiagnostic  || canEditPublished);
     },
+    disabledRecommendation() {
+      if(this.type === 'show'){
+        return true;
+      }
+      const canEditManager = this.$can('service_edit_manager') && this.entry.status == 'published';
+      const canEditPublished = this.$can('service_edit_published');
+
+      return !(canEditManager  || canEditPublished);
+    },
   },
   mounted() {
     // this.fetchCreateData()
@@ -488,8 +508,11 @@ export default {
       'uploadMediaToField',
       'removeMediaFromField',
       'setCustomFieldComment',
+      'fetchLKPData',
     ]),
-
+    loadLkp(){
+      this.fetchLKPData();
+    },
     mountedFunction(){
       this.resetState()
         
@@ -536,7 +559,7 @@ export default {
     },
 
     changeStep(){
-      if(this.entry.status != 'published' ||  this.entry.status != 'diagnostic'){
+      if(this.entry.status != 'published' && this.entry.status != 'diagnostic'){
         this.storeData('draft');
       }
     },

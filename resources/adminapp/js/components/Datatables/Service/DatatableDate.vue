@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="car-block">
+            <div class="car-block-icon" v-if="!row['hasLkp']">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/OOjs_UI_icon_alert-warning.svg" class="img-fluid" alt="">
+            </div>
             <div class="car-block-content">
                 <p class="car-block-content-header">
                     {{row[field].updated_at}}

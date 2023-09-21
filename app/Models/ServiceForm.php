@@ -11,7 +11,7 @@ class ServiceForm extends Model
 {
     use HasAdvancedFilter;
 
-    protected $fillable = ['status', 'brand_id', 'model_id', 'vin', 'diagnost_id', 'color_id', 'seller_id', 'comment', 'company_id'];
+    protected $fillable = ['status', 'brand_id', 'model_id', 'vin', 'diagnost_id', 'color', 'run', 'seller_id', 'comment', 'recommendation','company_id'];
 
     protected $filterable = [
         'id',
@@ -34,10 +34,11 @@ class ServiceForm extends Model
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
-    public function color()
-    {
-        return $this->belongsTo(Color::class, 'color_id');
-    }
+
+    // public function color()
+    // {
+    //     return $this->belongsTo(Color::class, 'color_id');
+    // }
 
     public function car_model()
     {

@@ -2,12 +2,9 @@
     <div>
 
         <div class="car-block">
-            <div class="car-block-icon">
-                <div class="car-block-icon-color" :style="{backgroundColor:  row[field].hex}"></div>
-            </div>
             <div class="car-block-content">
                 <p class="car-block-content-header">
-                    {{row[field].name}}
+                    {{row[field]}}
                 </p>
             </div>
         </div>

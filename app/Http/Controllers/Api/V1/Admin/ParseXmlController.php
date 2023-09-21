@@ -216,6 +216,10 @@ class ParseXmlController extends Controller
                 'link' => str_replace('https://dynamica-trade.ru/', '', (string)$car->url)
             ];
 
+            if(empty($carData['link']) || $carData['link'] == null || $carData['link'] == ''){
+                continue;
+            }
+
             
 
             if ($carData['price'] < $meta['min_price']) {
@@ -312,7 +316,7 @@ class ParseXmlController extends Controller
         // Get or create model associated with the brand
         $model = CarModel::firstOrCreate(['name' => $model, 'brand_id' => $brand->id]);
 
-        $color = Color::firstOrCreate(['name' => $color['name'], 'hex' => $color['hex']]);
+        // $color = Color::firstOrCreate(['name' => $color['name'], 'hex' => $color['hex']]);
 
     
         return [$brand->id, $model->id];

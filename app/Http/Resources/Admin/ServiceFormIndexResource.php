@@ -19,14 +19,12 @@ class ServiceFormIndexResource extends JsonResource
                 'diagnost' => $this->diagnost
             ],
             'vin' => '...'.substr((string)$this->vin, -5),
-            'color' => [
-                'name' => $this->color->name,
-                'hex' => $this->color->hex,
-            ],
+            'color' =>  $this->color,
             'date' => [
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
-            ]
+            ],
+            'hasLkp' => $this->lkp_data ? true : false,
         ];
         // return parent::toArray($request);
     }

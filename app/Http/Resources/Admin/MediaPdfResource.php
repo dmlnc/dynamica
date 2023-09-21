@@ -8,7 +8,7 @@ class MediaPdfResource extends JsonResource
 {
     public function toArray($request)
     {
-        $imagePath = $this->getPath();
+        $imagePath = $this->getPath('preview');
         $imageData = file_get_contents($imagePath);
     
         // Encode the image data

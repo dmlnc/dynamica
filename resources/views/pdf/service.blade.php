@@ -160,7 +160,7 @@
             <h2>Транспортное средство</h2>
             <p class="single-field">Марка &nbsp;<b>{{$serviceForm->brand->name}}</b></p>
             <p class="single-field">Модель &nbsp;<b>{{$serviceForm->car_model->name}}</b></p>
-            <p class="single-field">Цвет &nbsp;<b>{{$serviceForm->color->name}}</b></p>
+            <p class="single-field">Цвет &nbsp;<b>{{$serviceForm->color}}</b></p>
             <p class="single-field">VIN &nbsp;<b>{{$serviceForm->vin}}</b></p>
         </div>
 

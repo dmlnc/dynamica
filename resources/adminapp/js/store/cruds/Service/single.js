@@ -70,15 +70,20 @@ function initialState() {
         brand: null,
         car_model: null,
         color: null,
+        run: null,
         vin: null,
         comment: null,
+        recommendation: null,
+        lkp_data: null,
+        damages_list: null,
         created_at: '',
         updated_at: '',
         // deleted_at: ''
       },
+      lkpImage: null,
       fields: [],
       lists: {
-        colors: [],
+        // colors: [],
         brands: [],
         models: [], 
       },
@@ -90,6 +95,7 @@ function initialState() {
   const route = 'service_forms'
   
   const getters = {
+    lkpImage: state => state.lkpImage,
     entry: state => state.entry,
     lists: state => state.lists,
     loading: state => state.loading,
@@ -176,8 +182,49 @@ function initialState() {
         commit('setEntry', response.data.data)
         commit('setLists', response.data.meta)
         commit('setFields', response.data.fields)
+        if(response.data.data.lkp_data != null){
+          axios.get(`${route}/${id}/lkp/svg`).then(response => {
+            commit('setLkpImage', response.data)
+          });
+        }
       })
     },
+
+    fetchLKPData({ commit, state, dispatch }) {
+      if(state.entry.id == null){
+        return;
+      }
+      commit('setLoading', true)
+      dispatch('Alert/resetState', null, { root: true })
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`${route}/${state.entry.id}/lkp`)
+          .then(response => {
+            axios.get(`${route}/${state.entry.id}/lkp/svg`).then(response => {
+              commit('setLkpImage', response.data);
+            });
+
+            // commit('setEntryId', response.data.data.id)
+            resolve(response)
+          })
+          .catch(error => {
+            let message = error.response.data.error
+            let errors = error.response.data.errors
+  
+            dispatch(
+              'Alert/setAlert',
+              { message: message, errors: errors, color: 'danger' },
+              { root: true }
+            )
+  
+            reject(error)
+          })
+          .finally(() => {
+            commit('setLoading', false)
+          })
+      })
+    },
+    
     // fetchShowData({ commit, dispatch }, id) {
     //   axios.get(`${route}/${id}`).then(response => {
     //     commit('setEntry', response.data.data)
@@ -191,6 +238,9 @@ function initialState() {
   const mutations = {
     setEntry(state, entry) {
       state.entry = entry
+    },
+    setLkpImage(state, lkpImage) {
+      state.lkpImage = lkpImage
     },
     setField(state, {field, value}){
         state.entry[field] = value

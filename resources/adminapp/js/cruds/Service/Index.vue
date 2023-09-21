@@ -15,7 +15,7 @@
           <div class="card-body">
             <router-link
               class="btn btn-primary"
-              v-if="$can(xprops.permission_prefix + 'edit')"
+              v-if="$can(xprops.permission_prefix + 'create')"
               :to="{ name: xprops.route + '.create' }"
             >
               <i class="material-icons">
@@ -126,6 +126,31 @@
                       />
                     </div>
                   </div>
+                  <!-- Фильтр по дате от -->
+                  <div class="col-md-3">
+                    <div class="form-group bmd-form-group">
+                      <label class="">Дата от</label>
+                      <input
+                        class="form-control"
+                        type="date"
+                        :value="query.date_from || ''"
+                        @input="(e)=>{setFilter('date_from', e.target.value, false);}"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Фильтр по дате до -->
+                  <div class="col-md-3">
+                    <div class="form-group bmd-form-group">
+                      <label class="">Дата до</label>
+                      <input
+                        class="form-control"
+                        type="date"
+                        :value="query.date_to || ''"
+                        @input="(e)=>{setFilter('date_to', e.target.value, false);}"
+                      />
+                    </div>
+                  </div>
                 </div>
             </div>
                   
@@ -138,7 +163,9 @@
               <span v-if="filterData.car_model != null" class="badge badge-pill badge-outline-secondary">{{filterData.car_model.name}} <span class="cursor-pointer pill-close" @click="(e)=>{setFilter('car_model', null, true)}">+</span></span>
               <span v-if="filterData.diagnost != null" class="badge badge-pill badge-outline-secondary">{{filterData.diagnost.name}} <span class="cursor-pointer pill-close" @click="(e)=>{setFilter('diagnost', null, true)}">+</span></span>
               <span v-if="filterData.status != null" class="badge badge-pill badge-outline-secondary">{{filterData.status.name}} <span class="cursor-pointer pill-close" @click="(e)=>{setFilter('status', null, true)}">+</span></span>
-
+              <span v-if="filterData.date_from != null && filterData.date_from != ''" class="badge badge-pill badge-outline-secondary">От <b>{{formatDate(filterData.date_from)}}</b> <span class="cursor-pointer pill-close" @click="(e)=>{setFilter('date_from', null, false)}">+</span></span>
+              <span v-if="filterData.date_to != null && filterData.date_to != ''" class="badge badge-pill badge-outline-secondary">До <b>{{formatDate(filterData.date_to)}}</b> <span class="cursor-pointer pill-close" @click="(e)=>{setFilter('date_to', null, false)}">+</span></span>
+              
             </div>
 
             <div class="row">
@@ -211,6 +238,7 @@ export default {
         {
           title: 'Vin',
           field: 'vin',
+          tdComp: DatatableColor,
           // thComp: TranslatedHeader,
           sortable: false
         },
@@ -256,7 +284,8 @@ export default {
         car_model_id: null,
         status_id: null,
         diagnost_id: null,
-        vin:  null,
+        date_from: null,
+        date_to: null,
       },
       xprops: {
         module: 'ServiceIndex',
@@ -291,10 +320,16 @@ export default {
   },
   methods: {
     ...mapActions('ServiceIndex', ['fetchIndexData', 'setQuery', 'resetState', 'fetchFilterData']),
-
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Месяцы начинаются с 0
+      const year = date.getFullYear();
+      return `${day}.${month}.${year}`;
+    },
     setFilter(field, data, setId = false){
       
-      console.log(data);
+      // console.log(data);
       this.filterData[field] = data;
       if(setId){
         if(data!= null){

@@ -19,15 +19,7 @@
             <div class="card-body">
               <bootstrap-alert />
 
-              <div class="border p-3 mb-3 rounded">
-                <h5>Быстрая замена, доступные сниппеты: </h5>
-                <p><code>[BRAND]</code> - будет заменено на бренд автомобиля</p>
-                <p><code>[MODEL]</code> - будет заменено на модель автомобиля</p>
-                <p><code>[VIN]</code> - будет заменено на последние 4 цифры VIN автомобиля</p>
-                <p><code>[YEAR]</code> - будет заменено на год автомобиля</p>
-                <p><code>[SEGMENT]</code> - будет заменено на ценовой сегмент автомобиля (low_cost, middle_cost, hight_cost)</p>
-
-              </div>
+             
               <!-- <div class="row"> -->
                 <!-- <div class="col-md-12"> -->
 
@@ -140,8 +132,35 @@
                     />
                   </div>
 
+                  <div
+                    class="form-group bmd-form-group"
+                    :class="{
+                      'has-items': entry.cm_company_id,
+                      'is-focused': activeField == 'cm_company_id'
+                    }"
+                  >
+                    <label class="bmd-label-floating ">ID Компании внутри CN Expert</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="entry.cm_company_id"
+                      @focus="focusField('cm_company_id')"
+                      @blur="clearFocus"
+                    />
+                  </div>
+
 
                 </div>
+
+                <div class="border p-3 mb-3 rounded">
+                  <h5>Быстрая замена, доступные сниппеты: </h5>
+                  <p><code>[BRAND]</code> - будет заменено на бренд автомобиля</p>
+                  <p><code>[MODEL]</code> - будет заменено на модель автомобиля</p>
+                  <p><code>[VIN]</code> - будет заменено на последние 4 цифры VIN автомобиля</p>
+                  <p><code>[YEAR]</code> - будет заменено на год автомобиля</p>
+                  <p><code>[SEGMENT]</code> - будет заменено на ценовой сегмент автомобиля (low_cost, middle_cost, hight_cost)</p>
+                </div>  
+
 
                 <div class="border p-3 mb-3 rounded">
                   <h5 class="mb-4 font-weight-bold">Настройка UTM: </h5>
