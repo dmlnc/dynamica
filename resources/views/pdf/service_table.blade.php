@@ -368,7 +368,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><{{ $serviceForm->comment }}</td>
+                        <td><{!! $serviceForm->comment !!}</td>
                     </tr>
                 </tbody>
             </table>
@@ -381,7 +381,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ $serviceForm->recommendation }}</td>
+                        <td>{!! $serviceForm->recommendation !!}</td>
                     </tr>
                 </tbody>
             </table>

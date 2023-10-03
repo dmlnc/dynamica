@@ -196,7 +196,8 @@
                         class="mb-4 w-100" 
                         :field="field" 
                         :entry="entry"
-                        :disabled="disabledDiagnostic"></Field>
+                        :disabled="disabledDiagnostic"
+                        :disabledComment="disabledComment"></Field>
                     </div>
                   </div>
                   <div>
@@ -205,7 +206,8 @@
                       <!-- <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6> -->
                       <div class="form-group">
                           <label for="comment-for-entry">Комментарий</label>
-                          <textarea :disabled="disabledDiagnostic" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea>
+                          <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
+                          <!-- <textarea :disabled="disabledAddComments" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea> -->
                       </div>
                     </div>
                   </div>
@@ -242,7 +244,8 @@
                         class="mb-4 w-100" 
                         :field="field" 
                         :entry="entry"
-                        :disabled="disabledDiagnostic"></Field>
+                        :disabled="disabledDiagnostic"
+                        :disabledComment="disabledComment"></Field>
                     </div>
                   </div>
                   <div>
@@ -251,7 +254,8 @@
                       <!-- <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6> -->
                       <div class="form-group">
                           <label for="comment-for-entry">Комментарий</label>
-                          <textarea :disabled="disabledDiagnostic" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea>
+                          <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
+                          <!-- <textarea :disabled="disabledAddComments" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea> -->
                       </div>
                     </div>
                   </div>
@@ -288,7 +292,8 @@
                         class="mb-4 w-100" 
                         :field="field" 
                         :entry="entry"
-                        :disabled="disabledDiagnostic"></Field>
+                        :disabled="disabledDiagnostic"
+                        :disabledComment="disabledComment"></Field>
                     </div>
                   </div>
                   <div>
@@ -297,7 +302,7 @@
                       <!-- <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6> -->
                       <div class="form-group">
                           <label for="comment-for-entry">Комментарий</label>
-                          <textarea :disabled="disabledDiagnostic" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea>
+                          <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
                       </div>
                     </div>
                   </div>
@@ -334,7 +339,8 @@
                         class="mb-4 w-100" 
                         :field="field" 
                         :entry="entry"
-                        :disabled="disabledDiagnostic"></Field>
+                        :disabled="disabledDiagnostic"
+                        :disabledComment="disabledComment"></Field>
                     </div>
                   </div>
                   <div>
@@ -343,7 +349,7 @@
                       <!-- <h6 class="mt-0 font-weight-bold text-primary">Осмотр подкапотного пространства сверху на остывшем двигателе</h6> -->
                       <div class="form-group">
                           <label for="comment-for-entry">Комментарий</label>
-                          <textarea :disabled="disabledDiagnostic" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea>
+                          <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
                       </div>
                     </div>
                   </div>
@@ -369,7 +375,7 @@
                 
                   <div class="form-group">
                           <label for="comment-for-entry">Рекомендации</label>
-                          <textarea :disabled="disabledRecommendation" @input="e => updateEntryField('recommendation', e.target.value)" class="form-control" id="recommendation-for-entry" rows="10">{{ entry.recommendation }}</textarea>
+                          <html-textarea :disabled="disabledRecommendation" id="recommendation-for-entry" @input="e => updateEntryField('recommendation', e)" :value="entry.recommendation"></html-textarea>
                   </div>
                  
                 </div>
@@ -437,7 +443,7 @@ export default {
       return this.lists.car_models.filter(car_model => car_model.brand_id === this.entry.brand.id);
     },
     steps(){
-      if(this.entry.status == 'published'){
+      if(this.$can('service_edit_manager') || this.$can('service_edit_published')){
         return 7;
       }
       return 6;
@@ -461,6 +467,7 @@ export default {
       }
       return false;
     },
+    
     disabledBasic() {
       if(this.type === 'show'){
         return true;
@@ -470,6 +477,15 @@ export default {
 
       return !(canEditBasic || canEditPublished);
     },
+
+    disabledComment(){
+      return !(this.$can('service_edit_diagnostic') || this.$can('service_edit_published') || this.$can('service_edit_manager'));
+    },
+
+    disabledAddComments(){
+      return !(this.$can('service_edit_diagnostic') || this.$can('service_edit_published'));
+    },
+
     disabledDiagnostic() {
       if(this.type === 'show'){
         return true;
@@ -483,7 +499,7 @@ export default {
       if(this.type === 'show'){
         return true;
       }
-      const canEditManager = this.$can('service_edit_manager') && this.entry.status == 'published';
+      const canEditManager = this.$can('service_edit_manager');
       const canEditPublished = this.$can('service_edit_published');
 
       return !(canEditManager  || canEditPublished);
@@ -598,5 +614,16 @@ export default {
 position: absolute;
 top: -10px;
 z-index: 99;
+}
+#recommendation-for-entry{
+  min-height: 150px;
+}
+
+div.customTextarea{
+  min-height: 100px;
+  padding-bottom: 10px;
+  background: no-repeat center bottom, center calc(100% - 1px);
+  background-size: 0 100%, 100% 100%;
+  background-image: linear-gradient(to top, #4ba82e 2px, rgba(75, 168, 46, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
 }
 </style>

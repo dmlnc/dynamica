@@ -117,7 +117,7 @@
                     <div
                       class="form-group bmd-form-group "
                     >
-                      <label class="">VIN</label>
+                      <label class="">VIN, последние 5 цифр</label>
                       <input
                         class="form-control"
                         type="text"
@@ -280,6 +280,7 @@ export default {
         // order: 'desc', 
         limit: 100, 
         // s: '', 
+        vin: null,
         brand_id: null, 
         car_model_id: null,
         status_id: null,
@@ -328,8 +329,6 @@ export default {
       return `${day}.${month}.${year}`;
     },
     setFilter(field, data, setId = false){
-      
-      // console.log(data);
       this.filterData[field] = data;
       if(setId){
         if(data!= null){

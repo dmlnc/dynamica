@@ -36,6 +36,19 @@ Vue.use(GlobalMixins)
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('html-textarea',{
+  template:'<div class="customTextarea" :contenteditable="!disabled" :id="id" @input="updateHTML"></div>',
+  props:['value', 'id', 'disabled'],
+  mounted: function () {
+    this.$el.innerHTML = this.value;
+  },
+  methods: {
+    updateHTML: function(e) {
+      this.$emit('input', e.target.innerHTML);
+    }
+  }
+});
+
 const app = new Vue({
   el: '#app',
   render: h => h(App),

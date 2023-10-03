@@ -65,13 +65,13 @@ class ServiceFormsApiController extends Controller
             $serviceFormQuery = $serviceFormQuery->where('diagnost_id', $diagnostId);
         }
         if ($vin) {
-            $serviceFormQuery = $serviceFormQuery->where('vin', 'LIKE', '%' . $vin . '%');
+            $serviceFormQuery = $serviceFormQuery->where('vin', 'LIKE', '%' . $vin );
         }
         if ($dateFrom) { 
-            $serviceFormQuery = $serviceFormQuery->where('updated_at', '>=', $dateFrom);
+            $serviceFormQuery = $serviceFormQuery->where('created_at', '>=', $dateFrom);
         } 
         if ($dateTo) { 
-            $serviceFormQuery = $serviceFormQuery->where('updated_at', '<=', $dateTo);
+            $serviceFormQuery = $serviceFormQuery->where('created_at', '<=', $dateTo);
         }
 
         $serviceFormQuery = $serviceFormQuery->with(['brand', 'car_model', 'diagnost'])->orderBy('updated_at', 'desc')->paginate($limit);

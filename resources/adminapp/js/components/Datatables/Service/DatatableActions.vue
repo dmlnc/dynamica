@@ -18,13 +18,13 @@
       >
         <i class="material-icons">assignment</i>
       </a>
-      <router-link
+      <!-- <router-link
         v-if="canView"
         :to="{ name: xprops.route + '.show', params: { id: row.id } }"
         class="btn btn-just-icon btn-round btn-link text-azure"
       >
         <i class="material-icons">remove_red_eye</i>
-      </router-link>
+      </router-link> -->
   
       <router-link
         class="btn btn-just-icon btn-round btn-link text-success"
@@ -58,9 +58,9 @@
     },
     computed: {
         allowEdit() {
-            const canEditBasic = this.$can('service_edit') && this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic';
+            const canEditBasic = this.$can('service_edit');
             const canEditPublished = this.$can('service_edit_published');
-            const canEditServiceManager = this.row.brand.status == 'published' && this.$can('service_edit_manager');
+            const canEditServiceManager = this.$can('service_edit_manager');
             return (canEditBasic || canEditPublished || canEditServiceManager);
         },
 
@@ -68,19 +68,19 @@
           if(this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic'){
             return this.$can('service_print_client_draft');
           }
-          return this.$can('service_print_client');
+          return this.$can('service_print_client')
         },
         canPrintService(){
           if(this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic'){
             return this.$can('service_print_full_draft');
           }
-          return this.$can('service_print_full');
+          return this.$can('service_print_full')
         },
         canView(){
           if(this.row.brand.status !== 'published' && this.row.brand.status !== 'diagnostic'){
             return this.$can('service_show_draft');
           }
-          return this.$can('service_show');
+          return this.$can('service_show')
         },
 
     },

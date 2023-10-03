@@ -70,7 +70,7 @@
         <div class="field-more mt-4" v-if="value.showSubfields || value.showComments || value.showPhoto">
             <div class="form-group" v-if="value.showComments">
                 <label :for="`comment-for-${field.id}`">Комментарий</label>
-                <textarea :disabled="disabled" @input="e => updateComment(field.id, e.target.value)" class="form-control" :id="`comment-for-${field.id}`" rows="3">{{ field.comment }}</textarea>
+                <textarea :disabled="disabledComment" @input="e => updateComment(field.id, e.target.value)" class="form-control" :id="`comment-for-${field.id}`" rows="3">{{ field.comment }}</textarea>
             </div>
             <Attachment 
                 v-if="value.showPhoto"
@@ -109,7 +109,8 @@
                             :minified="true" 
                             :field="subfield" 
                             :entry="entry"
-                            :disabled="disabled"></Field>
+                            :disabled="disabled"
+                            :disabledComment="disabledComment"></Field>
                         </div>
                 </div>
             </div>
@@ -140,6 +141,11 @@
                 default: false,
             },
             disabled: {
+                type: Boolean,
+                required: false,
+                default: false,
+            },
+            disabledComment: {
                 type: Boolean,
                 required: false,
                 default: false,
