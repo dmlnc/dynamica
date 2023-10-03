@@ -65,7 +65,9 @@ class ServiceFormsApiController extends Controller
             $serviceFormQuery = $serviceFormQuery->where('diagnost_id', $diagnostId);
         }
         if ($vin) {
-            $serviceFormQuery = $serviceFormQuery->where('vin', 'LIKE', '%' . $vin );
+            // $serviceFormQuery = $serviceFormQuery->whereRaw("RIGHT(vin, 5) LIKE ?", ["%$vin%"]);
+            $serviceFormQuery = $serviceFormQuery->where('vin', 'LIKE', '%' . $vin . '%');
+            // $serviceFormQuery = $serviceFormQuery->where('vin', 'LIKE', '%' . $vin );
         }
         if ($dateFrom) { 
             $serviceFormQuery = $serviceFormQuery->where('created_at', '>=', $dateFrom);
