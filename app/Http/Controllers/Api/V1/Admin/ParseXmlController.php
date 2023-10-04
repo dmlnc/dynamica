@@ -153,9 +153,9 @@ class ParseXmlController extends Controller
         $url = trim($settings->export_link);
         
         // 'https://media.cm.expert/stock/export/cmexpert/dealer.site/all/1a6f30ed5c29e6b5d2fdd1d87740b925.xml';
-
-        $xml = file_get_contents($url);
-
+        $tUrl = 'http://dynamica-trade.su/api/v1/loadXml?url='.$url;
+        $xml = file_get_contents($tUrl);
+        
         // Parse the XML using SimpleXMLElement
         $xmlData = new SimpleXMLElement($xml);
 
