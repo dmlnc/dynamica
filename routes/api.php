@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Admin\MediaController;
+use App\Http\Controllers\Api\V1\Admin\ParseXmlController;
 use App\Http\Controllers\Api\V1\Admin\UsersApiController;
 use App\Http\Controllers\Api\V1\Admin\ServiceFormsApiController;
 
