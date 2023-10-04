@@ -7,6 +7,7 @@ use App\Models\Settings;
 use Illuminate\Http\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
 // use Telegram\Bot\Api;
+use Log;
 
  
 class TelegramApiController extends Controller
@@ -21,12 +22,14 @@ class TelegramApiController extends Controller
     
         if($text && $settings->telegram_id != null && trim($settings->telegram_id) != ''){
             try {
-                Telegram::sendMessage([
+                $data = Telegram::sendMessage([
                     'chat_id' => $settings->telegram_id,
                     'parse_mode' => 'HTML',
                     'text' => $text
                 ]);
+                Log::info($data);
             } catch (\Exception $e) {
+                Log::info($e);
                 // Handle the exception here (e.g. log the error)
             }
         }
