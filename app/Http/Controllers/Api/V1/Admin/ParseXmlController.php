@@ -42,7 +42,6 @@ class ParseXmlController extends Controller
 
     public function getPdf(Request $request)
     {   
-        // QrCode::;
 
         $vin = $request->input('vin');
         $vin4 = substr((string)$vin, -4);
@@ -55,6 +54,8 @@ class ParseXmlController extends Controller
         $year = $request->input('year');
         $run = $request->input('run');
 
+        $pdfData = $request->input('pdf');
+
         $price = $request->input('price');
 
 
@@ -64,6 +65,7 @@ class ParseXmlController extends Controller
         $type = $request->input('type');
         $name = $brand.' '.$model;
         $info = $year.', '.number_format((string)$run, 0, '.', ' ').'  км';
+
                 // 'name': this.currentCar.brand + ' ' + this.currentCar.model,
                 // 'info': this.currentCar.year + ', ' + this.currentCar.run,
         $company_id = $this->getCompanyId($request);
@@ -130,10 +132,10 @@ class ParseXmlController extends Controller
 
         $pdf = null;
         if($type == 1){
-            $pdf = PDF::loadView('pdf.vertical', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info]);
+            $pdf = PDF::loadView('pdf.vertical', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info, 'pdf' => $pdfData]);
             $pdf->setPaper('A4');
         } else {
-            $pdf = PDF::loadView('pdf.horizontal', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info]);
+            $pdf = PDF::loadView('pdf.horizontal', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info, 'pdf' => $pdfData]);
             $pdf->setPaper('A4', 'landscape');
         }
         
@@ -213,7 +215,13 @@ class ParseXmlController extends Controller
                 'gearbox' => $gearbox,
                 'drive' => mb_strtolower((string)$car->drive),
                 'image' => null,
-                'link' => str_replace('https://dynamica-trade.ru/', '', (string)$car->url)
+                'link' => str_replace('https://dynamica-trade.ru/', '', (string)$car->url),
+                'pdf' => [
+                    'engine' => (string)$car->engine_type.', '. (int)$car->engine_volume/1000 .', '.(string)$car->engine_power,
+                    'gearbox' => (string)$car->gearbox,
+                    'drive' => (string)$car->drive,
+                    'owners_number' => (string)$car->owners_number,
+                ]
             ];
 
             

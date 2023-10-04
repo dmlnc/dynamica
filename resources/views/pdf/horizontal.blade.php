@@ -28,7 +28,7 @@
 			font-size: 80px;
 			font-weight: 700;
 			text-transform: uppercase;
-			margin-bottom: 240px;
+			margin-bottom: 20px;
 		}
 
 		h2{
@@ -130,6 +130,27 @@
 		.qr-block p{
 			margin-bottom: 0;
 		}
+		.info{
+			position: absolute;
+			top: 450px;
+			left: 50px;
+			width: 40%;
+			display: inline-block;
+		}
+		.info-row{
+			width: 49%;
+			display: inline-block;
+			/* background: red; */
+			margin-bottom: 20px;
+		}
+		.info-title{
+			color: #3C3C3C;
+			margin-bottom: -5px;
+		}
+		.info-value{
+			/* font-weight: bold; */
+			font-size: 22px;
+		}
 	</style>
 
 	<div class="pdf-body">
@@ -140,6 +161,40 @@
 				<h3>{{$name}}</h3>
 				<h4>{{$info}}</h4>
 
+			</div>
+			<div class="info">
+				<div class="info-row">
+					<div class="info-title">
+						ДВИГАТЕЛЬ
+					</div>
+					<div class="info-value">
+						{{$pdf['engine']}}
+					</div>
+				</div>
+				<div class="info-row">
+					<div class="info-title">
+						КПП
+					</div>
+					<div class="info-value">
+						{{$pdf['gearbox']}}
+					</div>
+				</div>
+				<div class="info-row">
+					<div class="info-title">
+						ПРИВОД
+					</div>
+					<div class="info-value">
+						{{$pdf['drive']}}
+					</div>
+				</div>
+				<div class="info-row">
+					<div class="info-title">
+						КОЛ-ВО ВЛАДЕЛЬЦЕВ
+					</div>
+					<div class="info-value">
+						{{$pdf['owners_number']}}
+					</div>
+				</div>
 			</div>
 			<div class="how">
 				<h2>Как сканировать<br>QR-код</h2>

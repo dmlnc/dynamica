@@ -340,7 +340,9 @@ export default {
                 'year': this.currentCar.year,
                 'run': this.currentCar.run_original,
                 'type': this.pdfType,
+                'pdf': this.currentCar.pdf,
             };
+            // console.log(data);
 
             let params = objectToFormData(data, {
                 indices: true,
@@ -375,20 +377,6 @@ export default {
                 window.open(url, '_blank');
 
                 window.URL.revokeObjectURL(url);
-
-
-                // // Create a download link with the file data
-                // const link = document.createElement('a');
-                // link.href = window.URL.createObjectURL(blob);
-                // link.download = 'my-file.pdf';
-
-                // // Append the link to the DOM and click it to start the download
-                // document.body.appendChild(link);
-                // link.click();
-
-                // // Cleanup
-                // document.body.removeChild(link);
-                // window.URL.revokeObjectURL(link.href);
 
             }).catch((error) => {
                 console.error('Failed to download PDF:', error);
