@@ -224,6 +224,10 @@ class ParseXmlController extends Controller
                 ]
             ];
 
+            if(empty($carData['link']) || $carData['link'] == null || $carData['link'] == ''){
+                continue;
+            }
+
             
 
             if ($carData['price'] < $meta['min_price']) {
