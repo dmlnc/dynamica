@@ -17,6 +17,8 @@ class TelegramApiController extends Controller
     { 
         $text = $request->input('msg');
         
+        // Replace <br> and <br/> with \n
+        $text = str_replace(['<br>', '<br/>', '<br />'], "\n", $text);
 
         $settings = Settings::where('company_id', $request->input('company_id'))->first();
     
