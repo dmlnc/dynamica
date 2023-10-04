@@ -141,6 +141,13 @@ class ParseXmlController extends Controller
         return $pdf->download('pdf-'.$vin.'.pdf');
     }
 
+    
+    public function loadXml(Request $request)
+    {
+        $url = $request->input('url');
+        $xml = file_get_contents($url);
+        return $xml;
+    }
     public function index(Request $request)
     {
 

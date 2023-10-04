@@ -7,7 +7,11 @@ use App\Http\Controllers\Api\V1\Admin\ServiceFormsApiController;
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], function () {
     Route::get('service_forms/lkp', [ServiceFormsApiController::class, 'cronFetchAppraisals']);
+    Route::get('loadXml', [ParseXmlController::class, 'loadXml']);
+
 });
+
+
 
 
 // 'middleware' => ['auth:sanctum']
@@ -16,7 +20,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('abilities', 'AbilitiesController', ['only' => ['index']]);
 
     Route::apiResource('cars', 'ParseXmlController', ['only' => ['index']]);
-
+    
 
     Route::apiResource('settings', 'SettingsApiController', ['only' => ['index', 'store']]);
     Route::post('getPdf', 'ParseXmlController@getPdf');
