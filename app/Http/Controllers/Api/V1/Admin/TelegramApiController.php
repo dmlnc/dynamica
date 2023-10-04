@@ -19,7 +19,7 @@ class TelegramApiController extends Controller
         
         // Replace <br> and <br/> with \n
         $text = str_replace(['<br>', '<br/>', '<br />'], "\n", $text);
-        Log::info($text);
+        // Log::info($text);
 
         $settings = Settings::where('company_id', $request->input('company_id'))->first();
     
@@ -30,7 +30,7 @@ class TelegramApiController extends Controller
                     'parse_mode' => 'HTML',
                     'text' => $text
                 ]);
-                Log::info($data);
+                // Log::info($data);
             } catch (\Exception $e) {
                 Log::info($e);
                 // Handle the exception here (e.g. log the error)
