@@ -278,32 +278,33 @@ class ParseXmlController extends Controller
 
 
             $image = $slug;
+            $carData['image'] = 'https://lkm.tradedealer.ru/assets/images/brands/60/'.$image.'.png';
 
-            if(array_search($image, $brands) === false){
-                $brands[] = $image;
-                $carData['image'] = 'https://lkm.tradedealer.ru/assets/images/brands/60/'.$image.'.png';
+            // if(array_search($image, $brands) === false){
+            //     $brands[] = $image;
+            //     $carData['image'] = 'https://lkm.tradedealer.ru/assets/images/brands/60/'.$image.'.png';
 
-                // if(!Storage::disk('local')->exists('public/brands/'.$image.'.png')){
-                //     if($this->enableLogoScrapper){
-                //         $imageUrl = 'https://lkm.tradedealer.ru/assets/images/brands/60/'.$image.'.png';
-                //         $filename = $image.'.png';
+            //     // if(!Storage::disk('local')->exists('public/brands/'.$image.'.png')){
+            //     //     if($this->enableLogoScrapper){
+            //     //         $imageUrl = 'https://lkm.tradedealer.ru/assets/images/brands/60/'.$image.'.png';
+            //     //         $filename = $image.'.png';
                         
-                //         $response = Http::get($imageUrl);
-                //         if ($response->ok()) {
-                //             Storage::disk('local')->put('public/brands/'.$filename, $response->body());
-                //             $carData['image'] = Storage::url('brands/'.$image.'.png');
-                //         }
-                //     }
-                // }
-                // else{
-                //     $carData['image'] = Storage::url('brands/'.$image.'.png');
-                // }
-            }
-            else{
-                if(Storage::disk('local')->exists('public/brands/'.$image.'.png')){
-                    $carData['image'] = Storage::url('brands/'.$image.'.png');
-                }
-            }
+            //     //         $response = Http::get($imageUrl);
+            //     //         if ($response->ok()) {
+            //     //             Storage::disk('local')->put('public/brands/'.$filename, $response->body());
+            //     //             $carData['image'] = Storage::url('brands/'.$image.'.png');
+            //     //         }
+            //     //     }
+            //     // }
+            //     // else{
+            //     //     $carData['image'] = Storage::url('brands/'.$image.'.png');
+            //     // }
+            // }
+            // else{
+            //     if(Storage::disk('local')->exists('public/brands/'.$image.'.png')){
+            //         $carData['image'] = Storage::url('brands/'.$image.'.png');
+            //     }
+            // }
 
             $data[] = $carData;
             
