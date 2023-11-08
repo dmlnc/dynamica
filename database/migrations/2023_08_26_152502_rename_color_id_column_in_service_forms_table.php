@@ -14,18 +14,31 @@ class RenameColorIdColumnInServiceFormsTable extends Migration
     public function up()
     {
         Schema::table('service_forms', function (Blueprint $table) {
-            $table->dropForeign(['color_id']); // Удаление внешнего ключа
-            $table->renameColumn('color_id', 'color'); // Переименование столбца
-            $table->string('run'); // Добавление нового столбца 'run'
-            $table->text('recommendation')->nullable();
-            // has_lkp -> bool
-
+            // Drop foreign key constraint
+            $table->dropForeign(['color_id']);
+    
+            // Laravel documentation recommends doing the column renaming separately
         });
+    
         Schema::table('service_forms', function (Blueprint $table) {
-            $table->string('color')->change(); // Изменение типа данных на строкуs
+            // Rename column - make sure you have doctrine/dbal installed and up to date
+            $table->renameColumn('color_id', 'color');
+    
+            // Add new columns
+            $table->string('run');
+            $table->text('recommendation')->nullable();
+            // You mentioned has_lkp -> bool, but there's no code for it. 
+            // Assuming you want to add a boolean column:
+            $table->boolean('has_lkp')->default(false);
+        });
+    
+        Schema::table('service_forms', function (Blueprint $table) {
+            // Change data type of 'color' column to string if needed
+            // This is done after renaming to avoid conflict
+            $table->string('color')->change();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
