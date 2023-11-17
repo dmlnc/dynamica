@@ -62,8 +62,12 @@ class CarService
             }
 
             foreach ($data as $item) {
-                if ($item['brand'] === $brand && $item['model'] === $model) {
-                    if ($vin === $item['vin'] || str_contains($item['vin'], $vin)) {
+                if ($vin === $item['vin']) {
+                    $inspectionId = $item['inspectionId'];
+                    return $this->getInspectionDetails($inspectionId);
+                }
+                if (str_contains($item['vin'], $vin)) {
+                    if ($item['brand'] === $brand && $item['model'] === $model) {
                         $inspectionId = $item['inspectionId'];
                         return $this->getInspectionDetails($inspectionId);
                     }

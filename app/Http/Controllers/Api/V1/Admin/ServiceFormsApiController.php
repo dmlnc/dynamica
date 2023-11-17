@@ -541,9 +541,18 @@ class ServiceFormsApiController extends Controller
         // Инициализация CarService с cm_company_id
         $carService = new CarService($cm_company_id);
 
-        // Предположим, что марку и модель мы получаем из $request
-        $brand = $serviceForm->brand->name;  
+        $brand = $serviceForm->brand->name;
+          
+        if($brand == 'LADA (ВАЗ)'){
+            $brand = 'ВАЗ (Lada)';
+        }
+
         $model = $serviceForm->car_model->name;  
+
+        if($model == 'ГАЗ 67'){
+            $brand = '3302 ГАЗель';
+        }
+
 
         // Вызов метода для получения аппретации
         $result = $carService->getAppraisals($brand, $model, $serviceForm->vin);
