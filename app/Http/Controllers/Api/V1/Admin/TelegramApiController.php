@@ -28,7 +28,7 @@ class TelegramApiController extends Controller
                     'parse_mode' => 'HTML',
                     'text' => $text
                 ]);
-                Log::info($data);
+                // Log::info($data);
             } catch (\Exception $e) {
                 Log::info('Telegram error');
                 Log::info($e);
