@@ -16,11 +16,9 @@ class TelegramApiController extends Controller
     public function sendMessage(Request $request)
     { 
         $text = $request->input('msg');
-        
+        $text = str_replace(['<br>', '<br/>', '<br />'], "\n", $text);
 
         $settings = Settings::where('company_id', $request->input('company_id'))->firstOrFail();
-
-        Log::info($settings);
     
         if($text && $settings->telegram_id != null && trim($settings->telegram_id) != ''){
             try {
@@ -32,7 +30,7 @@ class TelegramApiController extends Controller
                 ]);
                 Log::info($data);
             } catch (\Exception $e) {
-                Log::info('error');
+                Log::info('Telegram error');
                 Log::info($e);
                 // Handle the exception here (e.g. log the error)
             }
