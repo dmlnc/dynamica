@@ -70,14 +70,13 @@ class ParseXmlController extends Controller
         $settings = Settings::where('company_id', $company_id)->firstOrFail();
         
         // $settings = Settings::find(1);
-
         $query = [
-            'utm_source' => $settings->utm_source,
-            'utm_medium' => $settings->utm_medium,
-            'utm_content' => $settings->utm_content,
-            'utm_term' => $settings->utm_term,
-            'utm_campaign' => $settings->utm_campaign,
-            'company_id' => $company_id,
+            'utm_source' => preg_replace('/\s+/', '',$settings->utm_source),
+            'utm_medium' => preg_replace('/\s+/', '',$settings->utm_medium),
+            'utm_content' => preg_replace('/\s+/', '',$settings->utm_content),
+            'utm_term' => preg_replace('/\s+/', '',$settings->utm_term),
+            'utm_campaign' => preg_replace('/\s+/', '',$settings->utm_campaign),
+            'company_id' => preg_replace('/\s+/', '',$company_id),
         ];
         $queryString = '';
 

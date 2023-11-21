@@ -12,7 +12,7 @@ class SettingsApiController extends Controller
     {
         $companyId = $this->getCompanyId($request);
 
-        $settings = Settings::where('company_id', $companyId)->first();
+        $settings = Settings::where('company_id', $companyId)->firstOrFail();
 
         if($settings != null){
             return response($settings);
