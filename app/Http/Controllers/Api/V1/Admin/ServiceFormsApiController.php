@@ -122,7 +122,7 @@ class ServiceFormsApiController extends Controller
             'color' => $validated['color'],
             'vin' => $validated['vin'],
             // 'diagnost_id' => null,
-            'comment' => $validated['comment'],
+            'comment' => strip_tags($validated['comment'],'<div><br>'),
             'run' => $validated['run'],
             'company_id' => null,
         ];
@@ -245,8 +245,8 @@ class ServiceFormsApiController extends Controller
             'color_id' => $validated['color'],
             'run' => $validated['run'],
             'vin' => $validated['vin'],
-            'comment' => $validated['comment'],
-            'recommendation' => $validated['recommendation'],
+            'comment' => strip_tags($validated['comment'],'<div><br>'),
+            'recommendation' => strip_tags($validated['recommendation'],'<div><br>'),
         ];
         
         $user = auth()->user();
