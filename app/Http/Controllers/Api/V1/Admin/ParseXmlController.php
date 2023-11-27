@@ -157,6 +157,9 @@ class ParseXmlController extends Controller
         $url = trim($settings->export_link);
         
         // 'https://media.cm.expert/stock/export/cmexpert/dealer.site/all/1a6f30ed5c29e6b5d2fdd1d87740b925.xml';
+        if($url == null){
+            return response('Export link empty', 200);
+        }
 
         $xml = file_get_contents($url);
 
