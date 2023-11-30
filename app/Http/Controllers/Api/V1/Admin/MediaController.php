@@ -25,7 +25,7 @@ class MediaController extends Controller
         }
         $model->id     = $model_id;
         $model->exists = true;
-        $media         = $model->addMedia(request()->file('file'))->withValidationRules(['file' => 'max:15360'])->toMediaCollection($collection_name);
+        $media         = $model->addMedia(request()->file('file'))->toMediaCollection($collection_name);
 
         return new ThumbnailResource($media);
     }
