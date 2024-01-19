@@ -15,6 +15,7 @@ use App\Models\ServiceForm;
 
 use App\Models\ServiceField;
 use App\Services\CarService;
+use App\Services\LKPService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Telegram\Bot\Objects\Update;
@@ -22,14 +23,15 @@ use App\Models\ServiceFieldValue;
 use App\Models\ServiceFieldComment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreServiceFormRequest;
+use App\Http\Resources\Admin\MediaPdfResource;
 use App\Http\Requests\UpdateServiceFormRequest;
 use App\Http\Resources\Admin\ServiceFormResource;
 use App\Http\Resources\Admin\ServiceFieldResource;
 use App\Http\Resources\Admin\ServiceFieldPdfResource;
 use App\Http\Controllers\Api\V1\Admin\MediaController;
 use App\Http\Resources\Admin\ServiceFormIndexResource;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Http\Resources\Admin\ServiceFieldEmptyResource;
-use App\Services\LKPService;
 
 class ServiceFormsApiController extends Controller
 {
@@ -140,6 +142,21 @@ class ServiceFormsApiController extends Controller
         }
         
         $serviceForm = ServiceForm::create($attributes);
+
+        $serviceVINMedia_ids = array_map(function($media) {
+            return $media['id'];
+        }, $validated['vin_media']);
+        
+        (new MediaController)->syncMedia($serviceVINMedia_ids, $serviceForm->id);
+        
+        $serviceExtraMedia_ids = array_map(function($media) {
+            return $media['id'];
+        }, $validated['extra_media']);
+        
+        (new MediaController)->syncMedia($serviceExtraMedia_ids, $serviceForm->id);
+        
+
+        // (new MediaController)->syncMedia($media_ids, $value->id);
         
         // Обрабатываем каждое поле
         foreach ($validated['fields'] as $field) {
@@ -261,6 +278,19 @@ class ServiceFormsApiController extends Controller
         $serviceForm->touch();
         $serviceForm->save();
 
+        $serviceVINMedia_ids = array_map(function($media) {
+            return $media['id'];
+        }, $validated['vin_media']);
+        
+        (new MediaController)->syncMedia($serviceVINMedia_ids, $serviceForm->id);
+
+        $serviceExtraMedia_ids = array_map(function($media) {
+            return $media['id'];
+        }, $validated['extra_media']);
+        
+        (new MediaController)->syncMedia($serviceExtraMedia_ids, $serviceForm->id);
+
+
         
         // Обрабатываем каждое поле
         foreach ($validated['fields'] as $field) {
@@ -354,6 +384,22 @@ class ServiceFormsApiController extends Controller
         foreach ($fields as $field) {
             $field->service_form_id = $serviceForm->id;
         }
+
+        // $serviceFormResource = new ServiceFormResource(
+        //     $serviceForm->load(['brand', 'car_model', 'diagnost'])
+        // );
+        // // Загрузка медиа для коллекции VIN
+        // $vinMedia = $serviceForm->getMedia('VIN');
+
+        // // Загрузка медиа для коллекции extra
+        // $extraMedia = $serviceForm->getMedia('extra');
+
+        // // Добавление медиа в ресурс
+        // $serviceFormResource->additional([
+        //     'vin_media' => $vinMedia,
+        //     'extra_media' => $extraMedia,
+        // ]);
+
         return response([
             'data' => new ServiceFormResource($serviceForm->load(['brand', 'car_model', 'diagnost'])),
             'meta' => [
@@ -388,6 +434,18 @@ class ServiceFormsApiController extends Controller
     {
         $model = new ServiceFieldValue();
         return  (new MediaController)->storeMedia($request, $model, 'fieldPhoto');
+    }
+
+    public function storeFormMediaVIN(Request $request)
+    {
+        $model = new ServiceForm();
+        return  (new MediaController)->storeMedia($request, $model, 'vin');
+    }
+
+    public function storeFormMediaExtra(Request $request)
+    {
+        $model = new ServiceForm();
+        return  (new MediaController)->storeMedia($request, $model, 'extra');
     }
 
     protected function areAllRequiredFieldsFilled($fields) {
@@ -484,20 +542,30 @@ class ServiceFormsApiController extends Controller
         $fieldsArray = $fieldsCollection->toArray(request());
         $fieldsCollection = collect($fieldsArray);
 
+        $vinMedia = MediaPdfResource::collection(Media::where('model_type', 'App\Models\ServiceForm')->where('model_id', $serviceForm->id)->where('collection_name', 'vin')->get())->toArray(request());
+        $extraMedia = MediaPdfResource::collection(Media::where('model_type', 'App\Models\ServiceForm')->where('model_id', $serviceForm->id)->where('collection_name', 'extra')->get())->toArray(request());
+
+
+
         if($type == 'service'){
-            $pdf = PDF::loadView('pdf.service_table', ['fields' => $fieldsCollection, 'serviceForm' => $serviceForm]);
+            $pdf = PDF::loadView('pdf.service_table', [
+                'fields' => $fieldsCollection,
+                'serviceForm' => $serviceForm,
+                'vinMedia' => $vinMedia,
+                'extraMedia' => $extraMedia,
+            ]);
         }
         else{
-            $pdf = PDF::loadView('pdf.service_client_table', ['fields' => $fieldsCollection, 'serviceForm' => $serviceForm]);
+            $pdf = PDF::loadView('pdf.service_client_table', [
+                'fields' => $fieldsCollection,
+                'serviceForm' => $serviceForm,
+                'vinMedia' => $vinMedia,
+                'extraMedia' => $extraMedia,
+            ]);
         }
-        // return $fields;
-        // return view('pdf.service', ['fields' => $fieldsCollection, 'serviceForm' => $serviceForm]);
         $pdf_name = $serviceForm->brand->name .' '.$serviceForm->car_model->name .' '.$serviceForm->vin.'.pdf';
-        return $pdf->stream($pdf_name);
-        // return $pdf->download('pdf.pdf');
 
-        // return $pdf;
-        return 1;
+        return $pdf->stream($pdf_name);
     }
 
     public function generateLKPSvg($serviceForm_id){

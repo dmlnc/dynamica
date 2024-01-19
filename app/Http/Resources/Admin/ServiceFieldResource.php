@@ -56,6 +56,7 @@ class ServiceFieldResource extends JsonResource
             'subfields' => ServiceFieldResource::collection($this->subfields), // load subfields when available
             'value' => $value,
             'media' => $media,
+            'order' => $this->order,
             'comment' => $comment,
         ];
     }

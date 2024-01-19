@@ -5,11 +5,16 @@ namespace App\Models;
 use Illuminate\Support\Carbon;
 use App\Support\HasAdvancedFilter;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 
-class ServiceForm extends Model
+class ServiceForm extends Model implements HasMedia
 {
     use HasAdvancedFilter;
+    use InteractsWithMedia;
+
 
     protected $fillable = ['status', 'brand_id', 'model_id', 'vin', 'diagnost_id', 'color', 'run', 'seller_id', 'comment', 'recommendation','company_id'];
 
@@ -58,6 +63,27 @@ class ServiceForm extends Model
     public function getUpdatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('d.m.Y H:i');
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $thumbnailWidth  = 500;
+        $thumbnailHeight = 500;
+
+        $previewWidth = 1200;
+        $previewHeight = 1200;
+
+        $this->addMediaConversion('thumbnail')
+            ->width($thumbnailWidth)
+            ->height($thumbnailHeight)
+            ->fit('fill', $thumbnailWidth, $thumbnailHeight)
+            ->background('ffffff');
+
+        $this->addMediaConversion('preview')
+            ->width($previewWidth)
+            ->height($previewHeight)
+            ->fit('contain', $previewWidth, $previewHeight);
+
     }
     
 }

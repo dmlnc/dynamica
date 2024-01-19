@@ -6,9 +6,7 @@ function areAllRequiredFieldsFilled(fields) {
   fields.forEach(field => {
       // Если поле не обязательно, пропускаем его
       if(result[field.section] && result[field.section] == true){
-        // console.log('skip')
-      }
-      else{
+      } else{
         if (field.required == 1) {
           if (field.value == null) {
             result[field.section] = true;
@@ -78,6 +76,8 @@ function initialState() {
         damages_list: null,
         created_at: '',
         updated_at: '',
+        vin_media: [],
+        extra_media: [],
         // deleted_at: ''
       },
       lkpImage: null,
@@ -88,7 +88,7 @@ function initialState() {
         models: [], 
       },
       fieldsEmpty: {},
-      loading: false
+      loading: true,
     }
   }
   
@@ -171,14 +171,22 @@ function initialState() {
     removeMediaFromField({ commit }, payload) {
       commit('removeMediaFromField', payload)
     },
+    uploadMedia({ commit }, payload) {
+      commit('uploadMedia', payload)
+    },
+    removeMedia({ commit }, payload) {
+      commit('removeMedia', payload)
+    },
     fetchCreateData({ commit }) {
       axios.get(`${route}/create`).then(response => {
         commit('setLists', response.data.meta)
+        commit('setLoading', false)
         commit('setFields', response.data.fields)
       })
     },
     fetchEditData({ commit, dispatch }, id) {
       axios.get(`${route}/${id}/edit`).then(response => {
+        commit('setLoading', false)
         commit('setEntry', response.data.data)
         commit('setLists', response.data.meta)
         commit('setFields', response.data.fields)
@@ -262,6 +270,22 @@ function initialState() {
         field.comment = value;
       }
     },
+    uploadMedia(state, {name, media}) {
+      console.log(name);
+      console.log(state.entry[name]);
+      console.log(media);
+      state.entry[name] = [...state.entry[name], media];
+    },
+    removeMedia(state, {name, media}) {
+      state.entry[name] = state.entry[name].filter(item => item.id !== media.id);
+      axios.delete('media/' + media.id)
+        .then(response => {
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+
     uploadMediaToField(state, {fieldId, media}) {
       let field = searchField(state.fields, fieldId);
       if(field!=false){

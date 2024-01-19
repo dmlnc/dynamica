@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
             // UsersTableSeeder::class,
             // RoleUserTableSeeder::class,
             // SettingsTableSeeder::class,
-            ServiceFieldsTableSeeder::class,
+            // ServiceFieldsTableSeeder::class,
+            AlignOrderSeeder::class,
+            ServiceFieldsTableUpdateSeeder::class,
         ]);
     }
 }

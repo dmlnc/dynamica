@@ -55,6 +55,11 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     
     Route::post('service_forms/media', [ServiceFormsApiController::class, 'storeMedia']);
+
+    Route::post('service_forms/form_media/vin', [ServiceFormsApiController::class, 'storeFormMediaVIN']);
+    Route::post('service_forms/form_media/extra', [ServiceFormsApiController::class, 'storeFormMediaExtra']);
+
+
     Route::resource('service_forms', 'ServiceFormsApiController');
 
     Route::delete('media/{media_id}', [MediaController::class, 'deleteMedia']);

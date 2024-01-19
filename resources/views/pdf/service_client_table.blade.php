@@ -1,98 +1,115 @@
 <?php
 
-$lkpTranslates = [
-    'left' => 'Левая часть',
-    'back' => 'Задняя часть',  
-    'right' => 'Правая часть',  
-    'front' => 'Передняя часть',  
-    'glass' => 'Стеклянные элементы',      
-];
-        $id_blocks = [
-            'Двигатель' => [64, 69, 70, 46, 65, 49, 50, 48, 51],
-            'Электронные системы автомобиля' => [41, 42],
-            'Тормоза, рулевое управление, подвеска и трансмиссия' => [80, 81, 87, 88, 71, 82, 159, 160, 100, 117, 163, 131, 139, 110, 127, 166, 130, 91],
-            'Осмотр кузовных деталей на подъемнике' => [90, 43, 44],
-            'Электрика и дополнительные функции автомобиля' => [1, 17, 26],
-        ];
+    $lkpTranslates = [
+        'left' => 'Левая часть',
+        'back' => 'Задняя часть',  
+        'right' => 'Правая часть',  
+        'front' => 'Передняя часть',  
+        'glass' => 'Стеклянные элементы',      
+    ];
+    $id_blocks = [
+        'Двигатель и трансмиссия' => [64, 184, 69, 70, 46, 65, 49, 50, 183, 187, 188, 51, 190],
+        'Электронные системы автомобиля и электрика' => [41, 39, 40, 42, 45, 48, 1, 17],
+        'Тормоза, рулевое управление, подвеска' => [158, 80, 81, 87, 88, 71, 82, 159, 160, 100, 117, 163, 131, 139, 110, 127, 166, 130, 191, 91, 185, 186],
+        'Осмотр кузовных деталей на подъемнике' => [90, 189, 43, 44],
+        'Вспомогательные функции автомобиля' => [26],
+    ];
 
-            $allphotos = '';
+    $allphotos = '';
+    
+    if(count($vinMedia)){
+        $allphotos .= wrapImagesInTable($vinMedia, 'VIN фото');
+    }
+    if(count($extraMedia)){
+        $allphotos .= wrapImagesInTable($extraMedia, 'Дополнительные фото');
+    }
 
-            function renderField($field, $subfield = false, $index = 0) {
-                $photos = '';
-                $value = ($field['value']);
-                if ($value == null || $value->color == '#0070c0') {
-                    return;
-                }
-                if($value->color == '#ffcc00'){
-                    $value->color = '#b79200';
-                }
-
-
-                $name = htmlspecialchars($field['name']);
-                $class = '';
-
-                if($subfield){
-                    $class = 'tr-subfield';
-                }
-
-                if ($value != null && $value->showSubfields) {
-                    // echo '<tr><td colspan="3" style="background: #000; padding: 0px;"></td></tr>';
-
-                    foreach ($field['subfields'] as $key=>$subfield) {
-                        $photos .= renderField($subfield, true, $key+1);
-                    }
-
-                    // reender subfields
-
-                } else { 
-                    echo '<tr class="'.$class.'">';
-                    echo '<td>'. $name .'</td>';
-                    
-                    if($value != null ){
-                        $val = htmlspecialchars($value->value);
-                        echo '<td style="color:' . htmlspecialchars($value->color) . '">'. $val . '</td>';
-
-                        if ($value->showComments && $field['comment'] && trim($field['comment']) != '') {
-                            echo '<td>' . htmlspecialchars($field['comment']) . '</td>';
-                        } else {
-                            echo '<td></td>';
-                        }
-
-                    } else {
-                        echo '<td class="gray">-</td>';
-                        echo '<td></td>';
-                    }
-
-                    echo '</tr>';
-                }
-
-
-                if ($value != null && $value->showPhoto && count($field['media']) > 0) {
-                    $photos = '<tr><th colspan="2">'.$name.'</th></tr>';
-                    $i = 0;
-                    $count = count($field['media']);
-                    $photos .= '<tr>';
-                    foreach ($field['media'] as $photo) {
-                        $photos .= '<td style="width: 50%; text-align: center;"><img class="field-media-image" src="' . ($photo['base64_url']) . '"></td>';
-                        $i += 1;
-
-                        if( $i != 0 && $i % 2 == 0 ){
-                            $photos .= '</tr>';
-                        }
-                        if( $i % 2 == 0 && $count != $i+1 ){
-                            $photos .= '<tr>';
-                        }
-                        
-                    }
-
-                    if($count % 2 != 0){
-                        $photos.='<td></td></tr>';
-                    }
-                }
-
-                
-                return $photos;
+    function wrapImagesInTable($media, $name)
+    {
+        $photos = '<tr><th colspan="2">' . $name . '</th></tr>';
+        $i = 0;
+        $count = count($media);
+        $photos .= '<tr>';
+        foreach ($media as $photo) {
+            $photos .= '<td style="width: 50%; text-align: center;"><img class="field-media-image" src="' . ($photo['base64_url']) . '"></td>';
+            $i += 1;
+            if ($i != 0 && $i % 2 == 0) {
+                $photos .= '</tr>';
             }
+            if ($i % 2 == 0 && $count != $i + 1) {
+                $photos .= '<tr>';
+            }
+        }
+        if($count % 2 != 0){
+            $photos.='<td></td></tr>';
+        }
+        return $photos;
+    }
+
+    function renderField($field, $subfield = false, $index = 0) {
+        $photos = '';
+        $value = ($field['value']);
+        if ($value == null || $value->color == '#0070c0') {
+            return;
+        }
+        if($value->color == '#ffcc00'){
+            $value->color = '#b79200';
+        }
+        $name = htmlspecialchars($field['name']);
+        $class = '';
+
+        if($subfield){
+            $class = 'tr-subfield';
+        }
+
+        if ($value != null && $value->showSubfields) {
+            foreach ($field['subfields'] as $key=>$subfield) {
+                $photos .= renderField($subfield, true, $key+1);
+            }
+        } else { 
+            echo '<tr class="'.$class.'">';
+            echo '<td>'. $name .'</td>';
+                    
+            if($value != null ){
+                $val = htmlspecialchars($value->value);
+                echo '<td style="color:' . htmlspecialchars($value->color) . '">'. $val . '</td>';
+
+                if ($value->showComments && $field['comment'] && trim($field['comment']) != '') {
+                    echo '<td>' . htmlspecialchars($field['comment']) . '</td>';
+                } else {
+                    echo '<td></td>';
+                }
+            } else {
+                echo '<td class="gray">-</td>';
+                echo '<td></td>';
+            }
+            echo '</tr>';
+        }
+        if ($value != null && $value->showPhoto && count($field['media']) > 0) {
+            
+            $photos = wrapImagesInTable($field['media'], $name);
+            
+            // $photos = '<tr><th colspan="2">'.$name.'</th></tr>';
+            // $i = 0;
+            // $count = count($field['media']);
+            // $photos .= '<tr>';
+            // foreach ($field['media'] as $photo) {
+            //     $photos .= '<td style="width: 50%; text-align: center;"><img class="field-media-image" src="' . ($photo['base64_url']) . '"></td>';
+            //     $i += 1;
+            //     if( $i != 0 && $i % 2 == 0 ){
+            //         $photos .= '</tr>';
+            //     }
+            //     if( $i % 2 == 0 && $count != $i+1 ){
+            //         $photos .= '<tr>';
+            //     }
+            // }
+
+            // if($count % 2 != 0){
+            //     $photos.='<td></td></tr>';
+            // }
+        }
+        return $photos;
+    }
 ?>
 
 
@@ -109,7 +126,7 @@ $lkpTranslates = [
     <style>
         @page{
             margin: 50px 0px 0px 0px;
-            margin-bottom: 0!important;
+            margin-bottom: 60px!important;
         }
         
         *{
@@ -278,10 +295,35 @@ $lkpTranslates = [
             width: 10%;
         }
 
+        footer,
+        .remove-footer {
+            position: fixed;
+            bottom: -60px;
+            left: 0cm;
+            right: 0cm;
+            height: 90px;
+            padding: 0 30px;
+        }
+        .remove-footer{
+            height: 95px;
+            bottom: -65px;
+            background: #fff;
+        }
 	</style>
+
+
+    <footer>
+        <p class="single-field mb-0">С транспортным средством и<br>информацией по нему ознакомлен(а):</p>
+        <div class="row">
+            <div class="col-7">
+                <p class="single-field"><b>Покупатель:</b> &nbsp;<span class="gray">_______________________________</span></p>
+            </div>
+        </div>
+
+    </footer>
     
 
-	<div class="pdf-body">
+	<main class="pdf-body">
         <h1 class="mb-2">Акт осмотра транспортного средства</h1>
         <!-- <p class="act-number">ПРИЛОЖЕНИЕ К ДОГОВОРУ КУПЛИ-ПРОДАЖИ</p> -->
         <p class="act-number">{{$serviceForm->brand->name}} {{$serviceForm->car_model->name}}, &nbsp;{{$serviceForm->color}}, &nbsp;VIN: {{$serviceForm->vin}}, &nbsp;пробег: {{$serviceForm->run}} км.</p>
@@ -307,45 +349,43 @@ $lkpTranslates = [
         ?>
         
         @if($serviceForm->lkp_data != null)
-
-        <h2>Осмотр кузова с указанием толщины ЛКП</h2>
-
-        <div style="text-align: center;" class="mb-3">
-            <img src="data:image/svg+xml;base64,{!! $controller->generateLKPSvg($serviceForm->id) !!}" style="width: 90%;">
-        </div>
-        <table class="table-fields lkp-table mb-3">
-            <thead>
-                <th>Осмотр</th>
-                <th>Комментарий</th>
-                <th>ЛКП</th>
-            </thead>
-            <tbody>
-                @foreach ($lkpTable as $key => $rows)
-                    <th class="th-section" colspan="3">{{ $lkpTranslates[$key] }}</th>
-                    @foreach ($rows as $row)
-                    <tr>
-                        <td>
-                            @if($row['note'] == 'warning')
-                                <img style="height: 8px" src="data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABuVBMVEUAAAD/yDf/zDP/zTL/zDP/zDP/zDP/zDP/1Sv/zDP/zDP/zDP/yTb/zDP/zDP/zDP/yjX/zDP/zDP/yzT/zDP/qlX/zDP/zDP/2yT/zDP/zDP/0i3/zDP/zDP/yjX/zDP/yzT/zTL/zDP/zTL/yzT/zDP//wD/zTL/zDP/zDP/zDP/zDP/zDP/0S7/zDP/zDP/zDP/yzT/yzT/zDP/zDP/zDP/yzT/zDP//wD/zTL/yzT/xjn/zDP/zDP/zTL/yzT/yDf/zDP/zDP/zTL/zTL/zjH/yzT/zDP/zDP/v0D/yzT/zDP/xDv/zDP/zDP/xjn/zTL/zTL/zDP/zDP/zDP/yjX/zTL/zTL/zTL/yzT/yzT/zDP/zDP/yzT/zTL/zjH/zDP/zDP/zDP/yzT/zDP/zDP/yzT/yDf/zDP/zTL/zDP/zDP/zTL/yzT/zDP/zDP/zTL/zDP/zDP/yzT/yzX/yzT/zTL/yzT/zDP/zzD/zDP/yzT/zDP/yzT/zDP/zTL/zDP/zjH/zTL/zDP/zDP/zDP/zDP/zTL/yzT/zDP/zDP/yzT/yTb/zTL/zDP/zDP/zTL/zDP///8acFQiAAAAkXRSTlMADgVr0v3TbQYe1dghGeHlHaavQEsD0NsHaXMR6/IYkJkp+jO3xAFMVeIKdHwW8PWbozH8/jzBzAJXXgnf6H+FHPT5JKw5RcnUBGJoDebtEomOI/j7K7G7Qkpx7PGUmCq5w1BU2nh7F5+iMsJbXeeChKqrO0TLZmfqEI0ntUnXcO8Vk5L2937AvMdvbBOnzYw4OKaH7QAAAAFiS0dEkpYE7yAAAAAHdElNRQfjCAkBJjIbt39UAAACK0lEQVRYw+3Y6TtUYRzG8cdkMhJRWbIWUpElMyGRLbuhDJKRUFmiyRYaa4sKofs/tgxmO8uz/K5e+b481zOfNzPXmfscxi76X0VEUGqWS5FW6+UoG5UXfQUnxVyl8WLjcNq1eBIwAeddp/BuIKCb6l5iUiCYnKIM3kJQqapeWnowmJGpCGYhpNtq3p3sUNCaowTmIqy7eQrePWh0X96zxWiBD/KlwQJo9lDWKyzSBoujJcES6PRIziu164GOx1JgGXQrr5DwnsCgSnHvaZX/42fX/Feqxf9insEIRI2oV1tnDNY3yN/3NUE8F/MaHWYgmkS8imaYgi2tAmAbzEG083sdTh6ws4sbfAEeEC95vW4XH9jTywn2gQ/EKz6vH7wgXnNNhUh+kGtIRIEfxADHVHCLgIPmQ+INREAMmXlve8RA0yExDDEQI8ZDYhSiIN4ZToX34qDhkPgAcRBj+t74oAxoMCQmIANiUs/7aJUD9YZE3hQk0xkS05Duk+ZUiJMHPVpD4jMUmgn34otVQFf4kJiFUnOh3rxDDcRCyFT4oughKTEIXDQ8bPLD9rUU9IrCow4ufw0AvVAH4fV7DS4KMHvlHFwFBYjVs3MLoAGx5jvW2kIFrltOjg2ACsTG8amuTpC1+e0I/A7Cfhw9w/6kBLcy2S+QNsZ+04J/2CYt6GZuWtDDymnBbbZDC+4yC+m3MmJj7O8enZeQ5nuW9e477aqW3bl/8O/i9TxJh0jE2+SUYHDwAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTA5VDAxOjM4OjUwKzAwOjAwH4v/QAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0wOVQwMTozODo1MCswMDowMG7WR/wAAAAASUVORK5CYII=" alt="">
-                            @endif
-                            @if($row['note'] == 'danger')
-                                <img style="height: 8px" src="data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABuVBMVEUAAADbNzfMMzPeMjLdMzPdMzPdMzPcMzPVKyvdMzPdMzPdMzPgNjbgMzPdMzPcMzPcNTXdMzPdMzPbNDTdMzP/VVXdMzPdMzPbJCTdMzPeMzPhLS3dMzPdMzPfNTXdMzPeNDTgMjLdMzPcMjLeNDTdMzP/AADdMjLeMzPdMzPmMzPeMzPcMzPcLi7dMzPdMzPcMzPdNDTbNDTdMzPdMzPdMzPdNDTdMzP/AADcMjLcNDTjOTndMzPdMzPdMjLcNDTbNzfdMzPdMzPcMjLdMjLbMTHeNDTdMzPdMzO/QEDdNDTdMzPYOzvdMzPdMzPjOTndMjLdMjLbMzPdMzPdMzPbNTXcMjLdMjLcMjLdNDTdNDTeMzPdMzPdNDTdMjLbMTHdMzPdMzPcMzPeNDTdMzPdMzPeNDTeNzfdMzPcMjLbMzPdMzPdMjLeNDTdMzPeMzPcMjLdMzPdMzPcNDTdNTXdNDTcMjLcNDTdMzPfMDDdMzPeNDTdMzPcNDTdMzPdMjLdMzPbMTHcMjLeMzPdMzPdMzPdMzPcMjLdNDTcMzPdMzPeNDTXNjbdMjLdMzPcMzPfMjLdMzP///8kCjhTAAAAkXRSTlMADgVr0v3TbQYe1dghGeHlHaavQEsD0NsHaXMR6/IYkJkp+jO3xAFMVeIKdHwW8PWbozH8/jzBzAJXXgnf6H+FHPT5JKw5RcnUBGJoDebtEomOI/j7K7G7Qkpx7PGUmCq5w1BU2nh7F5+iMsJbXeeChKqrO0TLZmfqEI0ntUnXcO8Vk5L2937AvMdvbBOnzYw4OKaH7QAAAAFiS0dEkpYE7yAAAAAHdElNRQfjCAoGHxjZcoJTAAACK0lEQVRYw+3Y6TtUYRzG8cdkMhJRWbIWUpElMyGRLbuhDJKRUFmiyRYaa4sKofs/tgxmO8uz/K5e+b481zOfNzPXmfscxi76X0VEUGqWS5FW6+UoG5UXfQUnxVyl8WLjcNq1eBIwAeddp/BuIKCb6l5iUiCYnKIM3kJQqapeWnowmJGpCGYhpNtq3p3sUNCaowTmIqy7eQrePWh0X96zxWiBD/KlwQJo9lDWKyzSBoujJcES6PRIziu164GOx1JgGXQrr5DwnsCgSnHvaZX/42fX/Feqxf9insEIRI2oV1tnDNY3yN/3NUE8F/MaHWYgmkS8imaYgi2tAmAbzEG083sdTh6ws4sbfAEeEC95vW4XH9jTywn2gQ/EKz6vH7wgXnNNhUh+kGtIRIEfxADHVHCLgIPmQ+INREAMmXlve8RA0yExDDEQI8ZDYhSiIN4ZToX34qDhkPgAcRBj+t74oAxoMCQmIANiUs/7aJUD9YZE3hQk0xkS05Duk+ZUiJMHPVpD4jMUmgn34otVQFf4kJiFUnOh3rxDDcRCyFT4oughKTEIXDQ8bPLD9rUU9IrCow4ufw0AvVAH4fV7DS4KMHvlHFwFBYjVs3MLoAGx5jvW2kIFrltOjg2ACsTG8amuTpC1+e0I/A7Cfhw9w/6kBLcy2S+QNsZ+04J/2CYt6GZuWtDDymnBbbZDC+4yC+m3MmJj7O8enZeQ5nuW9e477aqW3bl/8O/i9TxJh0jE2+SUYHDwAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTEwVDA2OjMxOjI0KzAwOjAwOro6RQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0xMFQwNjozMToyNCswMDowMEvngvkAAAAASUVORK5CYII=" alt="">
-                            @endif
-                            <?php 
-                                $name = $row['name'];
-                                if($row['note'] != null){
-                                    $name ='<b>'.$row['name'].'</b>';
-                                }
-                            ?>
-                            {!! $name !!}
-                        </td>
-                        <td>{{ $row['problems'] }}</td>
-                        <td>{{ $row['lkp'] }}</td>
-                    </tr>
+            <h2>Осмотр кузова с указанием толщины ЛКП</h2>
+            <div style="text-align: center;" class="mb-3">
+                <img src="data:image/svg+xml;base64,{!! $controller->generateLKPSvg($serviceForm->id) !!}" style="width: 90%;">
+            </div>
+            <table class="table-fields lkp-table mb-3">
+                <thead>
+                    <th>Осмотр</th>
+                    <th>Комментарий</th>
+                    <th>ЛКП</th>
+                </thead>
+                <tbody>
+                    @foreach ($lkpTable as $key => $rows)
+                        <th class="th-section" colspan="3">{{ $lkpTranslates[$key] }}</th>
+                        @foreach ($rows as $row)
+                        <tr>
+                            <td>
+                                @if($row['note'] == 'warning')
+                                    <img style="height: 8px" src="data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABuVBMVEUAAAD/yDf/zDP/zTL/zDP/zDP/zDP/zDP/1Sv/zDP/zDP/zDP/yTb/zDP/zDP/zDP/yjX/zDP/zDP/yzT/zDP/qlX/zDP/zDP/2yT/zDP/zDP/0i3/zDP/zDP/yjX/zDP/yzT/zTL/zDP/zTL/yzT/zDP//wD/zTL/zDP/zDP/zDP/zDP/zDP/0S7/zDP/zDP/zDP/yzT/yzT/zDP/zDP/zDP/yzT/zDP//wD/zTL/yzT/xjn/zDP/zDP/zTL/yzT/yDf/zDP/zDP/zTL/zTL/zjH/yzT/zDP/zDP/v0D/yzT/zDP/xDv/zDP/zDP/xjn/zTL/zTL/zDP/zDP/zDP/yjX/zTL/zTL/zTL/yzT/yzT/zDP/zDP/yzT/zTL/zjH/zDP/zDP/zDP/yzT/zDP/zDP/yzT/yDf/zDP/zTL/zDP/zDP/zTL/yzT/zDP/zDP/zTL/zDP/zDP/yzT/yzX/yzT/zTL/yzT/zDP/zzD/zDP/yzT/zDP/yzT/zDP/zTL/zDP/zjH/zTL/zDP/zDP/zDP/zDP/zTL/yzT/zDP/zDP/yzT/yTb/zTL/zDP/zDP/zTL/zDP///8acFQiAAAAkXRSTlMADgVr0v3TbQYe1dghGeHlHaavQEsD0NsHaXMR6/IYkJkp+jO3xAFMVeIKdHwW8PWbozH8/jzBzAJXXgnf6H+FHPT5JKw5RcnUBGJoDebtEomOI/j7K7G7Qkpx7PGUmCq5w1BU2nh7F5+iMsJbXeeChKqrO0TLZmfqEI0ntUnXcO8Vk5L2937AvMdvbBOnzYw4OKaH7QAAAAFiS0dEkpYE7yAAAAAHdElNRQfjCAkBJjIbt39UAAACK0lEQVRYw+3Y6TtUYRzG8cdkMhJRWbIWUpElMyGRLbuhDJKRUFmiyRYaa4sKofs/tgxmO8uz/K5e+b481zOfNzPXmfscxi76X0VEUGqWS5FW6+UoG5UXfQUnxVyl8WLjcNq1eBIwAeddp/BuIKCb6l5iUiCYnKIM3kJQqapeWnowmJGpCGYhpNtq3p3sUNCaowTmIqy7eQrePWh0X96zxWiBD/KlwQJo9lDWKyzSBoujJcES6PRIziu164GOx1JgGXQrr5DwnsCgSnHvaZX/42fX/Feqxf9insEIRI2oV1tnDNY3yN/3NUE8F/MaHWYgmkS8imaYgi2tAmAbzEG083sdTh6ws4sbfAEeEC95vW4XH9jTywn2gQ/EKz6vH7wgXnNNhUh+kGtIRIEfxADHVHCLgIPmQ+INREAMmXlve8RA0yExDDEQI8ZDYhSiIN4ZToX34qDhkPgAcRBj+t74oAxoMCQmIANiUs/7aJUD9YZE3hQk0xkS05Duk+ZUiJMHPVpD4jMUmgn34otVQFf4kJiFUnOh3rxDDcRCyFT4oughKTEIXDQ8bPLD9rUU9IrCow4ufw0AvVAH4fV7DS4KMHvlHFwFBYjVs3MLoAGx5jvW2kIFrltOjg2ACsTG8amuTpC1+e0I/A7Cfhw9w/6kBLcy2S+QNsZ+04J/2CYt6GZuWtDDymnBbbZDC+4yC+m3MmJj7O8enZeQ5nuW9e477aqW3bl/8O/i9TxJh0jE2+SUYHDwAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTA5VDAxOjM4OjUwKzAwOjAwH4v/QAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0wOVQwMTozODo1MCswMDowMG7WR/wAAAAASUVORK5CYII=" alt="">
+                                @endif
+                                @if($row['note'] == 'danger')
+                                    <img style="height: 8px" src="data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABuVBMVEUAAADbNzfMMzPeMjLdMzPdMzPdMzPcMzPVKyvdMzPdMzPdMzPgNjbgMzPdMzPcMzPcNTXdMzPdMzPbNDTdMzP/VVXdMzPdMzPbJCTdMzPeMzPhLS3dMzPdMzPfNTXdMzPeNDTgMjLdMzPcMjLeNDTdMzP/AADdMjLeMzPdMzPmMzPeMzPcMzPcLi7dMzPdMzPcMzPdNDTbNDTdMzPdMzPdMzPdNDTdMzP/AADcMjLcNDTjOTndMzPdMzPdMjLcNDTbNzfdMzPdMzPcMjLdMjLbMTHeNDTdMzPdMzO/QEDdNDTdMzPYOzvdMzPdMzPjOTndMjLdMjLbMzPdMzPdMzPbNTXcMjLdMjLcMjLdNDTdNDTeMzPdMzPdNDTdMjLbMTHdMzPdMzPcMzPeNDTdMzPdMzPeNDTeNzfdMzPcMjLbMzPdMzPdMjLeNDTdMzPeMzPcMjLdMzPdMzPcNDTdNTXdNDTcMjLcNDTdMzPfMDDdMzPeNDTdMzPcNDTdMzPdMjLdMzPbMTHcMjLeMzPdMzPdMzPdMzPcMjLdNDTcMzPdMzPeNDTXNjbdMjLdMzPcMzPfMjLdMzP///8kCjhTAAAAkXRSTlMADgVr0v3TbQYe1dghGeHlHaavQEsD0NsHaXMR6/IYkJkp+jO3xAFMVeIKdHwW8PWbozH8/jzBzAJXXgnf6H+FHPT5JKw5RcnUBGJoDebtEomOI/j7K7G7Qkpx7PGUmCq5w1BU2nh7F5+iMsJbXeeChKqrO0TLZmfqEI0ntUnXcO8Vk5L2937AvMdvbBOnzYw4OKaH7QAAAAFiS0dEkpYE7yAAAAAHdElNRQfjCAoGHxjZcoJTAAACK0lEQVRYw+3Y6TtUYRzG8cdkMhJRWbIWUpElMyGRLbuhDJKRUFmiyRYaa4sKofs/tgxmO8uz/K5e+b481zOfNzPXmfscxi76X0VEUGqWS5FW6+UoG5UXfQUnxVyl8WLjcNq1eBIwAeddp/BuIKCb6l5iUiCYnKIM3kJQqapeWnowmJGpCGYhpNtq3p3sUNCaowTmIqy7eQrePWh0X96zxWiBD/KlwQJo9lDWKyzSBoujJcES6PRIziu164GOx1JgGXQrr5DwnsCgSnHvaZX/42fX/Feqxf9insEIRI2oV1tnDNY3yN/3NUE8F/MaHWYgmkS8imaYgi2tAmAbzEG083sdTh6ws4sbfAEeEC95vW4XH9jTywn2gQ/EKz6vH7wgXnNNhUh+kGtIRIEfxADHVHCLgIPmQ+INREAMmXlve8RA0yExDDEQI8ZDYhSiIN4ZToX34qDhkPgAcRBj+t74oAxoMCQmIANiUs/7aJUD9YZE3hQk0xkS05Duk+ZUiJMHPVpD4jMUmgn34otVQFf4kJiFUnOh3rxDDcRCyFT4oughKTEIXDQ8bPLD9rUU9IrCow4ufw0AvVAH4fV7DS4KMHvlHFwFBYjVs3MLoAGx5jvW2kIFrltOjg2ACsTG8amuTpC1+e0I/A7Cfhw9w/6kBLcy2S+QNsZ+04J/2CYt6GZuWtDDymnBbbZDC+4yC+m3MmJj7O8enZeQ5nuW9e477aqW3bl/8O/i9TxJh0jE2+SUYHDwAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTEwVDA2OjMxOjI0KzAwOjAwOro6RQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0xMFQwNjozMToyNCswMDowMEvngvkAAAAASUVORK5CYII=" alt="">
+                                @endif
+                                <?php 
+                                    $name = $row['name'];
+                                    if($row['note'] != null){
+                                        $name ='<b>'.$row['name'].'</b>';
+                                    }
+                                ?>
+                                {!! $name !!}
+                            </td>
+                            <td>{{ $row['problems'] }}</td>
+                            <td>{{ $row['lkp'] }}</td>
+                        </tr>
+                        @endforeach
                     @endforeach
-                @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         @endif
 
         <h2>Техническая диагностика</h2>
@@ -397,8 +437,10 @@ $lkpTranslates = [
             </table>
         @endif
 
+      
         <!-- <div class="mb-3"></div> -->
         <div class="avoid-break">
+            <div class="remove-footer"></div>
             @if($serviceForm->diagnost != null)
                 <p class="single-field mb-2"><b>Диагност:</b> &nbsp;{{$serviceForm->diagnost->name}} <span class="gray">/ {{$serviceForm->updated_at}}</span></p>
             @endif   
@@ -414,8 +456,6 @@ $lkpTranslates = [
             </div>
         </div>
 
-        
-
         @if ($allphotos != '')
             <div class="page_break"></div>
             <h2>Фотографии в ходе диагностики</h2>
@@ -426,16 +466,8 @@ $lkpTranslates = [
                 </tbody>
             </table>
         @endif
-
-        
-
     
-	</div>
+    </main>
 	
-
-
-
-
-
 </body>
 </html>

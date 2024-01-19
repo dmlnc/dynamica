@@ -26,6 +26,7 @@
                     'btn-primary': step == i,
                     'btn-outline-primary' : step != i,
                   }" @click.prevent="()=>{step = i; changeStep()}">
+                  
                     <span v-if="i==1">Общее</span>
                     <span v-if="i==2">Салон <span v-if="fieldsEmpty['3.1'] == true" class="badge badge-danger badge-pill">!</span></span>
                     <span v-if="i==3">Подкапотное <span v-if="fieldsEmpty['3.2'] == true" class="badge badge-danger badge-pill">!</span></span>
@@ -141,6 +142,7 @@
                         />
                       </div>
                     </div>
+                    
                     <div class="col-md-6">
                       <div
                         class="form-group bmd-form-group mt-3"
@@ -161,6 +163,20 @@
                           :readonly="disabledBasic"
                         />
                       </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="bmd-label-floating required">VIN Фото</label>
+                      <Attachment 
+                        v-if="!loading"
+                        @file-uploaded="(e)=>{uploadMediaEntry('vin_media', e)}" 
+                        @file-removed="(e)=>{removeMediaEntry('vin_media', e)}" 
+                        component="pictures" 
+                        :maxFiles="2"
+                        route="/api/v1/service_forms/form_media/vin" 
+                        collectionName="VIN" 
+                        :media="entry.vin_media"
+                        :disabled="disabledBasic"
+                      />
                     </div>
                   </div>
                 </div>
@@ -186,7 +202,7 @@
                           marginRight: '10px'
                         }"
                       >
-                        {{ index+1 }}
+                        {{field.order}}
                       </div>
                       <Field 
                         @uploadMedia="uploadCustomFieldMedia" 
@@ -207,6 +223,17 @@
                       <div class="form-group">
                           <label for="comment-for-entry">Комментарий</label>
                           <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
+                          <Attachment 
+                            v-if="!loading"
+                            @file-uploaded="(e)=>{uploadMediaEntry('extra_media', e)}" 
+                            @file-removed="(e)=>{removeMediaEntry('extra_media', e)}" 
+                            component="pictures" 
+                            :maxFiles="10"
+                            route="/api/v1/service_forms/form_media/extra" 
+                            collectionName="extra" 
+                            :media="entry.extra_media"
+                            :disabled="disabledAddComments"
+                          />
                           <!-- <textarea :disabled="disabledAddComments" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea> -->
                       </div>
                     </div>
@@ -234,7 +261,7 @@
                           marginRight: '10px'
                         }"
                       >
-                        {{ index+1 }}
+                        {{field.order}}
                       </div>
                       <Field 
                         @uploadMedia="uploadCustomFieldMedia" 
@@ -256,6 +283,17 @@
                           <label for="comment-for-entry">Комментарий</label>
                           <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
                           <!-- <textarea :disabled="disabledAddComments" @input="e => updateEntryField('comment', e.target.value)" class="form-control" id="comment-for-entry" rows="3">{{ entry.comment }}</textarea> -->
+                          <Attachment 
+                            v-if="!loading"
+                            @file-uploaded="(e)=>{uploadMediaEntry('extra_media', e)}" 
+                            @file-removed="(e)=>{removeMediaEntry('extra_media', e)}" 
+                            component="pictures" 
+                            :maxFiles="10"
+                            route="/api/v1/service_forms/form_media/extra" 
+                            collectionName="extra" 
+                            :media="entry.extra_media"
+                            :disabled="disabledAddComments"
+                          />
                       </div>
                     </div>
                   </div>
@@ -282,7 +320,8 @@
                           marginRight: '10px'
                         }"
                       >
-                        {{ index+1 }}
+                        {{field.order}}
+                        <!-- {{ index+1 }} -->
                       </div>
                       <Field 
                         @uploadMedia="uploadCustomFieldMedia" 
@@ -303,13 +342,24 @@
                       <div class="form-group">
                           <label for="comment-for-entry">Комментарий</label>
                           <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
-                      </div>
+                          <Attachment 
+                            v-if="!loading"
+                            @file-uploaded="(e)=>{uploadMediaEntry('extra_media', e)}" 
+                            @file-removed="(e)=>{removeMediaEntry('extra_media', e)}" 
+                            component="pictures" 
+                            :maxFiles="10"
+                            route="/api/v1/service_forms/form_media/extra" 
+                            collectionName="extra" 
+                            :media="entry.extra_media"
+                            :disabled="disabledAddComments"
+                          />
+                        </div>
                     </div>
                   </div>
                 </div>
                 <div class="steps-step py-4" id="step-5" v-if="step == 5 || type == 'show'"  style="max-width: 850px; margin: 0 auto;">
                   <div class="steps-step-header mb-5">
-                    <h4 class="mt-0 mb-1">Техническая диагностика 5/{{ steps }})</h4>
+                    <h4 class="mt-0 mb-1">Техническая диагностика (5/{{ steps }})</h4>
                     <h6 class="mt-0 font-weight-bold text-primary">Осмотр снизу автомобиля со снятой защитой двигателя</h6>
 
                   </div>
@@ -329,7 +379,7 @@
                           marginRight: '10px'
                         }"
                       >
-                        {{ index+1 }}
+                      {{field.order}}
                       </div>
                       <Field 
                         @uploadMedia="uploadCustomFieldMedia" 
@@ -350,7 +400,18 @@
                       <div class="form-group">
                           <label for="comment-for-entry">Комментарий</label>
                           <html-textarea :disabled="disabledAddComments" id="comment-for-entry" @input="e => updateEntryField('comment', e)" :value="entry.comment"></html-textarea>
-                      </div>
+                          <Attachment 
+                            v-if="!loading"
+                            @file-uploaded="(e)=>{uploadMediaEntry('extra_media', e)}" 
+                            @file-removed="(e)=>{removeMediaEntry('extra_media', e)}" 
+                            component="pictures" 
+                            :maxFiles="10"
+                            route="/api/v1/service_forms/form_media/extra" 
+                            collectionName="extra" 
+                            :media="entry.extra_media"
+                            :disabled="disabledAddComments"
+                          />
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -377,9 +438,7 @@
                           <label for="comment-for-entry">Рекомендации</label>
                           <html-textarea :disabled="disabledRecommendation" id="recommendation-for-entry" @input="e => updateEntryField('recommendation', e)" :value="entry.recommendation"></html-textarea>
                   </div>
-                 
                 </div>
-                
               </div>
             </div>
             
@@ -413,6 +472,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import Field from '@components/Field'
+import Attachment from '@components/Attachments/Attachment'
 
 export default {
   data() {
@@ -424,7 +484,8 @@ export default {
     }
   },
   components:{
-    Field
+    Field,
+    Attachment
   },
   watch: {
     '$route.params.id': {
@@ -523,9 +584,17 @@ export default {
       'fetchEditData',
       'uploadMediaToField',
       'removeMediaFromField',
+      'uploadMedia',
+      'removeMedia',
       'setCustomFieldComment',
       'fetchLKPData',
     ]),
+    uploadMediaEntry(name, media){
+      this.uploadMedia({name, media})
+    },
+    removeMediaEntry(name, media){
+      this.removeMedia({name, media})
+    },
     loadLkp(){
       this.fetchLKPData();
     },

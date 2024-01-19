@@ -25,6 +25,8 @@ class StoreServiceFormRequest extends FormRequest
             'run' => ['required'],
             'status' => ['required'],
             'comment' => [],
+            'vin_media' => [],
+            'extra_media' => [],
         ];
     }
 }
