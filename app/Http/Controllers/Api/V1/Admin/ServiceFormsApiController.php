@@ -142,18 +142,20 @@ class ServiceFormsApiController extends Controller
         }
         
         $serviceForm = ServiceForm::create($attributes);
-
-        $serviceVINMedia_ids = array_map(function($media) {
-            return $media['id'];
-        }, $validated['vin_media']);
         
-        (new MediaController)->syncMedia($serviceVINMedia_ids, $serviceForm->id);
+        if(isset($validated['vin_media'])){
+            $serviceVINMedia_ids = array_map(function($media) {
+                return $media['id'];
+            }, $validated['vin_media']);
+            (new MediaController)->syncMedia($serviceVINMedia_ids, $serviceForm->id);
+        }
         
-        $serviceExtraMedia_ids = array_map(function($media) {
-            return $media['id'];
-        }, $validated['extra_media']);
-        
-        (new MediaController)->syncMedia($serviceExtraMedia_ids, $serviceForm->id);
+        if(isset($validated['extra_media'])){
+            $serviceExtraMedia_ids = array_map(function($media) {
+                return $media['id'];
+            }, $validated['extra_media']);
+            (new MediaController)->syncMedia($serviceExtraMedia_ids, $serviceForm->id);
+        }
         
 
         // (new MediaController)->syncMedia($media_ids, $value->id);
@@ -278,17 +280,19 @@ class ServiceFormsApiController extends Controller
         $serviceForm->touch();
         $serviceForm->save();
 
-        $serviceVINMedia_ids = array_map(function($media) {
-            return $media['id'];
-        }, $validated['vin_media']);
+        if(isset($validated['vin_media'])){
+            $serviceVINMedia_ids = array_map(function($media) {
+                return $media['id'];
+            }, $validated['vin_media']);
+            (new MediaController)->syncMedia($serviceVINMedia_ids, $serviceForm->id);
+        }
         
-        (new MediaController)->syncMedia($serviceVINMedia_ids, $serviceForm->id);
-
-        $serviceExtraMedia_ids = array_map(function($media) {
-            return $media['id'];
-        }, $validated['extra_media']);
-        
-        (new MediaController)->syncMedia($serviceExtraMedia_ids, $serviceForm->id);
+        if(isset($validated['extra_media'])){
+            $serviceExtraMedia_ids = array_map(function($media) {
+                return $media['id'];
+            }, $validated['extra_media']);
+            (new MediaController)->syncMedia($serviceExtraMedia_ids, $serviceForm->id);
+        }
 
 
         
