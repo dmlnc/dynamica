@@ -171,7 +171,7 @@
                         @file-uploaded="(e)=>{uploadMediaEntry('vin_media', e)}" 
                         @file-removed="(e)=>{removeMediaEntry('vin_media', e)}" 
                         component="pictures" 
-                        :maxFiles="2"
+                        :maxFiles="10"
                         route="/api/v1/service_forms/form_media/vin" 
                         collectionName="VIN" 
                         :media="entry.vin_media"
