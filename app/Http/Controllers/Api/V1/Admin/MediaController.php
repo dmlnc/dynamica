@@ -15,6 +15,7 @@ class MediaController extends Controller
     
     public function storeMedia(Request $request, $model, $default_collection_name)
     {
+        set_time_limit(30);
         $model_id = 0;
         if ($request->hasHeader('model_id')) {
             $model_id = $request->header('model_id');

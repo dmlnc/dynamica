@@ -18,7 +18,6 @@ class ServiceFieldsTableUpdateTwoSeeder extends Seeder
         // Пример массива данных для добавления или обновления
         $fieldsData = [
             [
-
                 "id" => 41,
                 "name" => "Сканирование кодов неисправностей системы управления двигателем, Airbag, ABS и т.д.",
                 "section" => 3.1,
@@ -27,9 +26,11 @@ class ServiceFieldsTableUpdateTwoSeeder extends Seeder
                 "values" => json_encode([
                      ["id" => 1, "color" => "#008000", "value" => "Системы сканируются нормально, ошибки отсутствуют", "showPhoto" => false, "showComments" => true, "showSubfields" => false],
                      ["id" => 2, "color" => "#008000", "value" => "Системы сканируются нормально, присутствуют ошибки в истории", "showPhoto" => true, "showComments" => true, "showSubfields" => false],
-                     ["id" => 5, "color" => "#008000", "value" => "Системы сканируются нормально, присутствуют активные ошибк", "showPhoto" => true, "showComments" => true, "showSubfields" => false],
+                     ["id" => 5, "color" => "#ffcc00", "value" => "Системы сканируются нормально, присутствуют активные ошибки", "showPhoto" => true, "showComments" => true, "showSubfields" => false],
                      ["id" => 4, "color" => "#ffcc00", "value" => "Диагностика не подключается", "showPhoto" => true, "showComments" => true, "showSubfields" => false],
-                     ["id" => 3, "color" => "#ffcc00", "value" => "Другое", "showPhoto" => true, "showComments" => true, "showSubfields" => false]
+                     ["id" => 3, "color" => "#ffcc00", "value" => "Другое", "showPhoto" => true, "showComments" => true, "showSubfields" => false],
+                     ["id" => 6, "color" => "#ff0000", "value" => "Другое", "showPhoto" => true, "showComments" => true, "showSubfields" => false]
+
                     ]),
             ],
             [
