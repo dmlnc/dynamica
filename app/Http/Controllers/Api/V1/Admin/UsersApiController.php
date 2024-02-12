@@ -41,13 +41,16 @@ class UsersApiController extends Controller
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         if(auth()->user()->IsSuperAdmin){
             $companies = Company::select(['id'])->selectRaw('name as title')->get();
+            $roles = Role::get(['id', 'title']);
         }
         else{
             $companies = Company::where('id', auth()->user()->company_id)->select(['id'])->selectRaw('name as title')->get();
+            $roles = Role::whereNotIn('id', [1])->get(['id', 'title']);
         }
+
         return response([
             'meta' => [
-                'roles' => Role::get(['id', 'title']),
+                'roles' => $roles,
                 'companies' => $companies
             ],
         ]);
