@@ -92,14 +92,18 @@ class UsersApiController extends Controller
 
         if(auth()->user()->IsSuperAdmin){
             $companies = Company::select(['id'])->selectRaw('name as title')->get();
-        } else{
-            $companies = Company::where('id', auth()->user()->company_id)->select(['id'])->selectRaw('name as title')->get();
+            $roles = Role::get(['id', 'title']);
         }
+        else{
+            $companies = Company::where('id', auth()->user()->company_id)->select(['id'])->selectRaw('name as title')->get();
+            $roles = Role::whereNotIn('id', [1])->get(['id', 'title']);
+        }
+        
 
         return response([
             'data' => new UserResource($user->load(['roles'])),
             'meta' => [
-                'roles' => Role::get(['id', 'title']),
+                'roles' => $roles,
                 'companies' => $companies
             ],
         ]);
