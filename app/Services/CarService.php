@@ -42,42 +42,28 @@ class CarService
     {
         $this->authenticate();
 
-        $currentPage = 1;
-        $lastPage = 1;
+        $dealerIds = explode(',', $this->dealerId);
 
-        do {
-            $response = $this->client->get("https://lk.cm.expert/api/v1/cars/appraisals?withDrafts=false&filter[inspectionId][isNotNull]&filter[dealerId]={$this->dealerId}&page={$currentPage}&perPage=50", [
+        foreach ($dealerIds as $dealerId) {
+            $dealerId = trim($dealerId);
+
+            $response = $this->client->get("https://lk.cm.expert/api/v1/cars/appraisals?withDrafts=false&filter[inspectionId][isNotNull]&filter[dealerId]={$dealerId}&filter[vin]={$vin}&page=1&perPage=50", [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->token,
                 ],
             ]);
-
-            $lastPage = $response->getHeader('X-Pagination-Page-Count')[0] ?? $lastPage;
-            $currentPage = $response->getHeader('X-Pagination-Current-Page')[0] ?? $currentPage;
-
+           
             $data = json_decode((string) $response->getBody(), true);
-
-            if (empty($data)) {
-                return 'В базе CM Expert ничего не найдено';
-            }
 
             foreach ($data as $item) {
                 if ($vin === $item['vin']) {
                     $inspectionId = $item['inspectionId'];
                     return $this->getInspectionDetails($inspectionId);
                 }
-                if (str_contains($item['vin'], $vin)) {
-                    if ($item['brand'] === $brand && $item['model'] === $model) {
-                        $inspectionId = $item['inspectionId'];
-                        return $this->getInspectionDetails($inspectionId);
-                    }
-                }
+                
             }
-
-            $currentPage++;
-
-        } while ($currentPage <= $lastPage);
-
+        } 
+        
         return ['error' => 'В базе CM Expert ничего не найдено'];
     }
 
