@@ -4,7 +4,66 @@
             <div class="v-modal-close" @click.prevent="closeModal">+</div>
             <div class="v-modal-body">
                 <h3><b>Распечатать QR-код</b></h3>
-                <p>Выберите нужный формат листовки</p>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-12 mb-1">
+                        <div class="form-group pb-0">
+                            <label class="">Владельцы по ПТС</label>
+                            <select class="form-control" v-model="pdfData.ownersByPts">
+                                <option value="X">Не выбрано - X</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12 mb-1">
+                        <div class="form-group pb-0">
+                            <label class="">ПТС</label>
+                            <select class="form-control" v-model="pdfData.pts">
+                                <option value="X">Не выбрано - X</option>
+                                <option value="1">Оригинал - 1</option>
+                                <option value="2">Дубликат - 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12 mb-1">
+                        <div class="form-group pb-0">
+                            <label class="">ДТП</label>
+                            <select class="form-control" v-model="pdfData.accidents">
+                                <option value="X">Не выбрано - X</option>
+                                <option value="0">Без ДТП - 0</option>
+                                <option value="1">Были ДТП - 1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 mb-1">
+                        <div class="form-group pb-0">
+                            <label class="">Перекрасы</label>
+                            <select class="form-control" v-model="pdfData.repaints">
+                                <option value="X">Не выбрано - X</option>
+                                <option value="3">Родной окрас - 3</option>
+                                <option value="6">Есть перекрасы - 6</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 mb-1">
+                        <div class="form-group pb-0">
+                            <label class="">Пробег</label>
+                            <select class="form-control" v-model="pdfData.mileage">
+                                <option value="X">Не выбрано - X</option>
+                                <option value="5">Подтвержден - 5</option>
+                                <option value="8">Не подтверждён - 8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3">Выберите нужный формат листовки</p>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="select-btn" @click.prevent="pdfType=1" :class="{active: pdfType == 1}">
@@ -225,6 +284,13 @@ export default {
     },
     data() {
         return {
+            pdfData: {
+                ownersByPts: 'X',
+                pts: 'X',
+                accidents: 'X',
+                repaints: 'X',
+                mileage: 'X',
+            },
             showModal: false,
             currentCar: null,
             loading: true,
@@ -328,6 +394,13 @@ export default {
         closeModal() {
             this.currentCar = null;
             this.showModal = false;
+            this.pdfData = {
+                ownersByPts: 'X',
+                pts: 'X',
+                accidents: 'X',
+                repaints: 'X',
+                mileage: 'X',
+            }
         },
 
         getPdf() {
@@ -340,6 +413,11 @@ export default {
                 'year': this.currentCar.year,
                 'run': this.currentCar.run_original,
                 'type': this.pdfType,
+                'ownersByPts': this.pdfData.ownersByPts,
+                'pts': this.pdfData.pts,
+                'accidents': this.pdfData.accidents,
+                'repaints': this.pdfData.repaints,
+                'mileage': this.pdfData.mileage,
             };
 
             let params = objectToFormData(data, {
@@ -413,6 +491,8 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-height: 100%;
+    overflow: auto;
 }
 
 .v-modal-close {

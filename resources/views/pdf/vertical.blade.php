@@ -48,6 +48,12 @@
 			margin-top: 0;
 			margin-bottom: 0;
 		}
+		.numbers{
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			font-size: 24px;
+		}
 		.pdf-body{
 			position: relative;
 			background: #fff;
@@ -154,7 +160,13 @@
 			<p>VIN: {{$vin}}</p>
 			<img src='{{$qr}}'/>
 		</div>
-		
+		<div class="numbers">
+			{{$data['ownersByPts']}}
+			{{$data['pts']}}
+			{{$data['accidents']}}
+			{{$data['repaints']}}
+			{{$data['mileage']}}
+		</div>
 	</div>
 
 

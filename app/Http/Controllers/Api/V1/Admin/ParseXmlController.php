@@ -44,6 +44,15 @@ class ParseXmlController extends Controller
     {   
         // QrCode::;
 
+        $data = [
+            'ownersByPts' => $request->input('ownersByPts', 'X'), // 1) Владельцы по ПТС
+            'pts' => $request->input('pts', 'X'),                 // 2) ПТС
+            'accidents' => $request->input('accidents', 'X'),     // 3) ДТП
+            'repaints' => $request->input('repaints', 'X'),       // 4) Перекрасы
+            'mileage' => $request->input('mileage', 'X'),         // 5) Пробег
+        ];
+                
+
         $vin = $request->input('vin');
         $vin4 = substr((string)$vin, -4);
 
@@ -130,10 +139,10 @@ class ParseXmlController extends Controller
 
         $pdf = null;
         if($type == 1){
-            $pdf = PDF::loadView('pdf.vertical', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info]);
+            $pdf = PDF::loadView('pdf.vertical', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info, 'data'=>$data]);
             $pdf->setPaper('A4');
         } else {
-            $pdf = PDF::loadView('pdf.horizontal', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info]);
+            $pdf = PDF::loadView('pdf.horizontal', ['qr' => $qr, 'name' => $name, 'vin'=>$vin6, 'info'=>$info, 'data'=>$data]);
             $pdf->setPaper('A4', 'landscape');
         }
         

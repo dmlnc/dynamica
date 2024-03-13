@@ -130,9 +130,22 @@
 		.qr-block p{
 			margin-bottom: 0;
 		}
+		.numbers{
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			font-size: 24px;
+		}
 	</style>
 
 	<div class="pdf-body">
+		<div class="numbers">
+			{{$data['ownersByPts']}}
+			{{$data['pts']}}
+			{{$data['accidents']}}
+			{{$data['repaints']}}
+			{{$data['mileage']}}
+		</div>
 		<div class="row">
 			<div class="title">
 				<h1>Узнать цену</h1>
