@@ -15,11 +15,6 @@ class CompanyTableSeeder extends Seeder
                 'name'           => 'Company',
                 'abilities'      => 'Export access'
             ],
-            // [
-            //     'id'             => 2,
-            //     'name'           => 'Company without service',
-            //     'abilities'      => 'Export access'
-            // ],
         ];
 
         Company::insert($company);

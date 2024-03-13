@@ -86,84 +86,10 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 19,
                 'title' => 'settings_show',
             ],
-            // [
-            //     'id'    => 20,
-            //     'title' => 'company_create',
-            // ],
-            // [
-            //     'id'    => 21,
-            //     'title' => 'company_edit',
-            // ],
-            // [
-            //     'id'    => 22,
-            //     'title' => 'company_show',
-            // ],
-            // [
-            //     'id'    => 23,
-            //     'title' => 'company_delete',
-            // ],
-            // [
-            //     'id'    => 24,
-            //     'title' => 'company_access',
-            // ],
             [
                 'id'    => 25,
                 'title' => 'export_access',
             ],
-            // [
-            //     'id'    => 26,
-            //     'title' => 'service_access',
-            // ],
-            // [
-            //     'id'    => 27,
-            //     'title' => 'service_show',
-            // ],
-            // [
-            //     'id'    => 28,
-            //     'title' => 'service_create',
-            // ],
-            // [
-            //     'id'    => 29,
-            //     'title' => 'service_edit',
-            // ],
-            // [
-            //     'id'    => 30,
-            //     'title' => 'service_print_full',
-            // ],
-            // [
-            //     'id'    => 31,
-            //     'title' => 'service_print_client',
-            // ],
-            // [
-            //     'id'    => 32,
-            //     'title' => 'service_edit_basic',
-            // ],
-            // [
-            //     'id'    => 33,
-            //     'title' => 'service_edit_diagnostic',
-            // ],
-            // [
-            //     'id'    => 34,
-            //     'title' => 'service_edit_published',
-            // ],
-            // [
-            //     'id'    => 35,
-            //     'title' => 'service_delete',
-            // ],
-            // [
-            //     'id'    => 36,
-            //     'title' => 'service_print_client_draft',
-            // ],
-            // [
-            //     'id'    => 36,
-            //     'title' => 'service_print_full_draft',
-            // ],
-            // [
-            //     'id'    => 36,
-            //     'title' => 'service_show_draft',
-            // ],
-            
-            
         ];
 
         

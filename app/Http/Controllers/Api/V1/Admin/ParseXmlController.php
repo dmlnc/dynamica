@@ -160,9 +160,8 @@ class ParseXmlController extends Controller
         $url = trim($settings->export_link);
         
         // 'https://media.cm.expert/stock/export/cmexpert/dealer.site/all/1a6f30ed5c29e6b5d2fdd1d87740b925.xml';
-
         $xml = file_get_contents($url);
-
+      
         // Parse the XML using SimpleXMLElement
         $xmlData = new SimpleXMLElement($xml);
 
@@ -224,7 +223,10 @@ class ParseXmlController extends Controller
                 'image' => null,
                 'link' => str_replace('https://dynamica-trade.ru/', '', (string)$car->url)
             ];
-
+	
+          	if(empty($carData['link']) || $carData['link'] == null || $carData['link'] == ''){
+                continue;
+            }
             
 
             if ($carData['price'] < $meta['min_price']) {

@@ -7,9 +7,10 @@ Auth::routes(['register' => false]);
 
 // Route::get('/preview', 'Api\V1\Admin\ParseXmlController@getPdf')->name('pdf.preview');
 
-Route::get('service-forms/{type}/{formId}', 'Api\V1\Admin\ServiceFormsApiController@getPdf');
-
 Route::get('api/v1/sendMessage', 'Api\V1\Admin\TelegramApiController@sendMessage');
+Route::post('api/v1/sendMessage', 'Api\V1\Admin\TelegramApiController@sendMessage');
+
+Route::get('service-forms/{type}/{formId}', 'Api\V1\Admin\ServiceFormsApiController@getPdf');
 
 // Route::get('sendMessage', 'Api\V1\Admin\TelegramApiController@sendMessage');
 

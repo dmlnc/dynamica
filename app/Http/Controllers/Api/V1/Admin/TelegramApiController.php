@@ -15,10 +15,12 @@ class TelegramApiController extends Controller
     public function sendMessage(Request $request)
     { 
         $text = $request->input('msg');
-        
-
-        $settings = Settings::where('company_id', $request->input('company_id'))->first();
-    
+      
+      	
+        $text = str_replace("<br>", "\n", $text);
+        $text = strip_tags($text);
+        $settings = Settings::where('company_id', 1)->first();
+      
         if($text && $settings->telegram_id != null && trim($settings->telegram_id) != ''){
             try {
                 Telegram::sendMessage([
